@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Training">
+<title>David Smith — Training</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+:root{
+  --bg:#F5F4F0;--surface:#FFFFFF;--surface2:#EFEFEB;--border:#DDDDD8;--border2:#C8C8C2;
+  --text:#1A1A18;--text2:#6B6B65;--text3:#9E9E97;--accent:#1A1A18;--accent-light:#F0EFE8;
+  --green:#1D9E75;--green-bg:#E1F5EE;--green-text:#085041;
+  --amber:#BA7517;--amber-bg:#FAEEDA;--amber-text:#633806;
+  --blue:#185FA5;--blue-bg:#E6F1FB;--blue-text:#0C447C;
+  --red:#A32D2D;--red-bg:#FCEBEB;--red-text:#791F1F;
+  --r:10px;--r-sm:6px;--mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;
+  --bnav:60px;--topbar:52px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;max-width:100%;}
+html,body{font-family:var(--sans);background:var(--bg);color:var(--text);height:100%;font-size:14px;line-height:1.5;overflow-x:hidden;width:100%;}
+
+/* ── SHELL ── */
+.shell{display:flex;height:100%;}
+.sidebar{width:220px;min-width:220px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto;}
+.main{margin-left:220px;flex:1;min-height:100vh;overflow-x:hidden;width:calc(100vw - 220px);max-width:calc(100vw - 220px);}
+
+/* ── TOP BAR ── */
+.top-bar{display:none;position:fixed;top:0;left:0;right:0;height:var(--topbar);background:var(--surface);border-bottom:1px solid var(--border);align-items:center;justify-content:space-between;padding:0 16px;z-index:100;}
+.top-bar-title{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px;}
+.top-bar-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.week-ctrl{display:flex;align-items:center;gap:5px;background:var(--surface2);border-radius:var(--r-sm);padding:4px 8px;}
+.week-ctrl label{font-size:11px;color:var(--text2);font-weight:500;}
+.wbtn{width:26px;height:26px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--text2);font-family:var(--sans);}
+.wdisp{font-family:var(--mono);font-size:13px;font-weight:500;min-width:14px;text-align:center;}
+
+/* mode toggle */
+.mode-toggle{display:flex;border:1px solid var(--border2);border-radius:var(--r-sm);overflow:hidden;flex-shrink:0;}
+.mode-btn{padding:5px 10px;border:none;background:var(--surface);cursor:pointer;font-size:11px;font-family:var(--sans);color:var(--text2);transition:all .15s;white-space:nowrap;}
+.mode-btn.active{background:var(--accent);color:white;}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;height:var(--bnav);background:var(--surface);border-top:1px solid var(--border);z-index:100;padding:0 4px;padding-bottom:env(safe-area-inset-bottom);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.bottom-nav::-webkit-scrollbar{display:none;}
+.bnav-inner{display:flex;align-items:stretch;height:100%;min-width:max-content;gap:2px;}
+.bnav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 10px;border:none;background:none;cursor:pointer;color:var(--text3);font-size:10px;font-family:var(--sans);border-radius:var(--r-sm);min-width:50px;white-space:nowrap;}
+.bnav-btn.active{color:var(--accent);}
+.bnav-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.bnav-dot{width:4px;height:4px;border-radius:50%;background:var(--green);margin-top:1px;opacity:0;}
+.bnav-btn.active .bnav-dot{opacity:1;}
+
+/* ── SIDEBAR ── */
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);}
+.sb-logo h1{font-size:13px;font-weight:600;line-height:1.3;}
+.sb-logo p{font-size:11px;color:var(--text3);margin-top:2px;}
+.sb-week{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sb-week label{font-size:11px;color:var(--text2);font-weight:500;}
+.sb-nav{padding:6px 0;flex:1;overflow-y:auto;}
+.nav-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:8px 16px 4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;transition:background .12s;border-left:3px solid transparent;color:var(--text2);}
+.nav-item:hover{background:var(--surface2);color:var(--text);}
+.nav-item.active{background:var(--accent-light);border-left-color:var(--accent);color:var(--text);}
+.nav-tag{font-size:10px;font-weight:600;background:var(--surface2);border-radius:4px;padding:2px 5px;min-width:28px;text-align:center;color:var(--text2);}
+.nav-item.active .nav-tag{background:var(--accent);color:white;}
+.nav-item-lbl{font-size:13px;}
+.nav-item-sub{font-size:10px;color:var(--text3);margin-top:1px;}
+.sb-bottom{padding:10px 16px;border-top:1px solid var(--border);}
+.sb-bottom button{width:100%;padding:7px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;font-size:12px;color:var(--text2);font-family:var(--sans);}
+
+/* ── PAGE HEADER ── */
+.page-hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:18px 20px 14px;}
+.page-hdr h2{font-size:20px;font-weight:600;letter-spacing:-.3px;}
+.page-hdr p{font-size:12px;color:var(--text2);margin-top:2px;}
+.hdr-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;}
+.badge-dark{background:var(--accent);color:white;}
+.badge-green{background:var(--green-bg);color:var(--green-text);}
+.badge-blue{background:var(--blue-bg);color:var(--blue-text);}
+.focus-strip{background:var(--accent-light);border-bottom:1px solid var(--border);padding:9px 20px;font-size:12px;color:var(--text2);font-style:italic;line-height:1.5;}
+.content{padding:14px 16px 32px;}
+
+/* ── WARMUP ── */
+.wu-progress{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.wu-bar-wrap{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.wu-bar{height:100%;background:var(--green);border-radius:3px;transition:width .3s;}
+.wu-pct{font-size:12px;color:var(--text3);font-family:var(--mono);min-width:36px;text-align:right;}
+.wu-list{display:flex;flex-direction:column;gap:6px;}
+.wu-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .15s;}
+.wu-item.done{background:var(--green-bg);border-color:#9FE1CB;}
+.wu-num{font-family:var(--mono);font-size:11px;color:var(--text3);min-width:20px;}
+.wu-name{font-size:13px;flex:1;}
+.wu-check{width:22px;height:22px;border:1.5px solid var(--border2);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;transition:all .15s;}
+.wu-item.done .wu-check{background:var(--green);border-color:var(--green);color:white;}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin:18px 0 8px;display:flex;align-items:center;gap:8px;}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── OVERVIEW MODE ── */
+.mg-hdr{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text2);padding:14px 0 6px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.ex-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden;}
+.ex-card.complete{border-color:#9FE1CB;}
+.ex-card.current-ex{border-color:var(--accent);border-width:2px;}
+.ex-hdr{display:flex;align-items:center;gap:8px;padding:11px 14px;cursor:pointer;user-select:none;}
+.ex-type-pill{font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:20px;flex-shrink:0;}
+.pill-compound{background:var(--blue-bg);color:var(--blue-text);}
+.pill-superset{background:var(--amber-bg);color:var(--amber-text);}
+.pill-isolation{background:var(--surface2);color:var(--text2);}
+.ex-name-wrap{flex:1;min-width:0;}
+.ex-name{font-size:13px;font-weight:500;line-height:1.3;word-break:break-word;}
+.ex-hdr-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.dots{display:flex;gap:3px;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--border);transition:background .2s;}
+.dot.done{background:var(--green);}
+.ex-scheme{font-family:var(--mono);font-size:10px;color:var(--text3);}
+.ex-chevron{font-size:16px;color:var(--text3);transition:transform .2s;}
+.ex-chevron.open{transform:rotate(180deg);}
+.ex-body{padding:0 14px 14px;border-top:1px solid var(--border);}
+.ex-cue{font-size:12px;color:var(--text2);font-style:italic;padding:9px 0 11px;line-height:1.6;border-bottom:1px solid var(--border);margin-bottom:12px;}
+.sets-stack{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.set-row{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);transition:all .15s;}
+.set-row.done{background:var(--green-bg);border-color:#9FE1CB;}
+.set-row-lbl{font-family:var(--mono);font-size:11px;color:var(--text3);font-weight:500;min-width:38px;}
+.set-inputs{display:flex;gap:8px;flex:1;align-items:center;}
+.set-grp{display:flex;flex-direction:column;gap:2px;flex:1;}
+.set-grp label{font-size:10px;color:var(--text3);}
+.set-grp input{width:100%;padding:6px 8px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);color:var(--text);font-family:var(--mono);font-size:14px;-webkit-appearance:none;}
+.set-grp input:focus{outline:none;border-color:var(--accent);}
+.set-row.done .set-grp input{border-color:#9FE1CB;}
+.tick{width:36px;height:36px;flex-shrink:0;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text3);transition:all .15s;font-family:var(--sans);}
+.tick:active{transform:scale(.93);}
+.tick.done{background:var(--green);border-color:var(--green);color:white;}
+.ex-footer{display:flex;flex-direction:column;gap:8px;}
+.ex-footer-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.rest-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;font-size:12px;font-family:var(--sans);color:var(--text2);transition:all .15s;-webkit-appearance:none;}
+.rest-btn.running{background:var(--amber-bg);border-color:var(--amber);color:var(--amber-text);}
+.rest-btn.finished{background:var(--green-bg);border-color:var(--green);color:var(--green-text);}
+.note-field{flex:1;min-width:0;}
+.note-field input{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--bg);color:var(--text2);font-family:var(--sans);font-size:12px;font-style:italic;-webkit-appearance:none;}
+.note-field input:focus{outline:none;border-color:var(--border2);}
+.pb-tag{font-size:11px;color:var(--green-text);background:var(--green-bg);padding:4px 10px;border-radius:20px;font-weight:500;flex-shrink:0;}
+.ss-conn{display:flex;align-items:center;gap:8px;margin:2px 0 4px;}
+.ss-line{flex:1;height:1px;background:var(--border);}
+.ss-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);}
+.fin-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-top:16px;overflow:hidden;}
+.fin-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;background:var(--surface2);}
+.fin-badge{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:20px;background:var(--red-bg);color:var(--red-text);flex-shrink:0;}
+.fin-title{font-size:13px;font-weight:500;flex:1;}
+.fin-body{padding:12px 14px;}
+.fin-line{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13px;color:var(--text2);border-bottom:1px solid var(--border);}
+.fin-line:last-child{border-bottom:none;}
+
+/* ── COACH MODE ── */
+.coach-wrap{padding:16px 16px 120px;}
+
+/* progress bar */
+.coach-progress-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;}
+.coach-prog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.coach-prog-label{font-size:12px;font-weight:500;}
+.coach-prog-frac{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.coach-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.coach-fill{height:100%;background:var(--green);border-radius:3px;transition:width .4s ease;}
+.coach-steps{display:flex;gap:3px;margin-top:8px;flex-wrap:wrap;}
+.coach-step-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .2s;cursor:pointer;}
+.coach-step-dot.done{background:var(--green);}
+.coach-step-dot.current{background:var(--accent);transform:scale(1.3);}
+
+/* main exercise card */
+.coach-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;}
+.coach-card-top{padding:14px 16px 12px;border-bottom:1px solid var(--border);}
+.coach-card-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.coach-group-lbl{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);}
+.coach-ex-num{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.coach-ex-name{font-size:18px;font-weight:600;line-height:1.3;margin-bottom:6px;}
+.coach-scheme{font-family:var(--mono);font-size:12px;color:var(--text2);}
+.coach-pills{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.coach-cue{padding:12px 16px;font-size:13px;color:var(--text2);font-style:italic;line-height:1.6;background:var(--accent-light);border-bottom:1px solid var(--border);}
+
+/* sets in coach mode */
+.coach-sets{padding:14px 16px;}
+.coach-sets-hdr{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;}
+.coach-set-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px;transition:all .15s;}
+.coach-set-row.done{background:var(--green-bg);border-color:#9FE1CB;}
+.coach-set-lbl{font-family:var(--mono);font-size:12px;color:var(--text3);font-weight:500;min-width:42px;}
+.coach-set-inputs{display:flex;gap:8px;flex:1;}
+.coach-set-grp{display:flex;flex-direction:column;gap:3px;flex:1;}
+.coach-set-grp label{font-size:10px;color:var(--text3);}
+.coach-set-grp input{width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);color:var(--text);font-family:var(--mono);font-size:15px;-webkit-appearance:none;}
+.coach-set-grp input:focus{outline:none;border-color:var(--accent);}
+.coach-set-row.done .coach-set-grp input{border-color:#9FE1CB;}
+.coach-tick{width:42px;height:42px;flex-shrink:0;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text3);transition:all .15s;font-family:var(--sans);}
+.coach-tick:active{transform:scale(.93);}
+.coach-tick.done{background:var(--green);border-color:var(--green);color:white;}
+
+/* rest timer — big */
+.coach-rest{padding:0 16px 14px;}
+.coach-rest-btn{width:100%;padding:14px;border:1px solid var(--border2);border-radius:var(--r);background:var(--surface);cursor:pointer;font-size:15px;font-family:var(--sans);color:var(--text2);transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:500;}
+.coach-rest-btn.running{background:var(--amber-bg);border-color:var(--amber);color:var(--amber-text);}
+.coach-rest-btn.finished{background:var(--green-bg);border-color:var(--green);color:var(--green-text);}
+.coach-rest-time{font-family:var(--mono);font-size:22px;font-weight:500;}
+
+/* note */
+.coach-note{padding:0 16px 14px;}
+.coach-note input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--bg);color:var(--text2);font-family:var(--sans);font-size:13px;font-style:italic;-webkit-appearance:none;}
+.coach-note input:focus{outline:none;border-color:var(--border2);}
+
+/* pb */
+.coach-pb{padding:0 16px 14px;}
+.coach-pb-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--green-text);background:var(--green-bg);padding:5px 12px;border-radius:20px;font-weight:500;}
+
+/* superset badge */
+.coach-ss-badge{background:var(--amber-bg);color:var(--amber-text);border:1px solid var(--amber);border-radius:var(--r-sm);padding:8px 14px;font-size:12px;font-weight:500;margin:0 16px 14px;display:flex;align-items:center;gap:6px;}
+
+/* next/prev buttons */
+.coach-nav{position:fixed;bottom:calc(var(--bnav) + env(safe-area-inset-bottom));left:0;right:0;background:var(--surface);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:10px;z-index:90;}
+.coach-nav-desktop{display:flex;gap:10px;margin:0 16px 16px;}
+.btn-next{flex:1;padding:14px;border:none;border-radius:var(--r);background:var(--accent);color:white;cursor:pointer;font-size:15px;font-weight:600;font-family:var(--sans);transition:all .15s;}
+.btn-next:active{transform:scale(.97);}
+.btn-next.complete-btn{background:var(--green);}
+.btn-prev{padding:14px 20px;border:1px solid var(--border2);border-radius:var(--r);background:var(--surface);color:var(--text2);cursor:pointer;font-size:15px;font-family:var(--sans);transition:all .15s;flex-shrink:0;}
+.btn-prev:active{transform:scale(.97);}
+
+/* session complete */
+.session-done{background:var(--green-bg);border:1px solid #9FE1CB;border-radius:var(--r);padding:28px 20px;text-align:center;margin:16px 16px 32px;}
+.session-done h3{font-size:24px;font-weight:600;color:var(--green-text);margin-bottom:6px;}
+.session-done p{font-size:13px;color:var(--green-text);opacity:.8;}
+.session-stats{display:flex;gap:12px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
+.stat-chip{background:white;border-radius:var(--r-sm);padding:10px 18px;text-align:center;border:1px solid #9FE1CB;}
+.stat-chip-val{font-size:22px;font-weight:600;font-family:var(--mono);color:var(--green-text);}
+.stat-chip-lbl{font-size:10px;color:var(--green-text);opacity:.7;margin-top:2px;}
+.restart-btn{margin-top:16px;padding:10px 24px;border:1px solid var(--green);border-radius:var(--r-sm);background:white;color:var(--green-text);cursor:pointer;font-size:13px;font-family:var(--sans);font-weight:500;}
+
+/* progress log */
+.prog-section{margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.prog-hdr{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);}
+.prog-hdr h3{font-size:13px;font-weight:600;}
+.prog-mob{display:none;}
+.prog-mob-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);}
+.prog-mob-row:last-child{border-bottom:none;}
+.prog-mob-row:nth-child(even){background:var(--bg);}
+.prog-mob-ex{font-size:12px;font-weight:500;flex:1;padding-right:12px;line-height:1.3;}
+.prog-mob-iw{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.prog-mob-iw label{font-size:10px;color:var(--text3);}
+.prog-mob-iw input{width:72px;padding:5px 8px;text-align:center;border:1px solid var(--blue);border-radius:var(--r-sm);background:var(--blue-bg);color:var(--blue-text);font-family:var(--mono);font-size:13px;font-weight:500;-webkit-appearance:none;}
+.prog-mob-iw input:focus{outline:none;}
+.prog-desk{overflow-x:auto;}
+.prog-table{width:100%;border-collapse:collapse;font-size:12px;}
+.prog-table th{padding:8px 10px;text-align:left;font-weight:600;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;}
+.prog-table th.cwk{background:var(--blue-bg);color:var(--blue-text);}
+.prog-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.prog-table tr:last-child td{border-bottom:none;}
+.prog-table tr:nth-child(even) td{background:var(--bg);}
+.prog-table td.cwk{background:var(--blue-bg);}
+.prog-table td input{width:56px;border:none;background:transparent;color:var(--text);font-family:var(--mono);font-size:12px;padding:0;}
+.prog-table td input:focus{outline:none;}
+.prog-table td.cwk input{color:var(--blue-text);font-weight:500;}
+.ex-col{font-weight:500;min-width:150px;font-size:12px;}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* animations */
+@keyframes slideIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.coach-card{animation:slideIn .2s ease;}
+
+/* ── MOBILE ── */
+@media(max-width:720px){
+  .sidebar{display:none;}
+  .shell{overflow-x:hidden;width:100vw;max-width:100vw;}
+  .main{margin-left:0;width:100vw;max-width:100vw;overflow-x:hidden;padding-top:var(--topbar);padding-bottom:calc(var(--bnav) + env(safe-area-inset-bottom));}
+  .top-bar{display:flex;}
+  .bottom-nav{display:block;}
+  .page-hdr{padding:14px 16px 12px;}
+  .page-hdr h2{font-size:18px;}
+  .focus-strip{padding:8px 16px;}
+  .content{padding:12px 12px 24px;}
+  .prog-mob{display:block;}
+  .prog-desk{display:none;}
+  .coach-nav-desktop{display:none;}
+  .ex-card,.ex-hdr,.set-row,.fin-card,.wu-item,.mg-hdr{max-width:100%;width:100%;}
+  .ex-name{font-size:13px;white-space:normal;word-break:break-word;}
+}
+@media(min-width:721px){
+  .coach-nav{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-logo"><h1>David Smith</h1><p>Advanced 5-Day Program</p></div>
+  <div class="sb-week">
+    <label>WEEK</label>
+    <div style="display:flex;gap:4px;align-items:center;">
+      <button class="wbtn" onclick="changeWeek(-1)">‹</button>
+      <span class="wdisp" id="wdSidebar">1</span>
+      <button class="wbtn" onclick="changeWeek(1)">›</button>
+    </div>
+  </div>
+  <div class="sb-nav">
+    <div class="nav-lbl">Sessions</div>
+    <div class="nav-item" onclick="showView('warmup')" id="snav-warmup">
+      <span class="nav-tag">🔥</span>
+      <div><div class="nav-item-lbl">Warm-Up</div><div class="nav-item-sub">Daily · All sessions</div></div>
+    </div>
+    <div id="sbDayItems"></div>
+    <div class="nav-lbl" style="margin-top:6px">Optional</div>
+    <div class="nav-item" onclick="showView('arms')" id="snav-arms">
+      <span class="nav-tag">💪</span>
+      <div><div class="nav-item-lbl">Arms Day</div><div class="nav-item-sub">Biceps · Triceps</div></div>
+    </div>
+    <div class="nav-lbl" style="margin-top:6px">Tools</div>
+    <div class="nav-item" onclick="showView('progress')" id="snav-progress">
+      <span class="nav-tag">📈</span>
+      <div><div class="nav-item-lbl">Progress Log</div><div class="nav-item-sub">All exercises</div></div>
+    </div>
+  </div>
+  <div class="sb-bottom"><button onclick="clearAll()">Clear all data</button></div>
+</nav>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <span class="top-bar-title" id="topTitle">Warm-Up</span>
+  <div class="top-bar-right">
+    <div class="mode-toggle" id="modeToggle" style="display:none">
+      <button class="mode-btn active" id="modeCoach" onclick="setMode('coach')">Coach</button>
+      <button class="mode-btn" id="modeOverview" onclick="setMode('overview')">Overview</button>
+    </div>
+    <div class="week-ctrl">
+      <label>WK</label>
+      <button class="wbtn" onclick="changeWeek(-1)">‹</button>
+      <span class="wdisp" id="wdTop">1</span>
+      <button class="wbtn" onclick="changeWeek(1)">›</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main" id="mainArea"></main>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav"><div class="bnav-inner" id="bnavInner"></div></div>
+
+</div>
+<script>
+// ═══════════════════════════════ DATA ═══════════════════════════════
+const WARMUPS={
+  seth:{name:'The Seth',desc:'16-movement dynamic warm-up · Full body',moves:[
+    "Jumping Jacks × 10 reps","Gate Swing × 10 reps","Pogo Hop × 10 reps","Seal Jack × 10 reps",
+    "Bodyweight Squat × 10 reps","Side Lunge × 10 each","Lunge & Rotate × 10 each",
+    "Reverse Lunge & Reach × 5 each","Carioca × 10 yds","Lizard Crawl × 10 each",
+    "Skipping Forward × 10 yds","Skipping Backwards × 10 yds","Frankenstein Walks × 10 yds",
+    "Frankenstein Skips × 10 yds","Inchworm × 5–10","Hip Swing × 10 each leg"
+  ]},
+  fullbody:{name:'15-Min Full Body',desc:'8 movements · General fitness focus',moves:[
+    "Fast-Paced Walk · 3 min","Plantar Fascia w/ Lacrosse Ball · 15 sec each foot",
+    "Donkey Calf Raise × 15","Dumbbell Goblet Squat × 15",
+    "Bodyweight Walking Lunge · 10 each leg","Side Plank · 30 sec each side",
+    "Plyometric Push Up × 15","Rack Lat Stretch · 30 sec"
+  ]},
+  lowerbody:{name:'15-Min Lower Body',desc:'9 movements · Lower body focus',moves:[
+    "Fast-Paced Walk · 3 min","Bodyweight Standing Calf Raise × 15",
+    "IT Band Foam Roller · 30 sec each side","Bodyweight Single-Leg Deadlift · 15 each side",
+    "Prisoner Squat × 15","Prisoner Squat Hold at Bottom · 30 sec",
+    "Superman · 30 sec","Plank · 30 sec","Band Pull-Apart × 15"
+  ]},
+  upperbody:{name:'15-Min Upper Body',desc:'10 movements · Upper body focus',moves:[
+    "Fast-Paced Walk · 3 min","Push Up × 15","Bench Dips × 15",
+    "Arm Circles Clockwise × 15","Arm Circles Counter-Clockwise × 15",
+    "Eccentric Only Pull Up × 5","Seated Zottman Curl × 15",
+    "90/90 Hip Crossover · 15 each side","Sit Up × 15","Jump Squat × 15"
+  ]}
+};
+let activeWarmup='seth';
+
+const DAYS=[
+ {tab:'TUE',label:'Push A',sub:'Chest · Shoulders · Triceps',
+  focus:'Max mechanical tension on chest + athletic shoulder strength. Rear delt & rotator cuff health every push session.',
+  groups:[
+   {name:'Chest',exercises:[
+    {id:'d1_bench',name:'Barbell Bench Press',type:'compound',scheme:'5×5 → 3×8',rest:180,cue:'Work up to heavy 5×5, drop ~15% for 3×8 back-off. Arch controlled — no excessive bridge.',sets:5,bw:false},
+    {id:'d1_bench_drop',name:'Barbell Bench Press (drop set)',type:'compound',scheme:'1×AMQRAP',rest:0,cue:'20% less than working weight. As many quality reps as possible.',sets:1,bw:false},
+   ]},
+   {name:'Chest & Shoulders — Superset A',exercises:[
+    {id:'d1_incline',name:'Incline Dumbbell Press',type:'superset',scheme:'4×10–12',rest:0,cue:'45° incline. Elbows 60–70°. Go straight to cable fly — no rest.',sets:4,bw:false,ss:true},
+    {id:'d1_cablefly',name:'↳ Low-to-High Cable Fly',type:'superset',scheme:'4×12–15',rest:75,cue:'Loaded stretch at bottom. Hold 1 sec at peak contraction. Rest 75 sec after superset.',sets:4,bw:false},
+   ]},
+   {name:'Shoulders — Superset B',exercises:[
+    {id:'d1_dbpress',name:'Seated DB Shoulder Press',type:'superset',scheme:'4×10–12',rest:0,cue:"Don't lock out — keep tension. Control the descent. Go straight to lateral raise.",sets:4,bw:false,ss:true},
+    {id:'d1_latraise',name:'↳ Lateral Raise (Thumbs-Down)',type:'superset',scheme:'4×12–15',rest:60,cue:'Lead with elbow, stop at shoulder height. Slight forward lean. Rest 60 sec after superset.',sets:4,bw:false},
+   ]},
+   {name:'Rear Delt & Rotator Cuff',exercises:[
+    {id:'d1_facepull',name:'Rear Delt Cable Fly (Face Pull)',type:'isolation',scheme:'3×15',rest:45,cue:'Elbows high. External rotation at peak — non-negotiable for shoulder health.',sets:3,bw:false},
+    {id:'d1_pullapart',name:'Band Pull-Apart',type:'isolation',scheme:'3×20',rest:30,cue:'Straight arms. Squeeze scapula fully together at peak. Never skip this.',sets:3,bw:true},
+   ]},
+   {name:'Triceps — Tri-Set',exercises:[
+    {id:'d1_triover',name:'Overhead Cable Tricep Extension',type:'superset',scheme:'3×10',rest:0,cue:"Long head fully stretched. Don't flare elbows. Tri-set — no rest between moves.",sets:3,bw:false,ss:true},
+    {id:'d1_tripush',name:'↳ Tricep Rope Pushdown',type:'superset',scheme:'3×12',rest:0,cue:'Flare hands out at bottom. No rest — go straight to dips.',sets:3,bw:false,ss:true},
+    {id:'d1_dips',name:'↳ Bench Dips or Bar Dips',type:'superset',scheme:'3×failure',rest:90,cue:'Full depth. Forward lean = more chest, upright = more tricep. Rest 90 sec after tri-set.',sets:3,bw:true},
+   ]},
+  ],
+  finisher:{scheme:'3 Rounds — rest 90 sec',lines:['Push-Up to failure','Wall Angels × 15','Plank Shoulder Taps × 20 each side']}
+ },
+ {tab:'WED',label:'Pull A',sub:'Back · Biceps · Rear Delts',
+  focus:'Vertical + horizontal pulling. Scapular control, lat width, and bicep peak. Full posterior chain health.',
+  groups:[
+   {name:'Back — Vertical Pull',exercises:[
+    {id:'d2_pullup',name:'Weighted Pull-Up (Pronated)',type:'compound',scheme:'5×5',rest:120,cue:'Dead hang start. Full ROM — chin clearly over bar. Control the descent.',sets:5,bw:false},
+    {id:'d2_pullup_bo',name:'Neutral-Grip Pull-Up (back-off)',type:'compound',scheme:'3×8–10',rest:90,cue:'Bodyweight or light belt. Focus on lat squeeze at the top.',sets:3,bw:true},
+   ]},
+   {name:'Back — Superset A',exercises:[
+    {id:'d2_bbrow',name:'Bent-Over Barbell Row',type:'superset',scheme:'4×6–8',rest:0,cue:'Hinge 45°. Pull to lower chest/navel. Drive elbows back. Go to Pendlay row.',sets:4,bw:false,ss:true},
+    {id:'d2_pendlay',name:'↳ DB Pendlay Row',type:'superset',scheme:'4×8–10',rest:75,cue:'Explosive pull from dead stop on floor. Reset each rep. Rest 75 sec after superset.',sets:4,bw:false},
+   ]},
+   {name:'Back — Superset B',exercises:[
+    {id:'d2_csrow',name:'Chest-Supported DB Row',type:'superset',scheme:'3×12',rest:0,cue:'Cheating eliminated. Focus on scapular retraction. Go to single-arm row.',sets:3,bw:false,ss:true},
+    {id:'d2_sarow',name:'↳ Single-Arm DB Row',type:'superset',scheme:'3×10–12 ea',rest:60,cue:'Full lat stretch at the bottom. Elbow drives to hip pocket. Rest 60 sec after superset.',sets:3,bw:false},
+   ]},
+   {name:'Biceps — Tri-Set',exercises:[
+    {id:'d2_inccurl',name:'Incline DB Curl (Supinated)',type:'superset',scheme:'3×10–12',rest:0,cue:'Arms behind body — max long head stretch. No swing. Tri-set — no rest.',sets:3,bw:false,ss:true},
+    {id:'d2_hammer',name:'↳ Hammer Curl',type:'superset',scheme:'3×12',rest:0,cue:'Neutral grip — brachialis emphasis. No rest — go to face pull.',sets:3,bw:false,ss:true},
+    {id:'d2_facepull',name:'↳ Face Pull',type:'superset',scheme:'3×15',rest:60,cue:'High anchor. Pull to forehead. External rotation at peak. Rest 60 sec after tri-set.',sets:3,bw:false},
+   ]},
+  ],
+  finisher:{scheme:'3 Rounds — minimum rest',lines:['Straight-Arm Lat Pulldown × 15','Band Pull-Apart × 20','Dead Hang × 20–30 sec']}
+ },
+ {tab:'THU',label:'Legs A',sub:'Quads · Hamstrings · Glutes · Calves',
+  focus:'Squat pattern + hip hinge dominance. Athletic lower body strength. Movement patterns that transfer to real performance.',
+  groups:[
+   {name:'Quads & Glutes',exercises:[
+    {id:'d3_squat',name:'Barbell Back Squat',type:'compound',scheme:'5×5',rest:180,cue:'2–3 ramp sets first. Hip crease below parallel. Brace hard — knees track toes.',sets:5,bw:false},
+    {id:'d3_squat_bo',name:'Barbell Back Squat (back-off)',type:'compound',scheme:'3×8',rest:120,cue:'Drop 15–20%. Controlled 3 sec descent. Focus on technique over weight.',sets:3,bw:false},
+   ]},
+   {name:'Hamstrings',exercises:[
+    {id:'d3_rdl',name:'Barbell Romanian Deadlift',type:'compound',scheme:'4×8–10',rest:90,cue:'Push hips back — feel the hamstring load. Soft knee. Bar stays close to legs.',sets:4,bw:false},
+   ]},
+   {name:'Legs — Superset A',exercises:[
+    {id:'d3_bss',name:'Bulgarian Split Squat',type:'superset',scheme:'3×10 each',rest:0,cue:'Rear foot elevated. Front shin vertical. Drop straight down. Go to Nordic curl.',sets:3,bw:false,ss:true},
+    {id:'d3_nordic',name:'↳ Nordic Hamstring Curl',type:'superset',scheme:'3×5–8',rest:90,cue:'Anchor feet. Lower as slowly as possible. Use hands to help up. Rest 90 sec.',sets:3,bw:true},
+   ]},
+   {name:'Legs — Superset B',exercises:[
+    {id:'d3_legpress',name:'Leg Press (High Foot Placement)',type:'superset',scheme:'3×12–15',rest:0,cue:'High foot = glute/ham bias. Full ROM. No lockout. Go to walking lunge.',sets:3,bw:false,ss:true},
+    {id:'d3_lunge',name:'↳ DB Walking Lunge',type:'superset',scheme:'3×10 each',rest:75,cue:'Long step. Front shin vertical. Squeeze glute at top. Rest 75 sec after superset.',sets:3,bw:false},
+   ]},
+   {name:'Calves & Tibialis',exercises:[
+    {id:'d3_calf_sl',name:'Single-Leg Calf Raise',type:'isolation',scheme:'4×12–15 ea',rest:45,cue:'Full stretch at bottom — pause. Slow controlled up. No bounce.',sets:4,bw:true},
+    {id:'d3_calf_seat',name:'Seated Calf Raise',type:'isolation',scheme:'3×15–20',rest:45,cue:'Targets soleus. Heavy weight, full ROM.',sets:3,bw:false},
+    {id:'d3_tib',name:'Tibialis Anterior Raise',type:'isolation',scheme:'3×15–20',rest:30,cue:'Heels on step. Dorsiflexion. Prevents shin splints.',sets:3,bw:true},
+   ]},
+  ],
+  finisher:{scheme:'5 Rounds — rest 60 sec',lines:['Squat Jump × 10 (land soft)','Glute Bridge × 15','Lateral Band Walk × 10 each direction','5 min walk or 400m easy jog to finish']}
+ },
+ {tab:'FRI',label:'Push B',sub:'Overhead · Chest · Triceps — Strength',
+  focus:'Overhead pressing dominance. True strength day — lower reps, longer rest. Upper body athletic power.',
+  groups:[
+   {name:'Shoulders — Main Lift',exercises:[
+    {id:'d4_ohp',name:'Barbell Overhead Press (Standing)',type:'compound',scheme:'5×3–5',rest:180,cue:'Full body brace. Bar path straight — head through at top. Do not press in front of face.',sets:5,bw:false},
+    {id:'d4_ohp_drop',name:'OHP (drop set)',type:'compound',scheme:'1×AMQRAP',rest:0,cue:'Use 20% less. As many quality reps as possible.',sets:1,bw:false},
+   ]},
+   {name:'Chest — Superset A',exercises:[
+    {id:'d4_floorpress',name:'Dumbbell Floor Press',type:'superset',scheme:'4×8–10',rest:0,cue:'Elbows 45°. Dead stop at bottom removes stretch reflex. Go to archer push-up.',sets:4,bw:false,ss:true},
+    {id:'d4_archer',name:'↳ Archer Push-Up',type:'superset',scheme:'4×8 each',rest:90,cue:'Wide hand position. Shift weight to one arm — unilateral load. Rest 90 sec.',sets:4,bw:true},
+   ]},
+   {name:'Shoulders — Superset B',exercises:[
+    {id:'d4_pike',name:'Pike Push-Up (Elevated Feet)',type:'superset',scheme:'4×10–12',rest:0,cue:'Feet on bench. Hips high. Mimics OHP mechanics. Go to Arnold press.',sets:4,bw:true,ss:true},
+    {id:'d4_arnold',name:'↳ Arnold Press',type:'superset',scheme:'4×10–12',rest:75,cue:'Start palms facing you. Rotate out as you press. Full ROM. Rest 75 sec.',sets:4,bw:false},
+   ]},
+   {name:'Shoulders — Superset C',exercises:[
+    {id:'d4_latdrop',name:'Lateral Raise Drop Set',type:'superset',scheme:'3× drop set',rest:0,cue:'12 reps heavy → drop 30% → 10 reps → drop → 10 reps. Go to upright row.',sets:3,bw:false,ss:true},
+    {id:'d4_upright',name:'↳ DB Upright Row (Wide Grip)',type:'superset',scheme:'3×12',rest:75,cue:'Wide grip prevents impingement. Elbows just above shoulder height. Rest 75 sec.',sets:3,bw:false},
+   ]},
+   {name:'Triceps & Rear Delt',exercises:[
+    {id:'d4_cgbp',name:'Close-Grip Bench Press',type:'isolation',scheme:'4×8–10',rest:90,cue:'Hands just inside shoulder width. Elbows tight. Full ROM.',sets:4,bw:false},
+    {id:'d4_saext',name:'Single-Arm Overhead DB Extension',type:'isolation',scheme:'3×12–15 ea',rest:60,cue:'Elbow stays stationary. Full overhead stretch for long head.',sets:3,bw:false},
+    {id:'d4_reardelt',name:'Cable Rear Delt Fly (Cross-body)',type:'isolation',scheme:'3×15',rest:45,cue:'Cross-cable setup. Shoulder health every push session.',sets:3,bw:false},
+   ]},
+  ],
+  finisher:{scheme:'AMRAP 5 min — log & beat your score',lines:['Push-Up × 10','Dumbbell Thruster × 8','Rest only when form breaks']}
+ },
+ {tab:'SAT',label:'Pull B',sub:'Back · Biceps · Core · Conditioning',
+  focus:"Horizontal pulling strength, athletic movement, core anti-rotation, and conditioning. The week's exclamation mark.",
+  groups:[
+   {name:'Back — Main Lift',exercises:[
+    {id:'d5_trapdl',name:'Trap Bar Deadlift (or Conventional)',type:'compound',scheme:'4×5',rest:180,cue:'Hip hinge. Drive floor away. Hips and shoulders rise together.',sets:4,bw:false},
+    {id:'d5_trapdl_drop',name:'Trap Bar Deadlift (drop set)',type:'compound',scheme:'1×AMQRAP',rest:0,cue:'20% less. As many quality reps as possible.',sets:1,bw:false},
+   ]},
+   {name:'Back — Superset A',exercises:[
+    {id:'d5_tbar',name:'T-Bar Row (Chest Supported)',type:'superset',scheme:'4×10',rest:0,cue:'Full scapular retraction. No momentum. Elbows drive back and down. Go to seal row.',sets:4,bw:false,ss:true},
+    {id:'d5_seal',name:'↳ Seal Row (Prone on Raised Bench)',type:'superset',scheme:'4×10',rest:75,cue:'Lower back removed entirely. Pure upper back isolation. Rest 75 sec.',sets:4,bw:false},
+   ]},
+   {name:'Back — Superset B',exercises:[
+    {id:'d5_chin',name:'Chin-Up (Supinated)',type:'superset',scheme:'3×10–12',rest:0,cue:'Bicep emphasis. Full dead hang. No kipping. Go to pullover.',sets:3,bw:true,ss:true},
+    {id:'d5_pullover',name:'↳ Cable Straight-Arm Pullover',type:'superset',scheme:'3×15',rest:60,cue:'Lock elbows. Lat drives the bar down. Rest 60 sec.',sets:3,bw:false},
+   ]},
+   {name:'Core — Anti-Rotation Tri-Set',exercises:[
+    {id:'d5_pallof',name:'Pallof Press',type:'superset',scheme:'3×12 each',rest:0,cue:'Anti-rotation. Press out, hold 2 sec, return. Hips stay square. No rest.',sets:3,bw:true,ss:true},
+    {id:'d5_abwheel',name:'↳ Ab Wheel Rollout',type:'superset',scheme:'3×10–12',rest:0,cue:'Brace hard before rolling. Hips must not drop. No rest.',sets:3,bw:true,ss:true},
+    {id:'d5_hlr',name:'↳ Hanging Leg Raise',type:'superset',scheme:'3×12–15',rest:60,cue:'Control the swing. Posterior pelvic tilt at the top. Rest 60 sec.',sets:3,bw:true},
+   ]},
+   {name:'Biceps',exercises:[
+    {id:'d5_cheatcurl',name:'Barbell Cheat Curl (Heavy)',type:'isolation',scheme:'3×6–8',rest:90,cue:'Body English on concentric only. Control the descent fully.',sets:3,bw:false},
+    {id:'d5_cablecurl',name:'Cable Curl (Low Pulley)',type:'isolation',scheme:'3×12–15',rest:60,cue:'Constant tension. Supinate fully at the top. No swinging.',sets:3,bw:false},
+    {id:'d5_conccurl',name:'Concentration Curl',type:'isolation',scheme:'3×10–12 ea',rest:45,cue:'Elbow braced on knee. Peak contraction hold 1 sec.',sets:3,bw:false},
+   ]},
+  ],
+  finisher:{scheme:'3 Rounds — rest 90 sec',lines:["Sled Push or Farmer's Carry × 20m","Battle Ropes or Jump Rope × 30 sec","Burpee Pull-Up × 8","No sled? 10 Squat Jumps + 10 Push-Ups"]}
+ },
+];
+
+
+// ═══════════════════════════════ ARMS DAY ════════════════════════════
+const ARMS_WARMUP=[
+  {name:'Plate Pinch Hold',duration:'20 sec',cue:'Grip the plate by the edges. Squeeze as hard as possible — activates forearm and grip.'},
+  {name:'Plate Front Raise',duration:'× 10 reps',cue:'Arms straight. Raise to shoulder height. Controlled — feel the shoulder and bicep engage.'},
+  {name:'Plate Halo',duration:'× 10 each direction',cue:'Circle the plate around your head. Keep it smooth. Both directions — warms up elbow joint.'},
+  {name:'Plate Curl',duration:'× 15 reps',cue:'Curl the plate, supinate hard at the top. Getting blood into the bicep before loading up.'},
+  {name:'Plate Overhead Tricep Extension',duration:'× 15 reps',cue:'Both hands. Full stretch overhead — long head of the tricep. Control the descent.'},
+  {name:'Plate Twist',duration:'× 15 each side',cue:'Hold plate at chest. Rotate side to side. Core and wrist activation.'},
+  {name:'Plate Wrist Roller',duration:'× 20 each direction',cue:'Plate in hands. Roll wrists forward and back. Forward and reverse. Forearm prep.'},
+];
+
+const ARMS={
+  tab:'ARMS',label:'Arms Day',sub:'Biceps · Triceps · Brachialis · Forearms',
+  focus:"Jeff Cavaliere's exact Athlean-X arms session. Plate warm-up flow first, then full bicep work, then triceps. One complete arm day.",
+  groups:[
+    {name:'Biceps',exercises:[
+      {id:'a_bbcurl',name:'Barbell Curl',type:'compound',scheme:'4×8',rest:90,cue:'Supinate hard at the top. Twist and drive elbow forward — eye on the peak contraction. No swinging. Control the descent fully.',sets:4,bw:false},
+      {id:'a_machinecurl',name:'Machine Curl',type:'isolation',scheme:'3×10–12',rest:60,cue:'Use the machine to isolate completely. On the last set get a spot and push to absolute failure. Squeeze at peak — hold 1 sec.',sets:3,bw:false},
+      {id:'a_inclinecurl',name:'Incline Dumbbell Curl',type:'isolation',scheme:'3×10',rest:60,cue:'Arms hang behind the body — maximum long head stretch. Do not let elbows drift forward. Strict form only — no momentum.',sets:3,bw:false},
+      {id:'a_mechdropa',name:'Mechanical Drop Set — Incline Position',type:'superset',scheme:'5 reps',rest:0,cue:'Part 1 of 3 — 5-5-5 sequence. Incline position for maximum long head stretch. Go straight to standing position with no rest.',sets:1,bw:false,ss:true},
+      {id:'a_mechdropb',name:'Mechanical Drop Set — Standing Position',type:'superset',scheme:'5 reps',rest:0,cue:'Part 2 of 3 — standard standing curl. Mid-range position. Go straight to preacher/top position with no rest.',sets:1,bw:false,ss:true},
+      {id:'a_mechdropi',name:'Mechanical Drop Set — Peak Position',type:'superset',scheme:'5 reps',rest:90,cue:'Part 3 of 3 — short head peak contraction. Squeeze hard at the top. Rest 90 sec then repeat for 3 rounds total.',sets:1,bw:false},
+      {id:'a_crossbody',name:'Cross-Body Pronated Curl',type:'isolation',scheme:'3×12 each',rest:45,cue:'Pronate the wrist — palm faces down. Pull across the body. This is brachialis work, not bicep. Control wrist position throughout.',sets:3,bw:false},
+      {id:'a_wristtwist',name:'Forearm Bar Twist Burner',type:'isolation',scheme:'2×20 each direction',rest:45,cue:'High rep, light weight. Forward then reverse wrist rolls. Forearm endurance finisher — burn it out completely. Both directions.',sets:2,bw:false},
+    ]},
+    {name:'Triceps',exercises:[
+      {id:'a_inclskull',name:'Incline Skull Crusher',type:'compound',scheme:'4×10',rest:90,cue:'Lie on incline bench. Bar comes back behind the head — overhead position fully loads the long head. Elbow path stays fixed — do not flare. Shoulder-safe arc.',sets:4,bw:false},
+      {id:'a_cablepush',name:'Cable Push-Out',type:'isolation',scheme:'3×12',rest:60,cue:'Cable at chest height. Push straight out — elbows locked at sides. Full extension, hold 1 sec at peak. Strict mechanics — no body movement.',sets:3,bw:false},
+      {id:'a_benchdip',name:'Bench Dip',type:'isolation',scheme:'3×12–15',rest:60,cue:'Hands on bench behind you. Elbows track back — not flared out. This protects the shoulder. Full depth, drive up through the tricep.',sets:3,bw:true},
+      {id:'a_pjr',name:'PJR Pullover',type:'isolation',scheme:'3×12',rest:60,cue:'EZ bar or dumbbells. Arms extend overhead like a pullover but bend at the elbow on the way down — loads the long head under full stretch. Upper arms stay fixed throughout.',sets:3,bw:false},
+      {id:'a_kickback',name:'Kickback Pushdown',type:'isolation',scheme:'3×15',rest:45,cue:'Cable or band. Hinge forward, upper arm locked at side. Extend fully back — squeeze the lateral head hard at lockout. Do not rush the movement.',sets:3,bw:false},
+    ]},
+  ],
+  finisher:{scheme:'1 Round — no rest between movements',lines:['Pushdown × 20','Overhead Extension × 15','Diamond Push-Up × to failure']}
+};
+
+// flat list of all exercises for a day
+function flatExercises(di){ return DAYS[di].groups.flatMap(g=>g.exercises); }
+function flatArmsExercises(){ return ARMS.groups.flatMap(g=>g.exercises); }
+
+// ═══════════════════════════════ STATE ═══════════════════════════════
+let view='warmup', activeDay=0, activeWeek=1, mode='coach', armsCoachIdx=0, armsWuDone={};
+let coachIdx=0; // current exercise index in coach mode
+let openBlocks={}, openFin={}, timers={}, timerIvs={}, wuDone={};
+
+function lsGet(k,d){ try{const v=localStorage.getItem('ds5d_'+k);return v!==null?JSON.parse(v):d;}catch(e){return d;} }
+function lsSet(k,v){ try{localStorage.setItem('ds5d_'+k,JSON.stringify(v));}catch(e){} }
+function sfGet(di,exId,w,s,f){ return lsGet(`${di}_${exId}_w${w}_s${s}_${f}`,''); }
+function sfSet(di,exId,w,s,f,v){ lsSet(`${di}_${exId}_w${w}_s${s}_${f}`,v); }
+
+// ═══════════════════════════════ DERIVED ══════════════════════════════
+function doneSets(di,exId,w){
+  const ex=flatExercises(di).find(e=>e.id===exId); if(!ex) return 0;
+  let c=0; for(let s=0;s<ex.sets;s++) if(sfGet(di,exId,w,s,'done')===true) c++;
+  return c;
+}
+function getPB(di,exId){
+  const ex=flatExercises(di).find(e=>e.id===exId); if(!ex||ex.bw) return null;
+  let best=0;
+  for(let w=1;w<=8;w++) for(let s=0;s<ex.sets;s++){const kg=parseFloat(sfGet(di,exId,w,s,'kg'));if(!isNaN(kg)&&kg>best)best=kg;}
+  return best>0?best:null;
+}
+function getBestWeek(di,exId,w){
+  const ex=flatExercises(di).find(e=>e.id===exId); if(!ex) return '';
+  let best=0;
+  for(let s=0;s<ex.sets;s++){const kg=parseFloat(sfGet(di,exId,w,s,'kg'));if(!isNaN(kg)&&kg>best)best=kg;}
+  const direct=lsGet(`prog_${di}_${exId}_w${w}`,'');
+  if(direct!=='') return parseFloat(direct)||best||'';
+  return best>0?best:'';
+}
+function isDayDone(di,w){
+  for(const ex of flatExercises(di)) for(let s=0;s<ex.sets;s++) if(sfGet(di,ex.id,w,s,'done')!==true) return false;
+  return true;
+}
+function sessionVolume(di,w){
+  let vol=0,sets=0;
+  for(const ex of flatExercises(di)){
+    if(ex.bw) continue;
+    for(let s=0;s<ex.sets;s++){
+      const kg=parseFloat(sfGet(di,ex.id,w,s,'kg')),reps=parseInt(sfGet(di,ex.id,w,s,'reps'));
+      if(!isNaN(kg)&&!isNaN(reps)){vol+=kg*reps;sets++;}
+    }
+  }
+  return {vol:Math.round(vol),sets};
+}
+
+// ═══════════════════════════════ TIMER ═══════════════════════════════
+function fmtT(sec){const m=Math.floor(sec/60),s=sec%60;return m>0?`${m}:${s.toString().padStart(2,'0')}`:`${s}s`;}
+function beep(){try{const a=new AudioContext();const o=a.createOscillator();const g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=880;g.gain.setValueAtTime(0.3,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.5);o.start();o.stop(a.currentTime+0.5);}catch(e){}}
+
+function startTimer(exId,sec,btnId){
+  if(timerIvs[exId]){clearInterval(timerIvs[exId]);delete timerIvs[exId];}
+  timers[exId]={total:sec,remaining:sec,running:true};
+  timerIvs[exId]=setInterval(()=>{
+    timers[exId].remaining--;
+    if(timers[exId].remaining<=0){
+      timers[exId].running=false;clearInterval(timerIvs[exId]);delete timerIvs[exId];beep();
+    }
+    updateTimerBtn(exId,btnId);
+  },1000);
+  updateTimerBtn(exId,btnId);
+}
+function updateTimerBtn(exId,btnId){
+  const btn=document.getElementById(btnId||`tbtn_${exId}`);
+  if(!btn) return;
+  const t=timers[exId];
+  if(!t){btn.className=btn.className.replace(' running','').replace(' finished','');btn.innerHTML=`⏱ Start rest`;return;}
+  if(!t.running&&t.remaining<=0){btn.className=btn.className.replace(' running','').replace(' finished','')+' finished';btn.innerHTML='✓ Rest complete';return;}
+  btn.className=btn.className.replace(' finished','').replace(' running','')+' running';
+  btn.innerHTML=`⏸ ${fmtT(t.remaining)}`;
+}
+function refreshTimers(){Object.keys(timers).forEach(id=>updateTimerBtn(id));}
+
+// ═══════════════════════════════ RENDER ═══════════════════════════════
+function showView(v,di){
+  if(v==='day'){view='day';activeDay=di;coachIdx=0;}
+  else if(v==='arms'){view='arms';armsCoachIdx=0;}
+  else{view=v;}
+  renderAll();
+}
+function setMode(m){mode=m;renderAll();}
+function changeWeek(d){activeWeek=Math.max(1,Math.min(8,activeWeek+d));document.getElementById('wdSidebar').textContent=activeWeek;document.getElementById('wdTop').textContent=activeWeek;renderMain();}
+
+function renderAll(){renderSidebar();renderBnav();renderMain();}
+
+function renderSidebar(){
+  document.getElementById('snav-warmup').className=`nav-item ${view==='warmup'?'active':''}`;
+  document.getElementById('snav-progress').className=`nav-item ${view==='progress'?'active':''}`;
+  document.getElementById('sbDayItems').innerHTML=DAYS.map((d,i)=>`
+    <div class="nav-item ${view==='day'&&activeDay===i?'active':''}" onclick="showView('day',${i})">
+      <span class="nav-tag">${d.tab}</span>
+      <div><div class="nav-item-lbl">${d.label}</div><div class="nav-item-sub">${d.sub.split('·')[0].trim()}</div></div>
+    </div>`).join('');
+}
+
+function renderBnav(){
+  const navs=[
+    {id:'warmup',lbl:'Warm-Up',path:'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',onclick:"showView('warmup')"},
+    ...DAYS.map((d,i)=>({id:`day_${i}`,lbl:d.tab,path:'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',onclick:`showView('day',${i})`})),
+    {id:'arms',lbl:'Arms',path:'M6.5 17h11M12 3c-1.5 2-2 4-2 6s.5 4 2 6M8 9c0 0 1 1 4 1s4-1 4-1',onclick:"showView('arms')"},
+    {id:'progress',lbl:'Log',path:'M3 3v18h18M18.7 8l-5.1 5.2-2.8-2.7L7 14.3',onclick:"showView('progress')"},
+  ];
+  const active=view==='warmup'?'warmup':view==='progress'?'progress':view==='day'?`day_${activeDay}`:'';
+  document.getElementById('bnavInner').innerHTML=navs.map(n=>`
+    <button class="bnav-btn ${active===n.id?'active':''}" onclick="${n.onclick}">
+      <svg viewBox="0 0 24 24"><path d="${n.path}"/></svg>${n.lbl}
+      <div class="bnav-dot"></div>
+    </button>`).join('');
+}
+
+function renderMain(){
+  const title=view==='warmup'?'Warm-Up':view==='progress'?'Progress Log':view==='arms'?'Arms Day':view==='day'?DAYS[activeDay].label:'';
+  document.getElementById('topTitle').textContent=title;
+  const mt=document.getElementById('modeToggle');
+  if(view==='day'){mt.style.display='flex';document.getElementById('modeCoach').className='mode-btn'+(mode==='coach'?' active':'');document.getElementById('modeOverview').className='mode-btn'+(mode==='overview'?' active':'');}
+  else{mt.style.display='none';}
+  const main=document.getElementById('mainArea');
+  if(view==='warmup'){main.innerHTML=renderWarmup();return;}
+  if(view==='progress'){main.innerHTML=renderProgressAll();return;}
+  if(view==='arms'){main.innerHTML=renderArmsDay();return;}
+  if(view==='day'){main.innerHTML=mode==='coach'?renderCoach(activeDay):renderOverview(activeDay);return;}
+}
+
+// ── WARMUP ───────────────────────────────────────────────────────────
+function selectWarmup(key){activeWarmup=key;wuDone={};lsSet('activeWarmup',key);lsSet('warmup',{});renderMain();}
+function toggleWU(i){wuDone[i]=!wuDone[i];lsSet('warmup',wuDone);renderMain();}
+function resetWU(){wuDone={};lsSet('warmup',wuDone);renderMain();}
+
+function renderWarmup(){
+  const wu=WARMUPS[activeWarmup];
+  const moves=wu.moves;
+  const dc=moves.filter((_,i)=>wuDone[i]).length;
+  const pct=Math.round(dc/moves.length*100);
+
+  const keys=Object.keys(WARMUPS);
+  const selectorBtns=keys.map(key=>{
+    const w=WARMUPS[key];
+    const isActive=activeWarmup===key;
+    return `<button onclick="selectWarmup('${key}')" style="flex:1;min-width:0;padding:10px 10px;border:1.5px solid ${isActive?'var(--accent)':'var(--border)'};border-radius:var(--r-sm);background:${isActive?'var(--accent)':'var(--surface)'};cursor:pointer;font-family:var(--sans);transition:all .15s;text-align:left;">
+      <div style="font-size:12px;font-weight:600;color:${isActive?'white':'var(--text)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${w.name}</div>
+      <div style="font-size:10px;color:${isActive?'rgba(255,255,255,.7)':'var(--text3)'};margin-top:2px;line-height:1.3">${w.desc}</div>
+    </button>`;
+  }).join('');
+
+  return `<div class="page-hdr"><h2>Warm-Up</h2><p>Select a routine · Check off each movement</p></div>
+  <div class="content">
+    <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Choose routine</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px">${selectorBtns}</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px">
+      <div style="padding:10px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div>
+          <div style="font-size:13px;font-weight:600">${wu.name}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">${wu.desc}</div>
+        </div>
+        <button onclick="resetWU()" style="padding:4px 10px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;font-size:11px;color:var(--text2);font-family:var(--sans);flex-shrink:0">Reset</button>
+      </div>
+      <div style="padding:10px 14px 6px">
+        <div class="wu-progress" style="margin-bottom:8px">
+          <div class="wu-bar-wrap"><div class="wu-bar" style="width:${pct}%"></div></div>
+          <span class="wu-pct">${dc}/${moves.length}</span>
+        </div>
+        ${pct===100?'<div style="font-size:12px;color:var(--green-text);margin-bottom:8px;font-weight:500">✓ All done — ready to train!</div>':'<div style="font-size:11px;color:var(--text3);margin-bottom:8px">Tap each movement to mark complete</div>'}
+      </div>
+    </div>
+    <div class="wu-list">
+      ${moves.map((m,i)=>`<div class="wu-item ${wuDone[i]?'done':''}" onclick="toggleWU(${i})">
+        <span class="wu-num">${String(i+1).padStart(2,'0')}</span>
+        <span class="wu-name">${m}</span>
+        <div class="wu-check">${wuDone[i]?'✓':''}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ── COACH MODE ────────────────────────────────────────────────────────
+// Build screens for coach mode — supersets/tri-sets grouped onto one screen
+function buildScreens(di){
+  const screens=[];
+  for(const group of DAYS[di].groups){
+    const exes=group.exercises;
+    let i=0;
+    while(i<exes.length){
+      const ex=exes[i];
+      if(ex.ss){
+        // collect all exercises in this superset chain
+        const chain=[ex];
+        let j=i+1;
+        while(j<exes.length && (exes[j-1].ss)){
+          chain.push(exes[j]); j++;
+        }
+        screens.push({type:'superset',group:group.name,exercises:chain});
+        i=j;
+      } else {
+        screens.push({type:'single',group:group.name,exercises:[ex]});
+        i++;
+      }
+    }
+  }
+  return screens;
+}
+
+function renderCoach(di){
+  const day=DAYS[di];
+  const screens=buildScreens(di);
+  const total=screens.length;
+  const done=isDayDone(di,activeWeek);
+
+  if(done&&coachIdx>=total){
+    const {vol,sets}=sessionVolume(di,activeWeek);
+    return `<div class="page-hdr">
+      <h2>${day.label}</h2><p>${day.tab} · ${day.sub}</p>
+      <div class="hdr-badges"><span class="badge badge-dark">${day.tab}</span><span class="badge badge-green">✓ Complete</span></div>
+    </div>
+    <div class="session-done">
+      <h3>Session Complete 💪</h3>
+      <p>Week ${activeWeek} · ${day.label} · Great work</p>
+      <div class="session-stats">
+        <div class="stat-chip"><div class="stat-chip-val">${vol.toLocaleString()}</div><div class="stat-chip-lbl">kg volume</div></div>
+        <div class="stat-chip"><div class="stat-chip-val">${sets}</div><div class="stat-chip-lbl">sets logged</div></div>
+      </div>
+      <button class="restart-btn" onclick="coachIdx=0;renderMain()">↺ Start again</button>
+    </div>
+    ${renderProgressForDay(di)}`;
+  }
+
+  const idx=Math.min(coachIdx,total-1);
+  const screen=screens[idx];
+  const isSuperset=screen.type==='superset';
+  const isTri=isSuperset&&screen.exercises.length>2;
+  const pct=Math.round(idx/total*100);
+
+  // find last exercise in screen to get the rest timer
+  const lastEx=screen.exercises[screen.exercises.length-1];
+  const restEx=screen.exercises.find(e=>e.rest>0)||lastEx;
+
+  let html=`<div class="page-hdr">
+    <h2>${day.label}</h2><p>${day.tab} · ${day.sub}</p>
+    <div class="hdr-badges"><span class="badge badge-dark">${day.tab}</span><span class="badge badge-blue">Week ${activeWeek}</span></div>
+  </div>
+  <div class="coach-wrap">
+    <div class="coach-progress-bar">
+      <div class="coach-prog-top">
+        <span class="coach-prog-label">${isSuperset?(isTri?'Tri-Set':'Superset'):''} ${idx+1} of ${total}</span>
+        <span class="coach-prog-frac">${pct}%</span>
+      </div>
+      <div class="coach-track"><div class="coach-fill" style="width:${pct}%"></div></div>
+      <div class="coach-steps">
+        ${screens.map((_,i)=>`<div class="coach-step-dot ${i<idx?'done':i===idx?'current':''}" onclick="goToEx(${i})"></div>`).join('')}
+      </div>
+    </div>`;
+
+  // superset header banner
+  if(isSuperset){
+    html+=`<div style="background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:16px">⚡</span>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--amber-text)">${isTri?'Tri-Set':'Superset'} — ${screen.exercises.length} exercises</div>
+        <div style="font-size:11px;color:var(--amber-text);opacity:.8">Perform back to back with no rest between exercises</div>
+      </div>
+    </div>`;
+  }
+
+  // render each exercise in the screen
+  screen.exercises.forEach((ex,exIdx)=>{
+    const pb=ex.bw?null:getPB(di,ex.id);
+    const isFirst=exIdx===0;
+    const isLastInScreen=exIdx===screen.exercises.length-1;
+
+    html+=`<div class="coach-card" style="${!isFirst?'margin-top:6px;border-top:3px solid var(--amber);':''}">
+      <div class="coach-card-top">
+        <div class="coach-card-meta">
+          <span class="coach-group-lbl">${screen.group}</span>
+          ${isSuperset?`<span style="font-family:var(--mono);font-size:10px;color:var(--amber-text);background:var(--amber-bg);padding:2px 8px;border-radius:20px;font-weight:600">${exIdx+1}/${screen.exercises.length}</span>`:''}
+        </div>
+        <div class="coach-ex-name">${ex.name.replace('↳ ','')}</div>
+        <div class="coach-scheme">${ex.scheme}</div>
+        <div class="coach-pills">
+          <span class="ex-type-pill pill-${ex.type}">${ex.type==='compound'?'COMPOUND':ex.type==='superset'?'SS':'ISO'}</span>
+        </div>
+      </div>
+      <div class="coach-cue">${ex.cue}</div>`;
+
+    // sets
+    html+=`<div class="coach-sets"><div class="coach-sets-hdr">Log your sets</div>`;
+    for(let s=0;s<ex.sets;s++){
+      const kg=sfGet(di,ex.id,activeWeek,s,'kg');
+      const reps=sfGet(di,ex.id,activeWeek,s,'reps');
+      const isDone=sfGet(di,ex.id,activeWeek,s,'done')===true;
+      html+=`<div class="coach-set-row ${isDone?'done':''}" id="csr_${ex.id}_${s}">
+        <span class="coach-set-lbl">SET ${s+1}</span>
+        <div class="coach-set-inputs">
+          ${!ex.bw?`<div class="coach-set-grp"><label>kg</label><input type="number" step="0.5" min="0" inputmode="decimal" value="${kg}" placeholder="0" onchange="sfSet(${di},'${ex.id}',${activeWeek},${s},'kg',this.value)"></div>`:''}
+          <div class="coach-set-grp"><label>reps</label><input type="number" min="0" inputmode="numeric" value="${reps}" placeholder="0" onchange="sfSet(${di},'${ex.id}',${activeWeek},${s},'reps',this.value)"></div>
+        </div>
+        <button class="coach-tick ${isDone?'done':''}" onclick="coachTickSet(${di},'${ex.id}',${activeWeek},${s},${ex.sets},${isLastInScreen?restEx.rest:0},'${restEx.id}')">✓</button>
+      </div>`;
+    }
+    html+=`</div>`;
+
+    // between exercises in superset — arrow divider
+    if(isSuperset&&!isLastInScreen){
+      html+=`</div><div style="text-align:center;padding:4px 0;font-size:20px;color:var(--amber)">↓</div>`;
+    } else {
+      // note & PB on last exercise only
+      html+=`<div class="coach-note"><input type="text" placeholder="Add note..." value="${sfGet(di,ex.id,activeWeek,0,'note')}" onchange="sfSet(${di},'${ex.id}',${activeWeek},0,'note',this.value)"></div>`;
+      if(pb!==null) html+=`<div class="coach-pb"><span class="coach-pb-tag">★ PB ${pb}kg</span></div>`;
+      html+=`</div>`; // close coach-card
+    }
+  });
+
+  // rest timer — shown once at bottom for the whole screen
+  if(restEx.rest>0){
+    html+=`<div class="coach-rest" style="margin-top:10px">
+      <button class="coach-rest-btn ${timers[restEx.id]?(timers[restEx.id].running?'running':'finished'):''}" id="tbtn_${restEx.id}" onclick="startTimer('${restEx.id}',${restEx.rest},'tbtn_${restEx.id}')">
+        ${timers[restEx.id]&&timers[restEx.id].running?`⏸ ${fmtT(timers[restEx.id].remaining)}`:timers[restEx.id]&&!timers[restEx.id].running?'✓ Rest complete':'⏱ Start rest ('+fmtT(restEx.rest)+') after '+( isSuperset?(isTri?'tri-set':'superset'):'set')}
+      </button>
+    </div>`;
+  }
+
+  const isLast=idx===total-1;
+  const nextLabel=isLast?'Complete Session ✓':'Next →';
+  const nextClass=isLast?'btn-next complete-btn':'btn-next';
+  const navBtns=`
+    ${idx>0?`<button class="btn-prev" onclick="goToEx(${idx-1})">← Back</button>`:''}
+    <button class="${nextClass}" onclick="goToEx(${isLast?total:idx+1})">${nextLabel}</button>`;
+
+  html+=`<div class="coach-nav">${navBtns}</div>`;
+  html+=`<div class="coach-nav-desktop" style="margin-top:14px">${navBtns}</div>`;
+  html+=`</div>`;
+  return html;
+}
+
+function coachTickSet(di,exId,w,s,totalSets,rest,timerId){
+  const cur=sfGet(di,exId,w,s,'done');
+  sfSet(di,exId,w,s,'done',cur!==true);
+  if(cur!==true&&s===totalSets-1&&rest>0){
+    startTimer(timerId,rest,`tbtn_${timerId}`);
+  }
+  renderMain();
+}
+
+function goToEx(idx){
+  const screens=buildScreens(activeDay);
+  coachIdx=Math.max(0,Math.min(idx,screens.length));
+  renderMain();
+  window.scrollTo(0,0);
+}
+
+// ── OVERVIEW MODE ─────────────────────────────────────────────────────
+function renderOverview(di){
+  const day=DAYS[di];
+  const done=isDayDone(di,activeWeek);
+  const {vol,sets}=sessionVolume(di,activeWeek);
+  let html=`<div class="page-hdr">
+    <h2>${day.label}</h2><p>${day.tab} · ${day.sub}</p>
+    <div class="hdr-badges"><span class="badge badge-dark">${day.tab}</span>${done?'<span class="badge badge-green">✓ Complete</span>':`<span class="badge badge-blue">Week ${activeWeek}</span>`}</div>
+  </div>
+  <div class="focus-strip">${day.focus}</div>
+  <div class="content">`;
+
+  if(done){
+    html+=`<div class="session-done" style="margin:0 0 16px">
+      <h3>Session Complete 💪</h3><p>Week ${activeWeek} · ${day.label}</p>
+      <div class="session-stats">
+        <div class="stat-chip"><div class="stat-chip-val">${vol.toLocaleString()}</div><div class="stat-chip-lbl">kg volume</div></div>
+        <div class="stat-chip"><div class="stat-chip-val">${sets}</div><div class="stat-chip-lbl">sets logged</div></div>
+      </div>
+    </div>`;
+  }
+
+  day.groups.forEach(group=>{
+    html+=`<div class="mg-hdr">${group.name}</div>`;
+    group.exercises.forEach((ex,eIdx)=>{
+      const key=`${di}_${ex.id}`;
+      const isOpen=!!openBlocks[key];
+      const ds=doneSets(di,ex.id,activeWeek);
+      const allDone=ds>=ex.sets;
+      const pb=ex.bw?null:getPB(di,ex.id);
+      const dots=Array.from({length:ex.sets},(_,i)=>`<div class="dot ${i<ds?'done':''}"></div>`).join('');
+
+      html+=`<div class="ex-card ${allDone?'complete':''}">
+        <div class="ex-hdr" onclick="toggleBlock('${key}')">
+          <span class="ex-type-pill pill-${ex.type}">${ex.type==='compound'?'COMPOUND':ex.type==='superset'?'SS':'ISO'}</span>
+          <div class="ex-name-wrap"><div class="ex-name">${ex.name}</div></div>
+          <div class="ex-hdr-right"><div class="dots">${dots}</div><span class="ex-chevron ${isOpen?'open':''}">⌄</span></div>
+        </div>`;
+
+      if(isOpen){
+        html+=`<div class="ex-body"><div class="ex-cue">${ex.cue}</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:8px">${ex.scheme}</div>
+          <div class="sets-stack">`;
+        for(let s=0;s<ex.sets;s++){
+          const kg=sfGet(di,ex.id,activeWeek,s,'kg');
+          const rps=sfGet(di,ex.id,activeWeek,s,'reps');
+          const sd=sfGet(di,ex.id,activeWeek,s,'done')===true;
+          html+=`<div class="set-row ${sd?'done':''}">
+            <span class="set-row-lbl">SET ${s+1}</span>
+            <div class="set-inputs">
+              ${!ex.bw?`<div class="set-grp"><label>kg</label><input type="number" step="0.5" min="0" inputmode="decimal" value="${kg}" placeholder="0" onchange="sfSet(${di},'${ex.id}',${activeWeek},${s},'kg',this.value)"></div>`:''}
+              <div class="set-grp"><label>reps</label><input type="number" min="0" inputmode="numeric" value="${rps}" placeholder="0" onchange="sfSet(${di},'${ex.id}',${activeWeek},${s},'reps',this.value)"></div>
+            </div>
+            <button class="tick ${sd?'done':''}" onclick="overviewTick(${di},'${ex.id}',${activeWeek},${s},${ex.sets},${ex.rest})">✓</button>
+          </div>`;
+        }
+        html+=`</div><div class="ex-footer"><div class="ex-footer-row">
+          ${ex.rest>0?`<button class="rest-btn ${timers[ex.id]?(timers[ex.id].running?'running':'finished'):''}" id="tbtn_${ex.id}" onclick="startTimer('${ex.id}',${ex.rest},'tbtn_${ex.id}')">${timers[ex.id]&&timers[ex.id].running?`⏸ ${fmtT(timers[ex.id].remaining)}`:timers[ex.id]&&!timers[ex.id].running?'✓ Rest complete':'⏱ Start rest ('+fmtT(ex.rest)+')'}</button>`:'<span style="font-size:11px;color:var(--text3);font-style:italic">No rest — superset</span>'}
+          ${pb!==null?`<span class="pb-tag">★ PB ${pb}kg</span>`:''}
+        </div>
+        <div class="ex-footer-row"><div class="note-field"><input type="text" placeholder="Add note..." value="${sfGet(di,ex.id,activeWeek,0,'note')}" onchange="sfSet(${di},'${ex.id}',${activeWeek},0,'note',this.value)"></div></div>
+        </div></div>`;
+      }
+      html+=`</div>`;
+      if(ex.ss&&eIdx<group.exercises.length-1) html+=`<div class="ss-conn"><div class="ss-line"></div><span class="ss-lbl">+ superset</span><div class="ss-line"></div></div>`;
+    });
+  });
+
+  const fin=day.finisher,finOpen=!!openFin[di];
+  html+=`<div class="fin-card">
+    <div class="fin-hdr" onclick="toggleFin(${di})">
+      <span class="fin-badge">FINISHER</span>
+      <span class="fin-title">${fin.scheme}</span>
+      <span class="ex-chevron ${finOpen?'open':''}">⌄</span>
+    </div>
+    ${finOpen?`<div class="fin-body">${fin.lines.map(l=>`<div class="fin-line"><span style="font-size:10px;color:var(--text3);margin-top:4px;flex-shrink:0">▸</span>${l}</div>`).join('')}</div>`:''}
+  </div>`;
+  html+=renderProgressForDay(di);
+  html+=`</div>`;
+  return html;
+}
+
+function overviewTick(di,exId,w,s,totalSets,rest){
+  const cur=sfGet(di,exId,w,s,'done');
+  sfSet(di,exId,w,s,'done',cur!==true);
+  if(cur!==true&&s===totalSets-1&&rest>0) startTimer(exId,rest,`tbtn_${exId}`);
+  renderMain();
+}
+
+
+// ── ARMS DAY ─────────────────────────────────────────────────────────
+function toggleArmsWU(i){armsWuDone[i]=!armsWuDone[i];lsSet('armsWuDone',armsWuDone);renderMain();}
+function resetArmsWU(){armsWuDone={};lsSet('armsWuDone',armsWuDone);renderMain();}
+function goToArms(idx){armsCoachIdx=Math.max(0,Math.min(idx,ARMS.groups.flatMap(g=>g.exercises).length));renderMain();window.scrollTo(0,0);}
+
+function buildArmsScreens(){
+  const screens=[];
+  for(const group of ARMS.groups){
+    const exes=group.exercises;
+    let i=0;
+    while(i<exes.length){
+      const ex=exes[i];
+      if(ex.ss){
+        const chain=[ex]; let j=i+1;
+        while(j<exes.length&&exes[j-1].ss){chain.push(exes[j]);j++;}
+        screens.push({type:'superset',group:group.name,exercises:chain});
+        i=j;
+      } else {
+        screens.push({type:'single',group:group.name,exercises:[ex]});
+        i++;
+      }
+    }
+  }
+  return screens;
+}
+
+function renderArmsDay(){
+  const wuTotal=ARMS_WARMUP.length;
+  const wuDoneCount=ARMS_WARMUP.filter((_,i)=>armsWuDone[i]).length;
+  const wuPct=Math.round(wuDoneCount/wuTotal*100);
+  const screens=buildArmsScreens();
+  const total=screens.length;
+  const allExDone=flatArmsExercises().every(ex=>{ for(let s=0;s<ex.sets;s++) if(lsGet(`arms_${ex.id}_s${s}_done`,false)!==true) return false; return true; });
+
+  // show warmup if not complete
+  if(wuDoneCount<wuTotal&&armsCoachIdx===0){
+    return `<div class="page-hdr">
+      <h2>Arms Day</h2><p>Athlean-X · Jeff Cavaliere</p>
+      <div class="hdr-badges"><span class="badge badge-dark">ARMS</span><span class="badge badge-blue">Warm-Up First</span></div>
+    </div>
+    <div class="coach-wrap">
+      <div style="background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--r);padding:12px 14px;margin-bottom:14px">
+        <div style="font-size:13px;font-weight:600;color:var(--amber-text)">🏋️ Plate Warm-Up Flow</div>
+        <div style="font-size:11px;color:var(--amber-text);opacity:.8;margin-top:2px">Complete all 7 movements before training. Continuous flow — no rest.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px">
+        <div style="padding:10px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+          <div class="wu-progress" style="flex:1;margin:0;margin-right:12px">
+            <div class="wu-bar-wrap"><div class="wu-bar" style="width:${wuPct}%"></div></div>
+            <span class="wu-pct">${wuDoneCount}/${wuTotal}</span>
+          </div>
+          <button onclick="resetArmsWU()" style="padding:4px 10px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);cursor:pointer;font-size:11px;color:var(--text2);font-family:var(--sans);flex-shrink:0">Reset</button>
+        </div>
+        <div style="padding:10px 14px">
+          ${ARMS_WARMUP.map((m,i)=>`<div class="wu-item ${armsWuDone[i]?'done':''}" onclick="toggleArmsWU(${i})" style="margin-bottom:6px">
+            <span class="wu-num">${String(i+1).padStart(2,'0')}</span>
+            <div style="flex:1">
+              <div class="wu-name" style="font-weight:500">${m.name} <span style="font-weight:400;color:var(--text3)">${m.duration}</span></div>
+              <div style="font-size:11px;color:var(--text2);margin-top:2px;font-style:italic">${m.cue}</div>
+            </div>
+            <div class="wu-check">${armsWuDone[i]?'✓':''}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div class="coach-nav"><button class="btn-next" onclick="armsCoachIdx=1;renderMain()">Start Training →</button></div>
+      <div class="coach-nav-desktop" style="margin-top:14px"><button class="btn-next" onclick="armsCoachIdx=1;renderMain()">Start Training →</button></div>
+    </div>`;
+  }
+
+  // session complete
+  if(allExDone&&armsCoachIdx>=total+1){
+    return `<div class="page-hdr"><h2>Arms Day</h2><p>Athlean-X · Jeff Cavaliere</p></div>
+    <div class="session-done">
+      <h3>Arms Session Complete 💪</h3>
+      <p>Biceps · Triceps · Brachialis · Forearms</p>
+      <button class="restart-btn" onclick="armsCoachIdx=0;armsWuDone={};lsSet('armsWuDone',{});renderMain()">↺ Start again</button>
+    </div>`;
+  }
+
+  const idx=Math.min(armsCoachIdx-1,total-1);
+  const screen=screens[Math.max(0,idx)];
+  const isSuperset=screen.type==='superset';
+  const isTri=isSuperset&&screen.exercises.length>2;
+  const pct=Math.round((armsCoachIdx-1)/total*100);
+  const restEx=screen.exercises.find(e=>e.rest>0)||screen.exercises[screen.exercises.length-1];
+
+  let html=`<div class="page-hdr">
+    <h2>Arms Day</h2><p>Athlean-X · Jeff Cavaliere · ${screen.group}</p>
+    <div class="hdr-badges"><span class="badge badge-dark">ARMS</span><span class="badge badge-blue">Week ${activeWeek}</span></div>
+  </div>
+  <div class="coach-wrap">
+    <div class="coach-progress-bar">
+      <div class="coach-prog-top">
+        <span class="coach-prog-label">${isSuperset?(isTri?'Tri-Set':'Superset'):''} ${armsCoachIdx} of ${total}</span>
+        <span class="coach-prog-frac">${pct}%</span>
+      </div>
+      <div class="coach-track"><div class="coach-fill" style="width:${pct}%"></div></div>
+      <div class="coach-steps">
+        ${screens.map((_,i)=>`<div class="coach-step-dot ${i<idx?'done':i===idx?'current':''}" onclick="goToArms(${i+1})"></div>`).join('')}
+      </div>
+    </div>`;
+
+  if(isSuperset){
+    html+=`<div style="background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--r);padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:16px">⚡</span>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--amber-text)">${isTri?'Tri-Set':'Superset'} — ${screen.exercises.length} exercises</div>
+        <div style="font-size:11px;color:var(--amber-text);opacity:.8">Perform back to back with no rest between exercises</div>
+      </div>
+    </div>`;
+  }
+
+  screen.exercises.forEach((ex,exIdx)=>{
+    const isLastInScreen=exIdx===screen.exercises.length-1;
+    const pb=ex.bw?null:(()=>{let best=0;for(let w=1;w<=8;w++) for(let s=0;s<ex.sets;s++){const kg=parseFloat(lsGet(`arms_${ex.id}_w${w}_s${s}_kg`,''));if(!isNaN(kg)&&kg>best)best=kg;} return best>0?best:null;})();
+
+    html+=`<div class="coach-card" style="${exIdx>0?'margin-top:6px;border-top:3px solid var(--amber);':''}">
+      <div class="coach-card-top">
+        <div class="coach-card-meta">
+          <span class="coach-group-lbl">${screen.group}</span>
+          ${isSuperset?`<span style="font-family:var(--mono);font-size:10px;color:var(--amber-text);background:var(--amber-bg);padding:2px 8px;border-radius:20px;font-weight:600">${exIdx+1}/${screen.exercises.length}</span>`:''}
+        </div>
+        <div class="coach-ex-name">${ex.name.replace('↳ ','')}</div>
+        <div class="coach-scheme">${ex.scheme}</div>
+        <div class="coach-pills"><span class="ex-type-pill pill-${ex.type}">${ex.type==='compound'?'COMPOUND':ex.type==='superset'?'SS':'ISO'}</span></div>
+      </div>
+      <div class="coach-cue">${ex.cue}</div>
+      <div class="coach-sets"><div class="coach-sets-hdr">Log your sets</div>`;
+
+    for(let s=0;s<ex.sets;s++){
+      const kg=lsGet(`arms_${ex.id}_w${activeWeek}_s${s}_kg`,'');
+      const reps=lsGet(`arms_${ex.id}_w${activeWeek}_s${s}_reps`,'');
+      const isDone=lsGet(`arms_${ex.id}_s${s}_done`,false)===true;
+      html+=`<div class="coach-set-row ${isDone?'done':''}" id="acsr_${ex.id}_${s}">
+        <span class="coach-set-lbl">SET ${s+1}</span>
+        <div class="coach-set-inputs">
+          ${!ex.bw?`<div class="coach-set-grp"><label>kg</label><input type="number" step="0.5" min="0" inputmode="decimal" value="${kg}" placeholder="0" onchange="lsSet('arms_${ex.id}_w${activeWeek}_s${s}_kg',this.value)"></div>`:''}
+          <div class="coach-set-grp"><label>reps</label><input type="number" min="0" inputmode="numeric" value="${reps}" placeholder="0" onchange="lsSet('arms_${ex.id}_w${activeWeek}_s${s}_reps',this.value)"></div>
+        </div>
+        <button class="coach-tick ${isDone?'done':''}" onclick="armsTickSet('${ex.id}',${s},${ex.sets},${isLastInScreen?restEx.rest:0},'${restEx.id}')">✓</button>
+      </div>`;
+    }
+
+    html+=`</div>`;
+    if(isSuperset&&!isLastInScreen){
+      html+=`</div><div style="text-align:center;padding:4px 0;font-size:20px;color:var(--amber)">↓</div>`;
+    } else {
+      const note=lsGet(`arms_${ex.id}_note`,'');
+      html+=`<div class="coach-note"><input type="text" placeholder="Add note..." value="${note}" onchange="lsSet('arms_${ex.id}_note',this.value)"></div>`;
+      if(pb!==null) html+=`<div class="coach-pb"><span class="coach-pb-tag">★ PB ${pb}kg</span></div>`;
+      html+=`</div>`;
+    }
+  });
+
+  if(restEx.rest>0){
+    html+=`<div class="coach-rest" style="margin-top:10px">
+      <button class="coach-rest-btn ${timers[restEx.id]?(timers[restEx.id].running?'running':'finished'):''}" id="tbtn_${restEx.id}" onclick="startTimer('${restEx.id}',${restEx.rest},'tbtn_${restEx.id}')">
+        ${timers[restEx.id]&&timers[restEx.id].running?`⏸ ${fmtT(timers[restEx.id].remaining)}`:timers[restEx.id]&&!timers[restEx.id].running?'✓ Rest complete':'⏱ Start rest ('+fmtT(restEx.rest)+')'}
+      </button>
+    </div>`;
+  }
+
+  // finisher on last screen
+  if(armsCoachIdx===total){
+    const fin=ARMS.finisher;
+    html+=`<div class="fin-card" style="margin-top:12px">
+      <div class="fin-hdr" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+        <span class="fin-badge">FINISHER</span><span class="fin-title">${fin.scheme}</span><span class="ex-chevron">⌄</span>
+      </div>
+      <div class="fin-body" style="display:none">${fin.lines.map(l=>`<div class="fin-line"><span style="font-size:10px;color:var(--text3);margin-top:4px;flex-shrink:0">▸</span>${l}</div>`).join('')}</div>
+    </div>`;
+  }
+
+  const isLast=armsCoachIdx>=total;
+  const nextLabel=isLast?'Complete Session ✓':'Next →';
+  const nextClass=isLast?'btn-next complete-btn':'btn-next';
+  const navBtns=`
+    ${armsCoachIdx>1?`<button class="btn-prev" onclick="goToArms(${armsCoachIdx-1})">← Back</button>`:'<button class="btn-prev" onclick="armsCoachIdx=0;renderMain()">← Warm-Up</button>'}
+    <button class="${nextClass}" onclick="goToArms(${isLast?total+1:armsCoachIdx+1})">${nextLabel}</button>`;
+
+  html+=`<div class="coach-nav">${navBtns}</div>`;
+  html+=`<div class="coach-nav-desktop" style="margin-top:14px">${navBtns}</div>`;
+  html+=`</div>`;
+  return html;
+}
+
+function armsTickSet(exId,s,totalSets,rest,timerId){
+  const cur=lsGet(`arms_${exId}_s${s}_done`,false);
+  lsSet(`arms_${exId}_s${s}_done`,cur!==true);
+  if(cur!==true&&s===totalSets-1&&rest>0) startTimer(timerId,rest,`tbtn_${timerId}`);
+  renderMain();
+}
+
+// ── PROGRESS ─────────────────────────────────────────────────────────
+function renderProgressForDay(di){
+  const wex=flatExercises(di).filter(e=>!e.bw);
+  if(!wex.length) return '';
+  return `<div class="prog-section" style="margin-top:20px">
+    <div class="prog-hdr"><h3>Weight log</h3><span>kg</span></div>
+    <div class="prog-mob">
+      <div style="padding:8px 14px;background:var(--blue-bg);border-bottom:1px solid var(--border)"><span style="font-size:11px;font-weight:600;color:var(--blue-text)">Week ${activeWeek}</span></div>
+      ${wex.map(ex=>`<div class="prog-mob-row">
+        <div class="prog-mob-ex">${ex.name}</div>
+        <div class="prog-mob-iw"><label>Wk ${activeWeek} (kg)</label>
+          <input type="number" step="0.5" min="0" inputmode="decimal" value="${getBestWeek(di,ex.id,activeWeek)}" placeholder="—" onchange="lsSet('prog_${di}_${ex.id}_w${activeWeek}',this.value)">
+        </div></div>`).join('')}
+    </div>
+    <div class="prog-desk"><table class="prog-table">
+      <thead><tr><th class="ex-col">Exercise</th>${Array.from({length:8},(_,i)=>`<th class="${i+1===activeWeek?'cwk':''}">Wk ${i+1}</th>`).join('')}</tr></thead>
+      <tbody>${wex.map(ex=>`<tr><td class="ex-col">${ex.name}</td>${Array.from({length:8},(_,i)=>`<td class="${i+1===activeWeek?'cwk':''}"><input type="number" step="0.5" min="0" value="${getBestWeek(di,ex.id,i+1)}" placeholder="—" onchange="lsSet('prog_${di}_${ex.id}_w${i+1}',this.value)"></td>`).join('')}</tr>`).join('')}</tbody>
+    </table></div>
+  </div>`;
+}
+
+function renderProgressAll(){
+  let html=`<div class="page-hdr"><h2>Progress Log</h2><p>All exercises · Week-by-week</p></div><div class="content">`;
+  DAYS.forEach((day,di)=>{
+    const wex=flatExercises(di).filter(e=>!e.bw);
+    if(!wex.length) return;
+    html+=`<div class="sec-lbl">${day.tab} · ${day.label}</div>
+    <div class="prog-section">
+      <div class="prog-mob">
+        <div style="padding:8px 14px;background:var(--blue-bg);border-bottom:1px solid var(--border)"><span style="font-size:11px;font-weight:600;color:var(--blue-text)">Week ${activeWeek}</span></div>
+        ${wex.map(ex=>`<div class="prog-mob-row"><div class="prog-mob-ex">${ex.name}</div>
+          <div class="prog-mob-iw"><label>Wk ${activeWeek} (kg)</label>
+            <input type="number" step="0.5" min="0" inputmode="decimal" value="${getBestWeek(di,ex.id,activeWeek)}" placeholder="—" onchange="lsSet('prog_${di}_${ex.id}_w${activeWeek}',this.value)">
+          </div></div>`).join('')}
+      </div>
+      <div class="prog-desk"><table class="prog-table">
+        <thead><tr><th class="ex-col">Exercise</th>${Array.from({length:8},(_,i)=>`<th class="${i+1===activeWeek?'cwk':''}">Wk ${i+1}</th>`).join('')}</tr></thead>
+        <tbody>${wex.map(ex=>`<tr><td class="ex-col">${ex.name}</td>${Array.from({length:8},(_,i)=>`<td class="${i+1===activeWeek?'cwk':''}"><input type="number" step="0.5" min="0" value="${getBestWeek(di,ex.id,i+1)}" placeholder="—" onchange="lsSet('prog_${di}_${ex.id}_w${i+1}',this.value)"></td>`).join('')}</tr>`).join('')}</tbody>
+      </table></div>
+    </div>`;
+  });
+  html+=`</div>`;
+  return html;
+}
+
+// ═══════════════════════════════ EVENTS ═══════════════════════════════
+function toggleBlock(k){openBlocks[k]=!openBlocks[k];renderMain();}
+function toggleFin(di){openFin[di]=!openFin[di];renderMain();}
+function clearAll(){if(!confirm('Clear all data? Cannot be undone.'))return;Object.keys(localStorage).filter(k=>k.startsWith('ds5d_')).forEach(k=>localStorage.removeItem(k));wuDone={};openBlocks={};openFin={};timers={};coachIdx=0;renderAll();}
+
+// ═══════════════════════════════ INIT ══════════════════════════════════
+activeWarmup=lsGet('activeWarmup','seth');wuDone=lsGet('warmup',{});armsWuDone=lsGet('armsWuDone',{});
+document.getElementById('wdSidebar').textContent=activeWeek;
+document.getElementById('wdTop').textContent=activeWeek;
+renderAll();
+</script>
+</body>
+</html>
