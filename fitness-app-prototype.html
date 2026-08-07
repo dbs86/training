@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+<title>Forge — Training</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#08090b;
+    --bg-soft:#0d0f12;
+    --card:#15181d;
+    --card-2:#1a1e24;
+    --card-3:#1f242b;
+    --border:rgba(255,255,255,0.07);
+    --border-soft:rgba(255,255,255,0.04);
+    --text:#f4f6f7;
+    --text-dim:#8b93a1;
+    --text-faint:#565c66;
+    --accent:#2fe6c4;
+    --accent-soft:rgba(47,230,196,0.14);
+    --accent-glow:rgba(47,230,196,0.35);
+    --purple:#9b8cfb;
+    --amber:#f5c451;
+    --red:#f2685f;
+    --radius-lg:24px;
+    --radius-md:18px;
+    --radius-sm:12px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:radial-gradient(circle at 20% -10%, #10201c 0%, var(--bg) 45%) fixed;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    min-height:100vh;
+    overscroll-behavior:none;
+  }
+  #root{max-width:480px; margin:0 auto; min-height:100vh; position:relative; padding-bottom:40px;}
+  ::-webkit-scrollbar{display:none;}
+  * {scrollbar-width:none;}
+  button{font-family:inherit; cursor:pointer; color:inherit; text-align:inherit;}
+  input{font-family:inherit;}
+
+  .app-header{padding:22px 20px 6px;}
+  .greeting{font-size:22px; font-weight:700; letter-spacing:-0.3px;}
+  .date-line{color:var(--text-dim); font-size:13px; margin-top:2px;}
+
+  .week-nav{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:12px 14px; margin:16px 20px 0;
+  }
+  .week-nav .wk-btn{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--border);
+    background:var(--card-2); color:var(--text); display:flex; align-items:center; justify-content:center;
+  }
+  .week-nav .wk-btn:active{background:var(--accent-soft); border-color:var(--accent);}
+  .week-nav .wk-btn:disabled{opacity:0.3;}
+  .week-mid{text-align:center;}
+  .week-mid .lbl{font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:1px;}
+  .week-mid .num{font-size:17px; font-weight:700; margin-top:2px;}
+  .week-track{height:4px; background:var(--card-3); border-radius:4px; margin:20px 20px 0; overflow:hidden;}
+  .week-track-fill{height:100%; background:linear-gradient(90deg, var(--accent), #16b8a0); border-radius:4px; transition:width .3s;}
+
+  .section-title{font-size:14px; font-weight:700; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin:26px 20px 10px;}
+
+  .session-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px;}
+  .session-card{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:16px; position:relative; overflow:hidden; text-align:left; color:var(--text);
+    transition:transform .15s;
+  }
+  .session-card:active{transform:scale(0.97);}
+  .session-card .glow{position:absolute; top:-30px; right:-30px; width:90px; height:90px; border-radius:50%; filter:blur(20px); opacity:.35;}
+  .session-card .icon-badge{
+    width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    background:var(--card-3); border:1px solid var(--border); margin-bottom:14px;
+  }
+  .session-card .title{font-size:15px; font-weight:700; color:var(--text);}
+  .session-card .subtitle{font-size:11.5px; color:var(--text-dim); margin-top:4px; line-height:1.4;}
+  .session-card .meta{display:flex; align-items:center; gap:6px; margin-top:12px; font-size:11px; color:var(--text-faint);}
+  .badge-optional{
+    position:absolute; top:12px; right:12px; font-size:9px; font-weight:700; letter-spacing:.5px;
+    color:var(--text-faint); background:var(--card-3); padding:3px 7px; border-radius:20px; text-transform:uppercase;
+  }
+
+  .stats-card{
+    margin:0 20px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px;
+  }
+  .stats-tiles{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px;}
+  .stat-tile{background:var(--card-2); border:1px solid var(--border-soft); border-radius:var(--radius-sm); padding:12px 10px;}
+  .stat-tile .v{font-size:19px; font-weight:800; letter-spacing:-.3px;}
+  .stat-tile .v span{font-size:11px; color:var(--text-dim); font-weight:500;}
+  .stat-tile .l{font-size:10px; color:var(--text-faint); margin-top:3px; text-transform:uppercase; letter-spacing:.5px;}
+  .chart-wrap{height:130px; margin:6px 0 12px;}
+  .log-btn{
+    width:100%; background:var(--accent-soft); color:var(--accent); border:1px solid rgba(47,230,196,0.3);
+    border-radius:var(--radius-sm); padding:12px; font-weight:700; font-size:13.5px;
+  }
+  .log-btn:active{background:rgba(47,230,196,0.25);}
+  .history-list{margin-top:14px; display:flex; flex-direction:column; gap:8px; max-height:160px; overflow-y:auto;}
+  .history-row{display:flex; justify-content:space-between; align-items:center; padding:9px 12px; background:var(--card-2); border-radius:10px; font-size:12.5px;}
+  .history-row .d{color:var(--text-dim);}
+  .history-row .vals{display:flex; gap:10px; font-weight:600;}
+  .history-row .vals small{color:var(--text-faint); font-weight:400;}
+  .empty-hint{color:var(--text-faint); font-size:12.5px; text-align:center; padding:18px 0;}
+
+  .modal-backdrop{position:fixed; inset:0; background:rgba(0,0,0,0.6); backdrop-filter:blur(3px); z-index:50; display:flex; align-items:flex-end;}
+  .modal-sheet{
+    width:100%; max-width:480px; margin:0 auto; background:var(--card); border-radius:26px 26px 0 0;
+    padding:22px 20px 30px; border:1px solid var(--border); border-bottom:none;
+    animation:slideUp .22s ease-out;
+  }
+  @keyframes slideUp{from{transform:translateY(30px); opacity:0;} to{transform:translateY(0); opacity:1;}}
+  .modal-title{font-size:17px; font-weight:800; margin-bottom:16px;}
+  .field{margin-bottom:12px;}
+  .field label{font-size:11.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:6px;}
+  .field input{
+    width:100%; background:var(--card-2); border:1px solid var(--border); border-radius:var(--radius-sm);
+    padding:12px 14px; color:var(--text); font-size:15px; font-weight:600;
+  }
+  .field input:focus{outline:none; border-color:var(--accent);}
+  .modal-actions{display:flex; gap:10px; margin-top:18px;}
+  .btn-secondary{flex:1; background:var(--card-2); border:1px solid var(--border); color:var(--text-dim); border-radius:var(--radius-sm); padding:13px; font-weight:700;}
+  .btn-primary{flex:1.4; background:var(--accent); border:none; color:#04211c; border-radius:var(--radius-sm); padding:13px; font-weight:800;}
+  .btn-primary:disabled{opacity:.4;}
+
+  /* Session view */
+  .session-header{
+    display:flex; align-items:center; gap:12px; padding:18px 20px 14px; position:sticky; top:0;
+    background:linear-gradient(180deg, var(--bg) 70%, transparent); z-index:5;
+  }
+  .back-btn{width:36px; height:36px; border-radius:50%; background:var(--card); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .session-header .titles{flex:1; min-width:0;}
+  .session-header .titles .t{font-size:17px; font-weight:800;}
+  .session-header .titles .s{font-size:11.5px; color:var(--text-dim);}
+
+  .mode-toggle{display:flex; margin:0 20px 16px; background:var(--card-2); border:1px solid var(--border); border-radius:14px; padding:4px;}
+  .mode-toggle button{flex:1; padding:9px; border:none; background:transparent; color:var(--text-dim); border-radius:11px; font-weight:700; font-size:13px;}
+  .mode-toggle button.active{background:var(--card-3); color:var(--text); box-shadow:0 0 0 1px var(--border);}
+
+  .progress-dots{display:flex; gap:5px; padding:0 20px 14px; flex-wrap:wrap;}
+  .progress-dots .dot{flex:1; height:4px; border-radius:3px; background:var(--card-3); min-width:8px;}
+  .progress-dots .dot.done{background:var(--accent);}
+  .progress-dots .dot.current{background:var(--text-dim);}
+
+  .step-card{
+    margin:0 20px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg);
+    padding:20px; position:relative; overflow:visible;
+  }
+  .step-kind{font-size:10.5px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin-bottom:4px;}
+  .step-title{font-size:19px; font-weight:800; letter-spacing:-.3px; padding-right:74px;}
+  .step-note{font-size:12px; color:var(--text-dim); margin-top:4px;}
+
+  .timer-ring-wrap{position:absolute; top:16px; right:16px; width:58px; height:58px;}
+  .timer-ring-wrap svg{transform:rotate(-90deg);}
+  .timer-ring-bg{fill:none; stroke:var(--card-3); stroke-width:5;}
+  .timer-ring-fg{fill:none; stroke:var(--accent); stroke-width:5; stroke-linecap:round; transition:stroke-dashoffset 1s linear;}
+  .timer-ring-label{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;}
+  .timer-ring-label.idle{color:var(--text-faint); font-size:9px; text-align:center; line-height:1.2;}
+  .timer-ring-label.resting{color:var(--accent);}
+  .timer-ring-label.done{color:var(--amber);}
+
+  .ex-row{margin-top:20px; padding-top:16px; border-top:1px solid var(--border-soft);}
+  .ex-row:first-of-type{margin-top:18px; padding-top:0; border-top:none;}
+  .ex-connector{font-size:11px; color:var(--text-faint); margin-bottom:4px; font-weight:700;}
+  .ex-name{font-size:15px; font-weight:700;}
+  .ex-target{font-size:12px; color:var(--text-dim); margin-top:2px;}
+  .ex-inputs{display:flex; gap:10px; margin-top:12px;}
+  .ex-inputs .fld{flex:1;}
+  .ex-inputs label{font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.5px; display:block; margin-bottom:5px;}
+  .ex-inputs input{width:100%; background:var(--card-2); border:1px solid var(--border); border-radius:10px; padding:9px 10px; color:var(--text); font-size:14px; font-weight:700;}
+  .ex-inputs input::placeholder{color:var(--text-faint); font-weight:500;}
+  .set-dots{display:flex; gap:8px; margin-top:12px;}
+  .set-dot{
+    width:34px; height:34px; border-radius:10px; border:1.5px solid var(--border); background:var(--card-2);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--text-faint);
+  }
+  .set-dot.filled{background:var(--accent); border-color:var(--accent); color:#04211c;}
+
+  .step-footer{display:flex; gap:10px; margin:20px 20px 0;}
+  .nav-btn{flex:1; padding:15px; border-radius:16px; border:1px solid var(--border); background:var(--card); color:var(--text); font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; gap:6px;}
+  .nav-btn:disabled{opacity:.3;}
+  .nav-btn.primary{background:var(--accent); color:#04211c; border:none;}
+  .nav-btn.finish{background:linear-gradient(90deg,var(--accent),#16b8a0); color:#04211c; border:none;}
+
+  /* Overview mode */
+  .ov-list{padding:0 20px; display:flex; flex-direction:column; gap:10px;}
+  .ov-group{background:var(--card); border:1px solid var(--border); border-radius:var(--radius-md); padding:15px 16px;}
+  .ov-group:active{background:var(--card-2);}
+  .ov-kind{font-size:10px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; color:var(--accent);}
+  .ov-title{font-size:14.5px; font-weight:700; margin-top:3px;}
+  .ov-exlist{margin-top:8px; display:flex; flex-direction:column; gap:3px;}
+  .ov-ex{font-size:12.5px; color:var(--text-dim); display:flex; justify-content:space-between;}
+  .ov-ex b{color:var(--text); font-weight:600;}
+  .ov-rest{font-size:10.5px; color:var(--text-faint); margin-top:8px;}
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--card-3);
+    border:1px solid var(--accent); color:var(--accent); padding:12px 20px; border-radius:30px; font-weight:700;
+    font-size:13px; z-index:100; box-shadow:0 8px 30px rgba(0,0,0,.5); white-space:nowrap;
+  }
+  .home-footer-space{height:20px;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const {useState, useEffect, useRef, useMemo} = React;
+
+/* ---------------- DATA ---------------- */
+const SESSIONS = [
+  {id:'push', name:'Push', subtitle:'Chest · Shoulders · Triceps', duration:'55–65 min', optional:false, color:'#2fe6c4',
+    groups:[
+      {type:'straight', title:'Chest', exercises:[
+        {name:'Barbell Bench Press', sets:5, reps:'5', rest:120, note:'Working sets'},
+        {name:'Barbell Bench Press · Back-off', sets:3, reps:'8', rest:90, note:'Drop ~15% load'},
+        {name:'Barbell Bench Press · Drop Set', sets:1, reps:'AMRAP', rest:90, note:'20% less weight'},
+      ]},
+      {type:'superset', title:'Superset A', restAfter:75, exercises:[
+        {name:'Incline Dumbbell Press', sets:4, reps:'10–12'},
+        {name:'Low-to-High Cable Fly', sets:4, reps:'12–15'},
+      ]},
+      {type:'superset', title:'Superset B', restAfter:60, exercises:[
+        {name:'Seated DB Shoulder Press', sets:4, reps:'10–12'},
+        {name:'Lateral Raise (Thumbs-Down)', sets:4, reps:'12–15'},
+      ]},
+      {type:'straight', title:'Rear Delt & Rotator Cuff', exercises:[
+        {name:'Rear Delt Cable Fly (Face Pull)', sets:3, reps:'15', rest:45},
+        {name:'Band Pull-Apart', sets:3, reps:'20', rest:30},
+      ]},
+      {type:'triset', title:'Triceps Tri-Set', note:'No rest between exercises', restAfter:90, exercises:[
+        {name:'Overhead Cable Extension', sets:3, reps:'10'},
+        {name:'Tricep Rope Pushdown', sets:3, reps:'12'},
+        {name:'Bench Dips or Bar Dips', sets:3, reps:'Failure'},
+      ]},
+      {type:'finisher', title:'Finisher', rounds:3, restBetweenRounds:90, exercises:[
+        {name:'Push-Up', reps:'Failure'},
+        {name:'Wall Angels', reps:'15'},
+        {name:'Plank Shoulder Taps', reps:'20 each side'},
+      ]},
+    ]
+  },
+  {id:'pull', name:'Pull', subtitle:'Back · Biceps · Rear Delts', duration:'55–65 min', optional:false, color:'#9b8cfb',
+    groups:[
+      {type:'straight', title:'Back · Vertical Pull', exercises:[
+        {name:'Weighted Pull-Up (Pronated)', sets:5, reps:'5', rest:120},
+        {name:'Neutral-Grip Pull-Up · Back-off', sets:3, reps:'8–10', rest:90},
+      ]},
+      {type:'superset', title:'Superset A', restAfter:75, exercises:[
+        {name:'Bent-Over Barbell Row', sets:4, reps:'6–8'},
+        {name:'DB Pendlay Row', sets:4, reps:'8–10'},
+      ]},
+      {type:'superset', title:'Superset B', restAfter:60, exercises:[
+        {name:'Chest-Supported DB Row', sets:3, reps:'12'},
+        {name:'Single-Arm DB Row', sets:3, reps:'10–12 each'},
+      ]},
+      {type:'triset', title:'Biceps Tri-Set', note:'No rest between exercises', restAfter:60, exercises:[
+        {name:'Incline DB Curl (Supinated)', sets:3, reps:'10–12'},
+        {name:'Hammer Curl', sets:3, reps:'12'},
+        {name:'Face Pull', sets:3, reps:'15'},
+      ]},
+      {type:'finisher', title:'Finisher', rounds:3, restBetweenRounds:20, note:'Minimum rest between rounds', exercises:[
+        {name:'Straight-Arm Lat Pulldown', reps:'15'},
+        {name:'Band Pull-Apart', reps:'20'},
+        {name:'Dead Hang', reps:'20–30 sec'},
+      ]},
+    ]
+  },
+  {id:'legs', name:'Legs', subtitle:'Quads · Hamstrings · Glutes · Calves', duration:'60–70 min', optional:false, color:'#f5c451',
+    groups:[
+      {type:'straight', title:'Quads & Glutes', exercises:[
+        {name:'Barbell Back Squat', sets:5, reps:'5', rest:150},
+        {name:'Barbell Back Squat · Back-off', sets:3, reps:'8', rest:120, note:'Drop 15–20%, 3 sec eccentric'},
+      ]},
+      {type:'straight', title:'Hamstrings', exercises:[
+        {name:'Barbell Romanian Deadlift', sets:4, reps:'8–10', rest:90},
+      ]},
+      {type:'superset', title:'Superset A', restAfter:90, exercises:[
+        {name:'Bulgarian Split Squat', sets:3, reps:'10 each'},
+        {name:'Nordic Hamstring Curl', sets:3, reps:'5–8'},
+      ]},
+      {type:'superset', title:'Superset B', restAfter:75, exercises:[
+        {name:'Leg Press (High Foot Placement)', sets:3, reps:'12–15'},
+        {name:'DB Walking Lunge', sets:3, reps:'10 each'},
+      ]},
+      {type:'straight', title:'Calves & Tibialis', exercises:[
+        {name:'Single-Leg Calf Raise (Standing)', sets:4, reps:'12–15 each', rest:45},
+        {name:'Seated Calf Raise', sets:3, reps:'15–20', rest:45},
+        {name:'Tibialis Anterior Raise', sets:3, reps:'15–20', rest:30},
+      ]},
+      {type:'finisher', title:'Finisher', rounds:5, restBetweenRounds:60, note:'Finish with a 5 min walk or 400m easy jog', exercises:[
+        {name:'Squat Jump', reps:'10 (land soft)'},
+        {name:'Glute Bridge', reps:'15'},
+        {name:'Lateral Band Walk', reps:'10 each direction'},
+      ]},
+    ]
+  },
+  {id:'arms', name:'Arms', subtitle:'Biceps · Triceps · Brachialis · Forearms', duration:'45–55 min', optional:true, color:'#f2685f',
+    groups:[
+      {type:'circuit', title:'Warm-Up · Plate Flow', rounds:1, note:'Continuous, no rest', exercises:[
+        {name:'Plate Pinch Hold', reps:'20 sec'},
+        {name:'Plate Front Raise', reps:'10'},
+        {name:'Plate Halo', reps:'10 each direction'},
+        {name:'Plate Curl', reps:'15'},
+        {name:'Plate Overhead Tricep Extension', reps:'15'},
+        {name:'Plate Twist', reps:'15 each side'},
+        {name:'Plate Wrist Roller', reps:'20 each direction'},
+      ]},
+      {type:'straight', title:'Biceps', exercises:[
+        {name:'Dumbbell Curl', sets:4, reps:'8', rest:90},
+        {name:'Preacher Curl', sets:3, reps:'10–12', rest:60, note:'Last set to failure'},
+      ]},
+      {type:'triset', title:'Mechanical Drop Set', note:'No rest within round', rounds:3, restBetweenRounds:90, exercises:[
+        {name:'Incline Position', reps:'5', note:'Max long head stretch'},
+        {name:'Standing Position', reps:'5', note:'Standard curl, mid-range'},
+        {name:'Peak Position', reps:'5', note:'Short head peak contraction'},
+      ]},
+      {type:'straight', title:'Brachialis & Forearms', exercises:[
+        {name:'Cross-Body Pronated Curl', sets:3, reps:'12 each', rest:45},
+        {name:'Forearm Bar Twist Burner', sets:2, reps:'20 each direction', rest:45},
+      ]},
+      {type:'straight', title:'Triceps', exercises:[
+        {name:'Incline Skull Crusher', sets:4, reps:'10', rest:90},
+        {name:'Cable Push-Out', sets:3, reps:'12', rest:60},
+        {name:'Bench Dip', sets:3, reps:'12–15', rest:60},
+        {name:'PJR Pullover', sets:3, reps:'12', rest:60},
+        {name:'Kickback Pushdown', sets:3, reps:'15', rest:45},
+      ]},
+      {type:'finisher', title:'Finisher', rounds:1, restBetweenRounds:0, note:'No rest', exercises:[
+        {name:'Pushdown', reps:'20'},
+        {name:'Overhead Extension', reps:'15'},
+        {name:'Diamond Push-Up', reps:'Failure'},
+      ]},
+    ]
+  },
+  {id:'fullBodyGym', name:'Full Body', subtitle:'Explosive · Athletic · Conditioning (Gym)', duration:'~60 min', optional:true, color:'#5fb0f2',
+    groups:[
+      {type:'straight', title:'Block 1 · Power', note:'2–3 warm-up sets before Clean and Press', exercises:[
+        {name:'Clean and Press', sets:4, reps:'5', rest:120},
+        {name:'Box Jump or Squat Jump', sets:3, reps:'8', rest:60},
+      ]},
+      {type:'straight', title:'Block 2 · Posterior Chain', exercises:[
+        {name:'Barbell Hip Thrust', sets:4, reps:'10', rest:90},
+        {name:'Trap Bar Shrug (or Barbell Shrug)', sets:3, reps:'12', rest:60},
+      ]},
+      {type:'straight', title:'Block 3 · Unilateral Strength', exercises:[
+        {name:'Dumbbell Step-Up', sets:3, reps:'10 each', rest:60},
+        {name:'Single-Arm Landmine Press', sets:3, reps:'10 each', rest:60},
+      ]},
+      {type:'superset', title:'Block 4 · Superset', restAfter:75, exercises:[
+        {name:'Cable Face Pull with External Rotation', sets:3, reps:'15'},
+        {name:'Dumbbell Pullover', sets:3, reps:'12'},
+      ]},
+      {type:'straight', title:'Block 5 · Core & Rotation', exercises:[
+        {name:'Landmine Rotation', sets:3, reps:'12 each', rest:45},
+        {name:'Cable Woodchop (High to Low)', sets:3, reps:'12 each', rest:45},
+        {name:"Farmer's Carry", sets:3, reps:'20–30m', rest:60},
+      ]},
+      {type:'finisher', title:'Finisher', rounds:3, restBetweenRounds:90, exercises:[
+        {name:'Battle Ropes (or Jump Rope)', reps:'30 sec'},
+        {name:'Burpee', reps:'10'},
+        {name:'Medicine Ball Slam (or Squat Jump)', reps:'15'},
+        {name:'Plank Hold', reps:'30 sec'},
+      ]},
+    ]
+  },
+  {id:'fullBodyHome', name:'Full Body', subtitle:'Home Circuit', duration:'~45 min', optional:true, color:'#e88ee0',
+    equipment:'Pull-up bar · 8kg kettlebell · EZ bar · Resistance band',
+    groups:[
+      {type:'circuit', title:'Circuit', rounds:4, restBetweenRounds:90, note:'No rest within round · 90 sec between rounds', exercises:[
+        {name:'Deficit Push-Up', reps:'15'},
+        {name:'Pull-Up', reps:'8–10', note:'Add 8kg kettlebell if too easy'},
+        {name:'Kettlebell Swing', reps:'20'},
+        {name:'EZ Bar Curl to Overhead Press', reps:'12'},
+        {name:'Band Face Pull', reps:'15'},
+        {name:'Goblet Squat', reps:'15'},
+        {name:'Hollow Body Hold', reps:'30 sec'},
+        {name:'Burpee', reps:'10'},
+      ]},
+      {type:'finisher', title:'Finisher', rounds:1, restBetweenRounds:0, note:'Maximum effort', exercises:[
+        {name:'Max Pull-Ups', reps:'Failure'},
+        {name:'Max Push-Ups', reps:'Failure'},
+        {name:'Plank Hold', reps:'Failure'},
+      ]},
+    ]
+  },
+];
+const TOTAL_WEEKS = 12;
+
+/* ---------------- STORAGE HELPERS ---------------- */
+const load = (k, fallback) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : fallback; } catch(e){ return fallback; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} };
+
+/* ---------------- BEEP ---------------- */
+function playBeep(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0,0.18,0.36].forEach((t,i)=>{
+      const o = ctx.createOscillator(); const g = ctx.createGain();
+      o.type='sine'; o.frequency.value = i===2?1050:850;
+      g.gain.setValueAtTime(0.0001, ctx.currentTime+t);
+      g.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime+t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+t+0.15);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(ctx.currentTime+t); o.stop(ctx.currentTime+t+0.16);
+    });
+  }catch(e){}
+}
+
+/* ---------------- SVG ICONS ---------------- */
+const Icon = ({name, size=18, color='currentColor'}) => {
+  const p = {width:size, height:size, viewBox:'0 0 24 24', fill:'none', stroke:color, strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round'};
+  switch(name){
+    case 'back': return <svg {...p}><path d="M15 18l-6-6 6-6"/></svg>;
+    case 'chevronLeft': return <svg {...p}><path d="M14 6l-6 6 6 6"/></svg>;
+    case 'chevronRight': return <svg {...p}><path d="M10 6l6 6-6 6"/></svg>;
+    case 'dumbbell': return <svg {...p}><path d="M6.5 6.5l11 11M5 8l3-3 2 2-3 3-2-2zm11 11l3-3-2-2-3 3 2 2zM3.5 10.5l2-2M18.5 15.5l2-2"/><rect x="2" y="9" width="3" height="3" rx="1"/><rect x="19" y="12" width="3" height="3" rx="1"/></svg>;
+    case 'plus': return <svg {...p}><path d="M12 5v14M5 12h14"/></svg>;
+    case 'clock': return <svg {...p}><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>;
+    case 'flame': return <svg {...p}><path d="M12 2c1 4-4 5-4 9a4 4 0 008 0c0-1.5-1-2.5-1-2.5s2 1 2 4.5a5 5 0 01-10 0c0-5 5-6 5-11z"/></svg>;
+    default: return null;
+  }
+};
+
+/* ---------------- RING TIMER ---------------- */
+function RestTimerBox({duration, triggerToken}){
+  const [remaining, setRemaining] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [justDone, setJustDone] = useState(false);
+  const prevToken = useRef(null);
+
+  useEffect(()=>{
+    if(triggerToken==null || triggerToken===prevToken.current) return;
+    prevToken.current = triggerToken;
+    if(duration>0){ setRemaining(duration); setRunning(true); setJustDone(false); }
+  }, [triggerToken, duration]);
+
+  useEffect(()=>{
+    if(!running) return;
+    if(remaining<=0){
+      playBeep(); setRunning(false); setJustDone(true);
+      const t = setTimeout(()=> setJustDone(false), 3000);
+      return ()=>clearTimeout(t);
+    }
+    const t = setTimeout(()=> setRemaining(rm=>rm-1), 1000);
+    return ()=>clearTimeout(t);
+  }, [running, remaining]);
+
+  const r = 24; const c = 2*Math.PI*r;
+  const pct = duration ? Math.max(0,remaining)/duration : 0;
+  const offset = c*(1-pct);
+
+  return (
+    <div className="timer-ring-wrap">
+      <svg width="58" height="58">
+        <circle className="timer-ring-bg" cx="29" cy="29" r={r}/>
+        {running && <circle className="timer-ring-fg" cx="29" cy="29" r={r} strokeDasharray={c} strokeDashoffset={offset}/>}
+      </svg>
+      <div className={"timer-ring-label " + (running?'resting':justDone?'done':'idle')}>
+        {running ? `${remaining}s` : justDone ? '✓' : (duration ? `${duration}s` : '—')}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------- HOME SCREEN ---------------- */
+function greetingWord(){
+  const h = new Date().getHours();
+  if(h<12) return 'Good morning';
+  if(h<18) return 'Good afternoon';
+  return 'Good evening';
+}
+
+function SessionCard({session, onOpen}){
+  return (
+    <button className="session-card" onClick={()=>onOpen(session.id)}>
+      <div className="glow" style={{background:session.color}}></div>
+      {session.optional && <div className="badge-optional">Optional</div>}
+      <div className="icon-badge"><Icon name="dumbbell" size={18} color={session.color}/></div>
+      <div className="title">{session.name}</div>
+      <div className="subtitle">{session.subtitle}</div>
+      <div className="meta"><Icon name="clock" size={12}/>{session.duration}</div>
+    </button>
+  );
+}
+
+function computeBMI(weightKg, heightCm){
+  if(!weightKg || !heightCm) return null;
+  const h = heightCm/100;
+  return weightKg/(h*h);
+}
+function BodyStats({stats, setStats, height, setHeight}){
+  const [showModal, setShowModal] = useState(false);
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
+  const sorted = useMemo(()=>[...stats].sort((a,b)=> new Date(a.date)-new Date(b.date)), [stats]);
+  const latest = sorted[sorted.length-1];
+
+  useEffect(()=>{
+    if(!chartRef.current) return;
+    if(chartInstance.current) chartInstance.current.destroy();
+    if(sorted.length<1) return;
+    const ctx = chartRef.current.getContext('2d');
+    const grad = ctx.createLinearGradient(0,0,0,130);
+    grad.addColorStop(0,'rgba(47,230,196,0.35)');
+    grad.addColorStop(1,'rgba(47,230,196,0)');
+    chartInstance.current = new Chart(ctx, {
+      type:'line',
+      data:{
+        labels: sorted.map(s=> new Date(s.date).toLocaleDateString(undefined,{month:'short',day:'numeric'})),
+        datasets:[{
+          data: sorted.map(s=>s.weight),
+          borderColor:'#2fe6c4', borderWidth:2.5, pointRadius:3, pointBackgroundColor:'#2fe6c4',
+          pointBorderColor:'#08090b', pointBorderWidth:1.5, tension:0.35, fill:true, backgroundColor:grad,
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false}, tooltip:{backgroundColor:'#1a1e24', titleColor:'#8b93a1', bodyColor:'#f4f6f7', borderColor:'#2a2f37', borderWidth:1, padding:8, displayColors:false}},
+        scales:{
+          x:{grid:{display:false}, ticks:{color:'#565c66', font:{size:9}}},
+          y:{grid:{color:'rgba(255,255,255,0.05)'}, ticks:{color:'#565c66', font:{size:9}}}
+        }
+      }
+    });
+  }, [sorted]);
+
+  const bmi = latest ? computeBMI(latest.weight, height) : null;
+
+  return (
+    <div className="stats-card">
+      <div className="stats-tiles">
+        <div className="stat-tile"><div className="v">{latest? latest.weight : '—'}<span> kg</span></div><div className="l">Weight</div></div>
+        <div className="stat-tile"><div className="v">{latest && latest.bodyFat!=null ? latest.bodyFat : '—'}<span>%</span></div><div className="l">Body Fat</div></div>
+        <div className="stat-tile"><div className="v">{bmi? bmi.toFixed(1) : '—'}</div><div className="l">BMI</div></div>
+      </div>
+      {sorted.length>0 && <div className="chart-wrap"><canvas ref={chartRef}></canvas></div>}
+      <button className="log-btn" onClick={()=>setShowModal(true)}>+ Log Body Stats</button>
+      <div className="history-list">
+        {sorted.length===0 && <div className="empty-hint">No entries yet — log your first check-in</div>}
+        {[...sorted].reverse().slice(0,8).map((s,i)=>(
+          <div className="history-row" key={i}>
+            <span className="d">{new Date(s.date).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span>
+            <span className="vals">
+              <span>{s.weight}kg</span>
+              {s.bodyFat!=null && <span>{s.bodyFat}% <small>bf</small></span>}
+            </span>
+          </div>
+        ))}
+      </div>
+      {showModal && <LogStatsModal onClose={()=>setShowModal(false)} height={height} setHeight={setHeight}
+        onSave={(entry)=>{ setStats(prev=>[...prev, entry]); setShowModal(false); }} />}
+    </div>
+  );
+}
+
+function LogStatsModal({onClose, onSave, height, setHeight}){
+  const [weight, setWeight] = useState('');
+  const [bodyFat, setBodyFat] = useState('');
+  const [h, setH] = useState(height || '');
+
+  const canSave = weight!=='' && !isNaN(parseFloat(weight));
+
+  const handleSave = () => {
+    if(!canSave) return;
+    if(h && parseFloat(h)!==height) setHeight(parseFloat(h));
+    onSave({
+      date: new Date().toISOString(),
+      weight: parseFloat(weight),
+      bodyFat: bodyFat!=='' ? parseFloat(bodyFat) : null,
+    });
+  };
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-sheet" onClick={e=>e.stopPropagation()}>
+        <div className="modal-title">Log Body Stats</div>
+        {!height && (
+          <div className="field">
+            <label>Height (cm) — used for BMI</label>
+            <input type="number" inputMode="decimal" placeholder="e.g. 178" value={h} onChange={e=>setH(e.target.value)} />
+          </div>
+        )}
+        <div className="field">
+          <label>Weight (kg)</label>
+          <input type="number" inputMode="decimal" placeholder="e.g. 82.4" value={weight} onChange={e=>setWeight(e.target.value)} autoFocus/>
+        </div>
+        <div className="field">
+          <label>Body Fat % (optional)</label>
+          <input type="number" inputMode="decimal" placeholder="e.g. 15.2" value={bodyFat} onChange={e=>setBodyFat(e.target.value)} />
+        </div>
+        <div className="modal-actions">
+          <button className="btn-secondary" onClick={onClose}>Cancel</button>
+          <button className="btn-primary" disabled={!canSave} onClick={handleSave}>Save Entry</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Home({week, setWeek, onOpenSession, stats, setStats, height, setHeight}){
+  return (
+    <div>
+      <div className="app-header">
+        <div className="greeting">{greetingWord()}, David</div>
+        <div className="date-line">{new Date().toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'})}</div>
+      </div>
+
+      <div className="week-nav">
+        <button className="wk-btn" disabled={week<=1} onClick={()=>setWeek(w=>Math.max(1,w-1))}><Icon name="chevronLeft" size={16}/></button>
+        <div className="week-mid">
+          <div className="lbl">Training Week</div>
+          <div className="num">Week {week} of {TOTAL_WEEKS}</div>
+        </div>
+        <button className="wk-btn" disabled={week>=TOTAL_WEEKS} onClick={()=>setWeek(w=>Math.min(TOTAL_WEEKS,w+1))}><Icon name="chevronRight" size={16}/></button>
+      </div>
+      <div className="week-track"><div className="week-track-fill" style={{width:`${(week/TOTAL_WEEKS)*100}%`}}></div></div>
+
+      <div className="section-title">Sessions</div>
+      <div className="session-grid">
+        {SESSIONS.map(s=> <SessionCard key={s.id} session={s} onOpen={onOpenSession}/>)}
+      </div>
+
+      <div className="section-title">Body Stats</div>
+      <BodyStats stats={stats} setStats={setStats} height={height} setHeight={setHeight}/>
+      <div className="home-footer-space"></div>
+    </div>
+  );
+}
+
+/* ---------------- SESSION VIEW ---------------- */
+function targetLine(ex){
+  const parts = [];
+  if(ex.sets) parts.push(`${ex.sets} × ${ex.reps}`);
+  else parts.push(ex.reps);
+  return parts.join(' ');
+}
+
+function groupKindLabel(g){
+  switch(g.type){
+    case 'straight': return g.title;
+    case 'superset': return 'Superset';
+    case 'triset': return 'Tri-Set';
+    case 'finisher': return 'Finisher';
+    case 'circuit': return 'Circuit';
+    default: return g.title;
+  }
+}
+
+function StepCard({group, logKey, logs, setLogs}){
+  const isRoundsBased = !!group.rounds;
+  const nSets = isRoundsBased ? group.rounds : null;
+
+  const getExRest = (exIdx) => {
+    if(isRoundsBased) return exIdx===group.exercises.length-1 ? (group.restBetweenRounds||0) : 0;
+    if(group.type==='straight') return group.exercises[exIdx].rest || 60;
+    return exIdx===group.exercises.length-1 ? (group.restAfter||60) : 0;
+  };
+
+  const [triggerTok, setTriggerTok] = useState(0);
+  const [activeRest, setActiveRest] = useState(0);
+
+  const getEntry = (exIdx) => {
+    const k = `${logKey}_${exIdx}`;
+    return logs[k] || {weight:'', reps:'', done:[]};
+  };
+  const updateEntry = (exIdx, patch) => {
+    const k = `${logKey}_${exIdx}`;
+    setLogs(prev=> ({...prev, [k]: {...getEntry(exIdx), ...patch}}));
+  };
+  const toggleSet = (exIdx, setIdx, exRest) => {
+    const entry = getEntry(exIdx);
+    const done = [...(entry.done||[])];
+    const willComplete = !done[setIdx];
+    done[setIdx] = willComplete;
+    updateEntry(exIdx, {done});
+    if(willComplete && exRest>0){
+      setActiveRest(exRest);
+      setTriggerTok(t=>t+1);
+    }
+  };
+
+  const setCountFor = (exIdx) => isRoundsBased ? nSets : group.exercises[exIdx].sets;
+
+  return (
+    <div className="step-card">
+      <RestTimerBox duration={activeRest} triggerToken={triggerTok} />
+      <div className="step-kind">{groupKindLabel(group)}</div>
+      <div className="step-title">{group.title}</div>
+      {group.note && <div className="step-note">{group.note}</div>}
+
+      {group.exercises.map((ex, exIdx)=>{
+        const entry = getEntry(exIdx);
+        const count = setCountFor(exIdx);
+        const isFollow = (group.type==='superset'||group.type==='triset') && exIdx>0;
+        return (
+          <div className="ex-row" key={exIdx}>
+            {isFollow && <div className="ex-connector">↳ then</div>}
+            <div className="ex-name">{ex.name}</div>
+            <div className="ex-target">{targetLine(ex)}{ex.note ? ` · ${ex.note}` : ''}</div>
+            {!isRoundsBased && (
+              <div className="ex-inputs">
+                <div className="fld">
+                  <label>Weight (kg)</label>
+                  <input type="number" inputMode="decimal" placeholder="—" value={entry.weight}
+                    onChange={e=>updateEntry(exIdx, {weight:e.target.value})}/>
+                </div>
+                <div className="fld">
+                  <label>Reps</label>
+                  <input type="text" placeholder={String(ex.reps)} value={entry.reps}
+                    onChange={e=>updateEntry(exIdx, {reps:e.target.value})}/>
+                </div>
+              </div>
+            )}
+            <div className="set-dots">
+              {Array.from({length: count||0}).map((_,si)=>(
+                <div key={si} className={"set-dot " + ((entry.done||[])[si] ? 'filled':'')}
+                  onClick={()=>toggleSet(exIdx, si, getExRest(exIdx))}>
+                  {(entry.done||[])[si] ? '✓' : si+1}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function OverviewList({session, onJump}){
+  return (
+    <div className="ov-list">
+      {session.groups.map((g, i)=>(
+        <button className="ov-group" key={i} onClick={()=>onJump(i)}>
+          <div className="ov-kind">{groupKindLabel(g)}{g.rounds ? ` · ${g.rounds} rounds` : ''}</div>
+          <div className="ov-title">{g.title}</div>
+          <div className="ov-exlist">
+            {g.exercises.map((ex,j)=>(
+              <div className="ov-ex" key={j}><span>{(g.type==='superset'||g.type==='triset') && j>0 ? '↳ '+ex.name : ex.name}</span><b>{targetLine(ex)}</b></div>
+            ))}
+          </div>
+          {(g.restAfter || g.restBetweenRounds) ? <div className="ov-rest">Rest {g.restAfter||g.restBetweenRounds}s after</div> : null}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SessionView({session, week, logs, setLogs, onBack, onFinish}){
+  const [mode, setMode] = useState('coach');
+  const [stepIndex, setStepIndex] = useState(0);
+  const total = session.groups.length;
+  const group = session.groups[stepIndex];
+  const logKey = `w${week}_${session.id}_${stepIndex}`;
+
+  const jump = (idx) => { setStepIndex(idx); setMode('coach'); };
+
+  return (
+    <div>
+      <div className="session-header">
+        <button className="back-btn" onClick={onBack}><Icon name="back" size={18}/></button>
+        <div className="titles">
+          <div className="t">{session.name}</div>
+          <div className="s">{session.subtitle} · Week {week}</div>
+        </div>
+      </div>
+
+      <div className="mode-toggle">
+        <button className={mode==='coach'?'active':''} onClick={()=>setMode('coach')}>Coach Mode</button>
+        <button className={mode==='overview'?'active':''} onClick={()=>setMode('overview')}>Overview</button>
+      </div>
+
+      {mode==='coach' ? (
+        <React.Fragment>
+          <div className="progress-dots">
+            {session.groups.map((_,i)=>(
+              <div key={i} className={"dot " + (i<stepIndex?'done':i===stepIndex?'current':'')}></div>
+            ))}
+          </div>
+          <StepCard group={group} logKey={logKey} logs={logs} setLogs={setLogs} key={logKey}/>
+          <div className="step-footer">
+            <button className="nav-btn" disabled={stepIndex===0} onClick={()=>setStepIndex(i=>Math.max(0,i-1))}>
+              <Icon name="chevronLeft" size={16}/> Prev
+            </button>
+            {stepIndex<total-1 ? (
+              <button className="nav-btn primary" onClick={()=>setStepIndex(i=>Math.min(total-1,i+1))}>
+                Next <Icon name="chevronRight" size={16}/>
+              </button>
+            ) : (
+              <button className="nav-btn finish" onClick={onFinish}>
+                <Icon name="flame" size={16}/> Finish Workout
+              </button>
+            )}
+          </div>
+        </React.Fragment>
+      ) : (
+        <OverviewList session={session} onJump={jump}/>
+      )}
+      <div className="home-footer-space"></div>
+    </div>
+  );
+}
+
+/* ---------------- APP ---------------- */
+function App(){
+  const [week, setWeek] = useState(()=> load('ftx_week', 1));
+  const [screen, setScreen] = useState('home');
+  const [activeSessionId, setActiveSessionId] = useState(null);
+  const [logs, setLogs] = useState(()=> load('ftx_logs', {}));
+  const [stats, setStats] = useState(()=> load('ftx_bodystats', []));
+  const [height, setHeight] = useState(()=> load('ftx_height', null));
+  const [toast, setToast] = useState(null);
+
+  useEffect(()=> save('ftx_week', week), [week]);
+  useEffect(()=> save('ftx_logs', logs), [logs]);
+  useEffect(()=> save('ftx_bodystats', stats), [stats]);
+  useEffect(()=> save('ftx_height', height), [height]);
+
+  useEffect(()=>{
+    if(!toast) return;
+    const t = setTimeout(()=>setToast(null), 2400);
+    return ()=>clearTimeout(t);
+  }, [toast]);
+
+  const openSession = (id) => { setActiveSessionId(id); setScreen('session'); };
+  const goHome = () => { setScreen('home'); setActiveSessionId(null); };
+
+  const finishWorkout = () => {
+    const nextWeek = Math.min(TOTAL_WEEKS, week+1);
+    setToast(`Workout logged. Advancing to Week ${nextWeek} →`);
+    setWeek(nextWeek);
+    goHome();
+  };
+
+  const activeSession = SESSIONS.find(s=>s.id===activeSessionId);
+
+  return (
+    <div>
+      {screen==='home' && (
+        <Home week={week} setWeek={setWeek} onOpenSession={openSession}
+          stats={stats} setStats={setStats} height={height} setHeight={setHeight}/>
+      )}
+      {screen==='session' && activeSession && (
+        <SessionView session={activeSession} week={week} logs={logs} setLogs={setLogs}
+          onBack={goHome} onFinish={finishWorkout}/>
+      )}
+      {toast && <div className="toast">{toast}</div>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
