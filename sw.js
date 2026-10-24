@@ -1,6 +1,6 @@
 /* DBS PPLX service worker — makes the app open instantly and work offline.
    The app page is fetched fresh when online (so updates arrive), with the cached copy as a fallback. */
-const CACHE = 'dbs-pplx-v4';
+const CACHE = 'dbs-pplx-v5';
 const CORE = ['./app.html', './manifest.json', './apple-touch-icon.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (e) => {

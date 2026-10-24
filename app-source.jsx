@@ -1023,7 +1023,7 @@ function Sparkline({data, width=130, height=26, color='var(--accent)'}){
 }
 
 // Big number field with − / + (tap the number to type)
-function NumField({label, value, onChange, step=1, min=0, max=999, placeholder='—', decimals=false}){
+function NumField({label, value, onChange, step=1, min=0, max=999, placeholder='—', decimals=false, badge}){
   const num = parseFloat(value);
   const bump = (d) => {
     const base = isFinite(num) ? num : (parseFloat(placeholder) || 0);
@@ -1033,7 +1033,7 @@ function NumField({label, value, onChange, step=1, min=0, max=999, placeholder='
   };
   return (
     <div className="nf">
-      <div className="k">{label}</div>
+      <div className="k">{label}{badge && <span className="nf-badge">{badge}</span>}</div>
       <div className="ctl">
         <button className="pm" onClick={()=>bump(-step)} aria-label={`Less ${label}`}><Icon name="minus" size={18} stroke={2.2}/></button>
         <input type="text" inputMode={decimals ? 'decimal' : 'numeric'} value={value} placeholder={placeholder}
@@ -1210,6 +1210,29 @@ function FormSheet({name, target, onClose}){
         ))}
       </div>
     </Sheet>
+  );
+}
+function FormBody({name, target}){
+  const f = formFor(name);
+  return (
+    <React.Fragment>
+      <div className="form-hero">
+        <FormFigure fig={f.fig} size={150}/>
+        <div className="form-meta">
+          <div className="eyebrow">Works</div>
+          <b>{f.muscles}</b>
+          {target && <span className="pill accent num" style={{marginTop:8}}>{target}</span>}
+        </div>
+      </div>
+      <div className="card list" style={{boxShadow:'none', marginTop:14}}>
+        {f.cues.map((c,i)=>(
+          <div className="row" key={i}>
+            <span className="badge num">{i+1}</span>
+            <div className="grow" style={{fontSize:15, fontWeight:500, lineHeight:1.35}}>{c}</div>
+          </div>
+        ))}
+      </div>
+    </React.Fragment>
   );
 }
 function FormBtn({onClick}){
@@ -1540,6 +1563,12 @@ function Today(p){
   const fastNow = useNow(!!fast);
   const fastEl = fast ? Math.max(0, (fastNow - new Date(fast.startTime).getTime())/1000) : 0;
 
+  // Next gym session: first of Push / Pull / Legs not done this week, then the optional Arms day
+  const core = SESSIONS.filter(x=>!x.optional);
+  const coreDone = core.filter(x=>doneFor(x.id)).length;
+  const nextGym = core.find(x=>!doneFor(x.id)) || SESSIONS.find(x=>x.optional && !doneFor(x.id)) || null;
+  const mainTarget = v.main.format==='emom' ? `${v.main.minutes}-min EMOM` : `${v.main.rounds} rounds`;
+
   return (
     <div className="screen anim-tab">
       <TopBar title="Today" fadeTitle/>
@@ -1552,95 +1581,76 @@ function Today(p){
           <button className="avatar press" onClick={()=>onTab('you')} aria-label="You">D</button>
         </div>
 
-        {showCiCard && <div style={{marginTop:16}}><CheckinCard ci={ci} onOpen={()=>setShowCheckin(true)} onDismiss={()=>{ vibrate(8); setSeenCheckin(ci.key); }}/></div>}
+        {showCiCard && (
+          <div className="notice press" role="button" onClick={()=>setShowCheckin(true)}>
+            <span className="ni"><Icon name="calendar" size={16}/></span>
+            <div className="grow"><b>Weekly check-in ready</b><span>{ci.range}</span></div>
+            <button className="nx" onClick={e=>{ e.stopPropagation(); vibrate(8); setSeenCheckin(ci.key); }} aria-label="Dismiss"><Icon name="close" size={13} stroke={2.4}/></button>
+          </div>
+        )}
 
-        <div className="card hero hero-card">
-          <div className="hero-top">
-            <span className="eyebrow" style={{display:'flex', alignItems:'center', gap:7, '--c':focus.color}}><span className="dot"></span>Daily calisthenics · {focus.name}</span>
-            <span className="pill accent">Week {CALI_VARIANTS[vi]}</span>
-          </div>
+        <div className="card hero hero-card" style={{'--c':focus.color}}>
+          <div className="eyebrow" style={{display:'flex', alignItems:'center', gap:7}}><span className="dot"></span>{focus.name} · Week {CALI_VARIANTS[vi]}</div>
           <h2>{v.title}</h2>
-          <div className="sub">{focus.blurb}</div>
-          <div className="hero-meta">
-            <div><b className="num">{v.main.format==='emom' ? v.main.minutes : v.main.rounds}</b>{v.main.format==='emom' ? 'min EMOM' : 'rounds'}</div>
-            <div><b className="num">{v.main.format==='emom' ? '~24' : '~22'}</b>min total</div>
-            <div><b className="num">{level}</b>level</div>
-            <div><b className="num">{pb!=null ? pb : '—'}</b>{v.finisher ? (v.finisher.unit==='secs' ? 'PB secs' : 'PB reps') : 'no test'}</div>
-          </div>
-          <div className="chips">{exs.map((ex,i)=><span key={i}>{ex.name.replace(/ \(.*\)/,'')} {exTarget(ex)}</span>)}</div>
-          {doneCali && (
-            <div className="done-banner"><Icon name="check" size={18} stroke={2.6}/>Done today · {todaysCali[todaysCali.length-1].totalReps} reps</div>
+          <div className="hero-line num">{mainTarget} · ~{v.main.format==='emom' ? 24 : 22} min{level ? ` · Level ${level}` : ''}</div>
+          {doneCali ? (
+            <button className="done-banner press" onClick={onOpenCali}><Icon name="check" size={18} stroke={2.6}/>Done today · {todaysCali[todaysCali.length-1].totalReps} reps<Icon name="chevronRight" size={16} stroke={2.4}/></button>
+          ) : (
+            <button className="btn btn-primary" onClick={onOpenCali}><Icon name="play" size={15}/>{started ? 'Continue' : 'Start'}</button>
           )}
-          <button className={`btn ${doneCali ? 'btn-ghost' : 'btn-primary'}`} onClick={onOpenCali}>
-            {doneCali ? <React.Fragment><Icon name="calendar" size={17}/>See the week</React.Fragment>
-              : <React.Fragment><Icon name="play" size={15}/>{started ? 'Continue session' : 'Start session'}</React.Fragment>}
-          </button>
         </div>
 
         <div className="sec">
-          <div className="sec-h"><h3>Last 7 days</h3><button className="link" onClick={()=>onTab('progress')}>Week {week} of {TOTAL_WEEKS}</button></div>
-          <div className="card week7">
+          <div className="sec-h"><h3>This week</h3><span className="meta">{streak ? `${streak}-day streak` : `Week ${week} of ${TOTAL_WEEKS}`}</span></div>
+          <button className="card week7 press" onClick={()=>onTab('progress')} aria-label="See progress">
             {last7.map((d,i)=>{
-              const k = dayKey(d);
-              const val = Math.min(1, act[k]||0);
-              const isToday = i===6;
+              const val = Math.min(1, act[dayKey(d)]||0);
               return (
-                <div key={i} className={`wd ${isToday?'today':''}`}>
-                  <Ring size={34} stroke={4} pct={val}/>
+                <div key={i} className={`wd ${i===6?'today':''}`}>
+                  <Ring size={32} stroke={4} pct={val}/>
                   {d.toLocaleDateString('en-GB',{weekday:'narrow'})}
                 </div>
               );
             })}
-          </div>
+          </button>
         </div>
 
         <div className="sec">
-          <div className="sec-h"><h3>Gym</h3><button className="link" onClick={()=>onTab('train')}>See all</button></div>
-          <div className="card list" style={{'--indent':'36px'}}>
-            {SESSIONS.map(s=>{
-              const done = doneFor(s.id);
-              const last = lastFor(s.id);
-              return (
-                <button key={s.id} className="row" style={{'--c':s.color}} onClick={()=>onOpenSession(s.id)}>
-                  <span className="dot"></span>
-                  <div className="grow"><div className="t">{s.name}{s.optional && <span className="pill" style={{marginLeft:8, verticalAlign:2}}>Optional</span>}</div><div className="s">{s.subtitle}</div></div>
-                  {done ? <span className="rt accent-txt"><Icon name="check" size={15} stroke={2.8}/>Done</span>
-                    : <span className="rt">{last ? fmtDate(last) : 'Not yet'}<Icon name="chevronRight" size={15} stroke={2.2}/></span>}
-                </button>
-              );
-            })}
-          </div>
+          <div className="sec-h"><h3>Gym</h3><span className="meta">{coreDone} of {core.length} this week</span></div>
+          {nextGym ? (
+            <button className="card row next-row" style={{'--c':nextGym.color}} onClick={()=>onOpenSession(nextGym.id)}>
+              <span className="ico tint"><Icon name={nextGym.icon} size={18}/></span>
+              <div className="grow"><div className="t">Up next · {nextGym.name}</div><div className="s">{nextGym.subtitle}</div></div>
+              <span className="rt"><Icon name="chevronRight" size={16} stroke={2.4}/></span>
+            </button>
+          ) : (
+            <button className="card row next-row" onClick={()=>onTab('train')}>
+              <span className="ico" style={{background:'var(--green-soft)', color:'var(--green)'}}><Icon name="check" size={18} stroke={2.6}/></span>
+              <div className="grow"><div className="t">All sessions done</div><div className="s">Nice week. See everything in Train.</div></div>
+              <span className="rt"><Icon name="chevronRight" size={16} stroke={2.4}/></span>
+            </button>
+          )}
         </div>
 
         <div className="sec">
-          <div className="sec-h"><h3>Body &amp; recovery</h3></div>
+          <div className="sec-h"><h3>Body</h3></div>
           <div className="tiles">
             <button className="card tile press" onClick={onOpenBodyStats}>
-              <div className="lbl">Weight<Icon name="chevronRight" size={14} color="var(--t3)" stroke={2.2}/></div>
-              {sorted.length>1 && <div style={{marginTop:8}}><Sparkline data={sorted.slice(-12).map(s=>kgToUnit(s.weight,unit))}/></div>}
+              <div className="lbl">Weight</div>
+              {sorted.length>1 && <div style={{marginTop:10}}><Sparkline data={sorted.slice(-12).map(s=>kgToUnit(s.weight,unit))} width={120}/></div>}
               <div className="v">{latest ? kgToUnit(latest.weight,unit).toFixed(1) : '—'}{latest && <small>{unit}</small>}</div>
-              <div className="d" style={wChange!=null ? {color: wChange<=0 ? 'var(--green)' : 'var(--orange)'} : undefined}>{wChange!=null ? `${fmtSigned(wChange)} ${unit} · 30 days` : latest ? 'Log again to see a trend' : 'Tap to log your first'}</div>
+              <div className="d" style={wChange!=null ? {color: wChange<=0 ? 'var(--green)' : 'var(--orange)'} : undefined}>{wChange!=null ? `${fmtSigned(wChange)} ${unit} in 30 days` : latest ? 'Log again for a trend' : 'Tap to log'}</div>
             </button>
             <button className="card tile press" onClick={onOpenFasting}>
-              <div className="lbl">Fasting<Icon name="chevronRight" size={14} color="var(--t3)" stroke={2.2}/></div>
+              <div className="lbl">Fasting</div>
               {fast ? (
                 <div style={{display:'flex', alignItems:'center', gap:10, marginTop:'auto'}}>
-                  <LiveRing size={42} stroke={5} pct={fastEl/(fast.goalHours*3600)} color={fastEl>=fast.goalHours*3600 ? 'var(--green)' : 'var(--accent)'}/>
+                  <LiveRing size={40} stroke={5} pct={fastEl/(fast.goalHours*3600)} color={fastEl>=fast.goalHours*3600 ? 'var(--green)' : 'var(--accent)'}/>
                   <div><div className="v num" style={{fontSize:22, margin:0}}>{fmtHMS(fastEl).slice(0,-3)}</div><div className="d" style={{marginTop:0}}>of {fast.goalHours}h</div></div>
                 </div>
               ) : (
                 <React.Fragment><div className="v" style={{fontSize:20}}>Not fasting</div><div className="d">Tap to start</div></React.Fragment>
               )}
-            </button>
-            <button className="card tile press" onClick={onOpenBodyStats}>
-              <div className="lbl">Body fat</div>
-              <div className="v">{bfLatest ? bfLatest.bodyFat : '—'}{bfLatest && <small>%</small>}</div>
-              <div className="d" style={bfChange!=null ? {color: bfChange<=0 ? 'var(--green)' : 'var(--orange)'} : undefined}>{bfChange!=null ? `${fmtSigned(bfChange)}% · 30 days` : height && latest ? `BMI ${computeBMI(latest.weight, height).toFixed(1)}` : 'Optional'}</div>
-            </button>
-            <button className="card tile press" onClick={()=>onTab('progress')}>
-              <div className="lbl">Streak<Icon name="flame" size={15} color={streak ? 'var(--orange)' : 'var(--t3)'}/></div>
-              <div className="v">{streak}<small>{streak===1?'day':'days'}</small></div>
-              <div className="d">Best {best} · {thisWeekCount} active this wk</div>
             </button>
           </div>
         </div>
@@ -1664,7 +1674,7 @@ function Train(p){
     <div className="screen anim-tab">
       <TopBar title="Train" fadeTitle/>
       <div className="stagger">
-        <div className="large"><div><div className="eyebrow">12-week block</div><h1>Train</h1></div></div>
+        <div className="large"><div><h1>Train</h1></div></div>
 
         <div className="card week-card" style={{marginTop:16}}>
           <div className="week-row">
@@ -1775,7 +1785,7 @@ function Progress(p){
     <div className="screen anim-tab">
       <TopBar title="Progress" fadeTitle/>
       <div className="stagger">
-        <div className="large"><div><div className="eyebrow">All your numbers</div><h1>Progress</h1></div></div>
+        <div className="large"><div><h1>Progress</h1></div></div>
         <div className="card list" style={{marginTop:16}}>
           <button className="row" onClick={()=>setShowCheckin(true)}>
             <span className="ico tint"><Icon name="calendar" size={18}/></span>
@@ -1881,7 +1891,7 @@ function You({week, themePref, setThemePref, unit, setUnit, onExport, onImport, 
     <div className="screen anim-tab">
       <TopBar title="You" fadeTitle/>
       <div className="stagger">
-        <div className="large"><div><div className="eyebrow">Profile &amp; settings</div><h1>You</h1></div></div>
+        <div className="large"><div><h1>You</h1></div></div>
         <div className="card profile" style={{marginTop:16}}>
           <div className="av">D</div>
           <div><b>David</b><span>DBS PPLX · Week {week} of {TOTAL_WEEKS}</span></div>
@@ -2324,6 +2334,40 @@ function RestPill({rest, now, onSkip, label}){
   );
 }
 
+function ExerciseSheet({name, target, sessionId, stepIndex, exIdx, logs, pr, showHistory, onRename, onClose}){
+  const [tab, setTab] = useState('form');
+  const weekly = [];
+  for(let w=1; w<=TOTAL_WEEKS; w++){
+    const top = entryVolume(logs[`w${w}_${sessionId}_${stepIndex}_${exIdx}`], {reps:''}).top;
+    if(top!=null) weekly.push({week:w, weight:top});
+  }
+  return (
+    <Sheet title={name} onClose={onClose} actions={(close)=><React.Fragment>
+      <button className="btn btn-ghost" onClick={()=>{ close(); setTimeout(onRename, 240); }}><Icon name="edit" size={16}/>Rename</button>
+      <button className="btn btn-primary" onClick={close}>Done</button>
+    </React.Fragment>}>
+      {showHistory && <div style={{marginBottom:14}}><Segmented value={tab} onChange={setTab} options={[{value:'form', label:'Form'},{value:'history', label:'History'}]}/></div>}
+      {tab==='form' || !showHistory ? <FormBody name={name} target={target}/> : (
+        <div className="anim-tab">
+          {pr && (
+            <div className="card pad" style={{boxShadow:'none', background:'var(--s2)', border:'none'}}>
+              <div className="stats c2">
+                <Stat value={Math.round(pr.est1RM)} unit="kg" label="Estimated 1RM"/>
+                <Stat value={`${pr.weight}×${pr.reps}`} label="Best set"/>
+              </div>
+            </div>
+          )}
+          {weekly.length>0 ? (
+            <React.Fragment>
+              <div className="flabel" style={{marginTop:16}}>Top set by week</div>
+              <LineChart labels={weekly.map(w=>`Wk ${w.week}`)} data={weekly.map(w=>w.weight)} height={170} unit=" kg"/>
+            </React.Fragment>
+          ) : <Empty icon="chart" title="No history yet" text="Tick off sets with a weight logged and your progress shows here."/>}
+        </div>
+      )}
+    </Sheet>
+  );
+}
 function ExerciseHistoryModal({name, sessionId, stepIndex, exIdx, logs, pr, onClose}){
   const weekly = [];
   for(let w=1; w<=TOTAL_WEEKS; w++){
@@ -2443,7 +2487,7 @@ function StepCard({group, sessionId, week, stepIndex, logs, setLogs, prs, setPrs
         const doneArr = entry.done || [];
         const curIdx = Array.from({length:count}).findIndex((_,i)=>!doneArr[i]);
         const restTxt = !isRoundsBased && group.type==='straight' ? `Rest ${ex.rest||60}s` : null;
-        const repsPh = String(firstNumber(ex.reps) || ex.reps);
+        const repsPh = firstNumber(ex.reps) ? String(firstNumber(ex.reps)) : 'max';
         return (
           <React.Fragment key={exIdx}>
             {linked && exIdx>0 && <div className="link-down"><Icon name="pull" size={13} stroke={2.2}/>Straight into</div>}
@@ -2455,31 +2499,28 @@ function StepCard({group, sessionId, week, stepIndex, logs, setLogs, prs, setPrs
                     onBlur={e=>{ const v=e.target.value.trim(); setSwaps(s=>({...s, [key]: v||ex.name})); setEditingIdx(null); }}
                     onKeyDown={e=>{ if(e.key==='Enter') e.target.blur(); }} />
                 ) : (
-                  <button className="exc-name" onClick={()=> isRoundsBased ? setFormIdx(exIdx) : setHistoryIdx(exIdx)}>
-                    <b>{displayName}</b>
+                  <button className="exc-name" onClick={()=>setFormIdx(exIdx)} aria-label={`${displayName}: form, history and rename`}>
+                    <b>{displayName}<Icon name="chevronRight" size={15} stroke={2.4} color="var(--t3)"/></b>
                     <span className="num">{targetLine(ex)}{restTxt ? ` · ${restTxt}` : ''}{ex.note ? ` · ${ex.note}` : ''}</span>
                   </button>
                 )}
-                <FormBtn onClick={()=>setFormIdx(exIdx)}/>
-                <button className="cbtn sm" onClick={()=>setEditingIdx(editingIdx===exIdx?null:exIdx)} aria-label="Rename or swap exercise"><Icon name="edit" size={15}/></button>
               </div>
-              {!isRoundsBased && (prev || pr) && (
-                <div className="prev">
-                  <span>{prev && prev.weight ? <React.Fragment>Last week <b className="num">{prev.weight} kg{prev.reps ? ` × ${prev.reps}` : ''}</b></React.Fragment> : pr ? <React.Fragment>Best <b className="num">{pr.weight} kg × {pr.reps}</b></React.Fragment> : null}</span>
-                  {bumped ? <span className="pill accent">+{Math.round((weightNum-prevW)*10)/10} kg</span>
-                    : pr ? <span className="pill orange"><Icon name="trophy" size={11}/>{Math.round(pr.est1RM)} kg 1RM</span> : null}
-                </div>
-              )}
               {!isRoundsBased && (
                 <React.Fragment>
-                  <div className="nfs">
-                    <NumField label="kg · all sets" value={entry.weight} step={2.5} max={500} decimals onChange={v=>updateEntry(exIdx, {weight:v})}/>
-                    <NumField label="reps" value={entry.reps} step={1} max={100} placeholder={repsPh} onChange={v=>updateEntry(exIdx, {reps:v})}/>
+                  <div className="work-row">
+                    <div className="wl">Working weight{bumped && <span className="nf-badge">+{Math.round((weightNum-prevW)*10)/10} kg</span>}</div>
+                    <div className="wctl">
+                      <button className="pm" onClick={()=>{ vibrate(8); const b = isFinite(weightNum) ? weightNum : 0; updateEntry(exIdx, {weight:String(Math.max(0, Math.round((b-2.5)*100)/100))}); }} aria-label="Less weight"><Icon name="minus" size={16} stroke={2.4}/></button>
+                      <input className="num" type="text" inputMode="decimal" value={entry.weight} placeholder="—" onFocus={e=>e.target.select()}
+                        onChange={e=>updateEntry(exIdx, {weight:e.target.value.replace(/[^0-9.,]/g,'').replace(',','.')})} aria-label="Working weight in kg"/>
+                      <span className="wu">kg</span>
+                      <button className="pm" onClick={()=>{ vibrate(8); const b = isFinite(weightNum) ? weightNum : 0; updateEntry(exIdx, {weight:String(Math.round((b+2.5)*100)/100)}); }} aria-label="More weight"><Icon name="plus" size={16} stroke={2.4}/></button>
+                    </div>
                   </div>
                   {(showWarmup || showPlates) && (
-                    <div className="hints">
-                      {showWarmup && <div className="hint"><b>Warm-up</b><span className="num">{computeWarmup(weightNum).map(s=>`${s.w} kg × ${s.reps}`).join('  ·  ')}</span></div>}
-                      {showPlates && <div className="hint"><b>Per side</b><span className="num">{plateInfo.length ? plateInfo.join(' + ')+' kg' : 'Bar only'}</span></div>}
+                    <div className="hint-line num">
+                      {showWarmup && <span><b>Warm-up</b> {computeWarmup(weightNum).map(s=>`${s.w}×${s.reps}`).join(' · ')}</span>}
+                      {showPlates && <span><b>Plates</b> {plateInfo.length ? plateInfo.join('+') + ' a side' : 'bar only'}</span>}
                     </div>
                   )}
                   <div className="stable">
@@ -2532,7 +2573,9 @@ function StepCard({group, sessionId, week, stepIndex, logs, setLogs, prs, setPrs
           pr={prs[slotKey(historyIdx)]} onClose={()=>setHistoryIdx(null)} />
       )}
       {formIdx!=null && (
-        <FormSheet name={swaps[slotKey(formIdx)] || group.exercises[formIdx].name} target={targetLine(group.exercises[formIdx])} onClose={()=>setFormIdx(null)}/>
+        <ExerciseSheet name={swaps[slotKey(formIdx)] || group.exercises[formIdx].name} target={targetLine(group.exercises[formIdx])}
+          sessionId={sessionId} stepIndex={stepIndex} exIdx={formIdx} logs={logs} pr={prs[slotKey(formIdx)]} showHistory={!isRoundsBased}
+          onRename={(()=>{ const i = formIdx; return ()=>setEditingIdx(i); })()} onClose={()=>setFormIdx(null)}/>
       )}
     </div>
   );
@@ -2589,7 +2632,6 @@ function SessionView({session, week, logs, setLogs, prs, setPrs, swaps, setSwaps
             logs={logs} setLogs={setLogs} prs={prs} setPrs={setPrs} swaps={swaps} setSwaps={setSwaps}
             setToast={setToast} onRest={startRest} onPR={(p)=>{ if(!sessionPRs.current.some(x=>x.name===p.name)) sessionPRs.current.push(p); else sessionPRs.current = sessionPRs.current.map(x=>x.name===p.name ? p : x); }}
             key={`${session.id}_w${week}_${stepIndex}`}/>
-          <div className="swipe-hint"><Icon name="swap" size={13}/>Swipe left or right to change block</div>
         </div>
       ) : (
         <div className="stagger" style={{marginTop:8}}>
