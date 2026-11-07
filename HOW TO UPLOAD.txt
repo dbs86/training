@@ -1,0 +1,31 @@
+DBS HEALTH & FITNESS: upload steps
+
+BEFORE YOU START (keeps your data)
+1. Open the current app on your iPhone > Settings > Your data > Export file. Save it to Files / iCloud Drive.
+
+CLEAR GITHUB
+2. github.com/dbs86/training > Settings > scroll to bottom > Delete this repository.
+3. Create a new public repository called "training" (no README).
+
+UPLOAD
+4. On the empty repo page click "uploading an existing file".
+5. Open this folder in Finder, select everything inside it (Cmd+A, including the icons and splash folders) and drag it in. Commit.
+   Hidden file .nojekyll: press Cmd+Shift+. in Finder to show it, so it gets dragged in too.
+6. Settings > Pages > Source: Deploy from a branch > main / (root) > Save. Wait 1-2 minutes.
+
+ON YOUR IPHONE
+7. Delete the old DBS PPLX icon from your Home Screen.
+8. In Safari open https://dbs86.github.io/training/
+9. Share > Add to Home Screen > Add.
+10. Open the new icon > Settings > Your data > Import file > pick the backup from step 1.
+
+SPOTIFY (only if you use it)
+The app address is now https://dbs86.github.io/training/ so update the Redirect URI in your Spotify developer dashboard to match.
+
+FILES
+index.html            the app
+manifest.json         app name and icons
+sw.js                 offline support
+app.html              forwards old links to the new address
+icons/                home screen icon and favicons
+splash/               launch screens for each iPhone size
