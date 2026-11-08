@@ -353,6 +353,12 @@ details summary{cursor:pointer;list-style:none}details summary::-webkit-details-
 @media (max-height:700px){.today{gap:10px}}
 @media (min-height:781px){.today{gap:18px}.today .card{padding:20px 20px}.today .card.half{padding:16px 14px}.today .card .btn{margin-top:14px!important}}
 @media (min-height:701px) and (max-height:780px){.today .card{padding:15px 16px}}
+/* Home Screen app: keep the top line clear of the iPhone's blurred status-bar edge */
+@media (display-mode: standalone){
+ .wrap{padding-top:calc(36px + env(safe-area-inset-top))}
+ .toast{top:calc(30px + env(safe-area-inset-top))}
+}
+@media (display-mode: standalone) and (min-height:781px){.today{gap:15px}.today .card{padding:18px 19px}}
 </style>
 </head>
 <body>
