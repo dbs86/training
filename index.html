@@ -792,7 +792,7 @@ const weekStart=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate(
 /* ================= STORE ================= */
 const KEY="dbspplx_v2";
 const DEF={v:3,theme:"light",style:"b",accent:null,font:"outfit",unit:"kg",height:178,targetKg:84,targetBf:12,
-  prog:"pplx2",progWeek:{pplx2:1},logs:{},completions:[],swaps:{},customProgs:[],active:null,
+  prog:"pplx1",progWeek:{pplx1:1},logs:{},completions:[],swaps:{},customProgs:[],active:null,
   yoga:{},cardio:[],stretch:[],body:[],fast:{active:null,goal:16,history:[]},fastView:"elapsed",
   checkinSeen:"",notif:false,spotify:{clientId:"",tokens:null},oldImported:false,oldDismissed:false};
 let S;
@@ -2304,7 +2304,9 @@ const GAMES=[
  {id:"ws",n:"Word search",sub:"Find 8 hidden words",ic:"⌕"},
  {id:"su",n:"Sudoku",sub:"Classic 9×9",ic:"#"},
  {id:"mx",n:"Maths sprint",sub:"60 seconds, quick fire",ic:"±"},
+ {id:"rd",n:"Riddle",sub:"One a day",ic:"?"},
 ];
+const JOKE_G={id:"jk",n:"Daily joke",sub:"Something to make you smile",ic:"☺"};
 const bDay=()=>BR().done[todayKey()]||{};
 const bCount=()=>GAMES.filter(g=>bDay()[g.id]!=null).length;
 function bStreak(){const d=new Date();const has=k=>Object.keys(BR().done[k]||{}).length>0;if(!has(todayKey(d)))d.setDate(d.getDate()-1);let n=0;while(n<999&&has(todayKey(d))){n++;d.setDate(d.getDate()-1);}return n;}
@@ -2593,6 +2595,162 @@ function cwKey(k){const C=bProg().cw;if(!C||bDay().cw!=null)return;const s=U.cwS
   else{C.v[s.r][s.c]=k;const nr=s.r+dr,nc=s.c+dc;if(C.sol[nr]&&C.sol[nr][nc]&&cwWordAt(C,nr,nc,w.d)===w){s.r=nr;s.c=nc;}}
   if(C.sol.every((row,r)=>row.every((x,c)=>!x||C.v[r][c]===x))){bFinish("cw",Math.round((Date.now()-C.t0)/1000));toast("Crossword solved 🧠");}save();}
 
+/* ---- riddles & jokes ---- */
+const RIDDLES=[
+ ["What has keys but can't open locks?","A piano"],
+ ["The more you take, the more you leave behind. What am I?","Footsteps"],
+ ["What has a neck but no head?","A bottle"],
+ ["What gets wetter the more it dries?","A towel"],
+ ["I'm tall when I'm young and short when I'm old. What am I?","A candle"],
+ ["What has hands but can't clap?","A clock"],
+ ["What can travel around the world while staying in a corner?","A stamp"],
+ ["What has one eye but can't see?","A needle"],
+ ["What goes up but never comes down?","Your age"],
+ ["What has many teeth but can't bite?","A comb"],
+ ["What can you catch but not throw?","A cold"],
+ ["What has a head and a tail but no body?","A coin"],
+ ["What runs but never walks, has a mouth but never talks?","A river"],
+ ["What belongs to you, but other people use it more than you do?","Your name"],
+ ["What has to be broken before you can use it?","An egg"],
+ ["I have cities but no houses, forests but no trees, and water but no fish. What am I?","A map"],
+ ["What is full of holes but still holds water?","A sponge"],
+ ["What question can you never answer yes to?","Are you asleep yet?"],
+ ["What can fill a room but takes up no space?","Light"],
+ ["If you drop me I'm sure to crack, but give me a smile and I'll always smile back. What am I?","A mirror"],
+ ["What has legs but doesn't walk?","A table"],
+ ["What gets bigger the more you take away from it?","A hole"],
+ ["What comes once in a minute, twice in a moment, but never in a thousand years?","The letter M"],
+ ["What has an end but no beginning, a home but no family, a space without room?","A keyboard"],
+ ["I shave every day, but my beard stays the same. Who am I?","A barber"],
+ ["What can you keep after giving it to someone?","Your word"],
+ ["What has words but never speaks?","A book"],
+ ["What runs all around a back garden without moving?","A fence"],
+ ["The person who makes it sells it. The person who buys it never uses it. The person who uses it never knows. What is it?","A coffin"],
+ ["What invention lets you look right through a wall?","A window"],
+ ["What is always in front of you but can't be seen?","The future"],
+ ["What kind of band never plays music?","A rubber band"],
+ ["What has 13 hearts but no other organs?","A deck of cards"],
+ ["A man walks out in the rain with no umbrella and no hat, yet not a hair on his head gets wet. How?","He's bald"],
+ ["What two things can you never eat for breakfast?","Lunch and dinner"],
+ ["Forward I'm heavy, backward I'm not. What am I?","Ton"],
+ ["What word is spelled incorrectly in every dictionary?","Incorrectly"],
+ ["What building has the most stories?","A library"],
+ ["What month of the year has 28 days?","All of them"],
+ ["David's father has three sons: Snap, Crackle and…?","David"],
+ ["What can't talk but will reply when spoken to?","An echo"],
+ ["What has a thumb and four fingers but isn't alive?","A glove"],
+ ["What goes through cities and fields but never moves?","A road"],
+ ["What is so fragile that saying its name breaks it?","Silence"],
+ ["What can run but never gets tired, and has a bed but never sleeps?","A river"],
+ ["I'm light as a feather, yet the strongest person can't hold me for more than a few minutes. What am I?","Breath"],
+ ["What gets sharper the more you use it?","Your brain"],
+ ["You see a boat full of people, yet there isn't a single person on board. How?","They're all married"],
+ ["What five-letter word becomes shorter when you add two letters to it?","Short"],
+ ["Which weighs more: a kilo of feathers or a kilo of bricks?","Neither, they both weigh a kilo"],
+ ["How many months have 31 days?","Seven"],
+ ["What starts with T, ends with T, and has T in it?","A teapot"],
+ ["What can you hold in your left hand but never in your right?","Your right elbow"],
+ ["The more of this there is, the less you see. What is it?","Darkness"],
+ ["What has a bottom at the top?","Your legs"],
+ ["Where does today come before yesterday?","In the dictionary"],
+ ["What can be cracked, made, told and played?","A joke"],
+ ["What has four wheels and flies?","A rubbish lorry"],
+ ["If two's company and three's a crowd, what are four and five?","Nine"],
+ ["What's black when you get it, red when you use it, and grey when you're done with it?","Charcoal"],
+ ["I go up and down but never move. What am I?","Stairs"],
+ ["What has one head, one foot and four legs?","A bed"],
+ ["What has rivers with no water and cities with no people?","A map"],
+ ["What kind of room has no doors or windows?","A mushroom"],
+];
+const JOKES=[
+ ["Why don't skeletons fight each other?","They don't have the guts."],
+ ["I told my wife she was drawing her eyebrows too high.","She looked surprised."],
+ ["Why did the scarecrow win an award?","Because he was outstanding in his field."],
+ ["What do you call a fake noodle?","An impasta."],
+ ["Why don't eggs tell jokes?","They'd crack each other up."],
+ ["I'm reading a book about anti-gravity.","It's impossible to put down."],
+ ["What do you call a bear with no teeth?","A gummy bear."],
+ ["Why did the gym close down?","It just didn't work out."],
+ ["I used to hate facial hair…","but then it grew on me."],
+ ["What do you call a fish with no eyes?","A fsh."],
+ ["Why can't a bicycle stand up by itself?","It's two tired."],
+ ["How does a penguin build its house?","Igloos it together."],
+ ["Why did the electrician get the job?","He had all the right connections."],
+ ["What's an electrician's favourite ice cream?","Shock-olate."],
+ ["Why was the maths book sad?","It had too many problems."],
+ ["What do you call a sleeping bull?","A bulldozer."],
+ ["What did the ocean say to the beach?","Nothing, it just waved."],
+ ["Why do cows wear bells?","Because their horns don't work."],
+ ["I only know 25 letters of the alphabet.","I don't know y."],
+ ["What do you call a dog that does magic?","A labracadabrador."],
+ ["Why don't scientists trust atoms?","Because they make up everything."],
+ ["What did one wall say to the other?","I'll meet you at the corner."],
+ ["Why did the coffee file a police report?","It got mugged."],
+ ["How do you organise a space party?","You planet."],
+ ["What's the best thing about Switzerland?","I don't know, but the flag is a big plus."],
+ ["Why did the golfer bring two pairs of trousers?","In case he got a hole in one."],
+ ["What do you call a pig that does karate?","A pork chop."],
+ ["Why are elevator jokes so good?","They work on many levels."],
+ ["What did the grape do when it got stood on?","It let out a little wine."],
+ ["I tried to catch fog yesterday.","Mist."],
+ ["What do you call cheese that isn't yours?","Nacho cheese."],
+ ["What's a skeleton's least favourite room?","The living room."],
+ ["Why did the tomato blush?","It saw the salad dressing."],
+ ["What do you call a deer with no eyes?","No idea."],
+ ["What do you call a deer with no eyes and no legs?","Still no idea."],
+ ["Why do bees have sticky hair?","Because they use honeycombs."],
+ ["Why couldn't the leopard play hide and seek?","He was always spotted."],
+ ["What's orange and sounds like a parrot?","A carrot."],
+ ["What do you call a boomerang that doesn't come back?","A stick."],
+ ["Why did the man put his money in the freezer?","He wanted cold hard cash."],
+ ["Did you hear about the claustrophobic astronaut?","He just needed a little space."],
+ ["What kind of shoes do ninjas wear?","Sneakers."],
+ ["Why was the broom late?","It over-swept."],
+ ["What do you call a factory that makes okay products?","A satisfactory."],
+ ["Why did the drummer get a job at the bakery?","He was great with rolls."],
+ ["What's a guitarist's favourite fruit?","A strum-berry."],
+ ["Why don't oysters share their pearls?","Because they're shellfish."],
+ ["What did the zero say to the eight?","Nice belt."],
+ ["Why did the stadium get hot after the game?","All the fans left."],
+ ["I asked the gym instructor if he could teach me to do the splits.","He said, how flexible are you? I said, I can't make Tuesdays."],
+ ["What's the strongest creature in the sea?","A mussel."],
+ ["Why did the computer go to the doctor?","It had a virus."],
+ ["Why do seagulls fly over the sea?","Because if they flew over the bay they'd be bagels."],
+ ["What do you call a pile of cats?","A meowntain."],
+ ["Why did the pilot sit on the clock?","He wanted to be on time."],
+ ["How do you make a tissue dance?","Put a little boogie in it."],
+ ["Why are frogs so happy?","They eat whatever bugs them."],
+ ["What do you call a lazy kangaroo?","A pouch potato."],
+ ["Why did the rope get put in timeout?","Because it was being knotty."],
+ ["Why don't programmers like nature?","Too many bugs."],
+ ["What did the left eye say to the right eye?","Between you and me, something smells."],
+ ["Why do ducks have feathers?","To cover their butt quacks."],
+ ["Why can't you trust stairs?","They're always up to something."],
+ ["What do you call a man with a rubber toe?","Roberto."],
+ ["What did the janitor say when he jumped out of the cupboard?","Supplies!"],
+ ["Why was the belt arrested?","It was holding up a pair of trousers."],
+ ["What's brown and sticky?","A stick."],
+ ["Why did the lifter go to the bank?","To check his balance."],
+ ["What do you get if you cross a snowman with a vampire?","Frostbite."],
+ ["What kind of tree fits in your hand?","A palm tree."],
+ ["Why did the picture go to jail?","It was framed."],
+ ["How do you find Will Smith in the snow?","Look for fresh prints."],
+ ["What do you call a cow with no legs?","Ground beef."],
+ ["Why don't mountains get cold?","They wear snow caps."],
+ ["What's a ghost's favourite fruit?","Boo-berries."],
+];
+const dayIdx=(n,salt)=>{const R=rngFrom(todayKey()+salt);return Math.floor(R()*n);};
+function vRD(){const [q,a]=RIDDLES[dayIdx(RIDDLES.length,"rd")];const v=bDay().rd;const P=bProg();
+  return `<div class="card" style="text-align:center;padding:22px 18px"><div class="tiny muted">Today's riddle</div>
+   <div style="font-family:var(--display);font-size:21px;line-height:1.35;font-weight:500;margin-top:12px">${esc(q)}</div>
+   ${P.rdShow||v!=null?`<div style="margin-top:16px;font-size:20px;font-weight:700;color:var(--accent-text)">${esc(a)}</div>${v!=null?`<div class="small muted" style="margin-top:10px">${v?"You got it ✓":"Tomorrow's another one"}</div>`:`<div class="row" style="gap:8px;margin-top:14px"><button class="btn ghost" style="flex:1" data-a="rdRes" data-v="0">Missed it</button><button class="btn" style="flex:1" data-a="rdRes" data-v="1">Got it</button></div>`}`
+   :`<div class="small muted" style="margin-top:14px">Have a think. No rush.</div><button class="btn block" style="margin-top:14px" data-a="rdShow">Reveal answer</button>`}</div>
+   ${(()=>{const b=BR();const ks=Object.keys(b.done).filter(k=>b.done[k].rd!=null);const got=ks.filter(k=>b.done[k].rd).length;return ks.length?`<div class="small muted" style="text-align:center">Solved ${got} of ${ks.length} riddles so far</div>`:"";})()}`;}
+function vJK(){const n=JOKES.length;const i=(dayIdx(n,"jk")+(U.jkOff||0))%n;const [s1,p1]=JOKES[i];
+  return `<div class="card" style="text-align:center;padding:22px 18px"><div class="tiny muted">${U.jkOff?"Bonus joke":"Joke of the day"}</div>
+   <div style="font-family:var(--display);font-size:21px;line-height:1.35;font-weight:500;margin-top:12px">${esc(s1)}</div>
+   ${U.jkShow?`<div style="font-size:19px;margin-top:14px;color:var(--accent-text);font-weight:600">${esc(p1)}</div><button class="btn ghost block" style="margin-top:18px" data-a="jkNext">Another one</button>`:`<button class="btn block" style="margin-top:16px" data-a="jkShow">Punchline</button>`}</div>`;}
+
 /* ---- maths sprint ---- */
 function mxQ(){const t=Math.floor(Math.random()*5);let a,b,q,ans;
   if(t===0){a=12+Math.floor(Math.random()*88);b=12+Math.floor(Math.random()*88);q=`${a} + ${b}`;ans=a+b;}
@@ -2614,18 +2772,19 @@ setInterval(()=>{const M=U.mx;if(!M||M.over)return;const left=Math.ceil((M.end-D
 
 /* ---- views ---- */
 function brainCard(){const n=bCount();const st=bStreak();
-  return `<div class="card tap half" data-a="go" data-v="brain"><div class="row" style="gap:10px">${ring(44,5,n/GAMES.length,"var(--accent)",`<span class="num" style="font-weight:700;font-size:13px">${n}/${GAMES.length}</span>`)}<div style="min-width:0;flex:1"><div class="tiny muted">DBS Brain</div><div class="ell" style="font-weight:700">${n===GAMES.length?"All done":n?"Keep going":"Daily puzzles"}</div><div class="small muted ell rsub">${st?`${st}-day streak`:"4 puzzles"}</div></div></div></div>`;}
+  return `<div class="card tap half" data-a="go" data-v="brain"><div class="row" style="gap:10px">${ring(44,5,n/GAMES.length,"var(--accent)",`<span class="num" style="font-weight:700;font-size:13px">${n}/${GAMES.length}</span>`)}<div style="min-width:0;flex:1"><div class="tiny muted">DBS Brain</div><div class="ell" style="font-weight:700">${n===GAMES.length?"All done":n?"Keep going":"Daily puzzles"}</div><div class="small muted ell rsub">${st?`${st}-day streak`:`${GAMES.length} puzzles`}</div></div></div></div>`;}
 function vBrain(){const g=U.bg;const day=bDay();
-  if(g){const G=GAMES.find(x=>x.id===g);return `${topbar(G.n,day[g]!=null?"Done today ✓":G.sub,"brainBack","")}<div class="stack">${g==="ws"?vWS():g==="su"?vSU():g==="cw"?vCW():vMX()}</div>`;}
+  if(g){const G=GAMES.find(x=>x.id===g)||JOKE_G;return `${topbar(G.n,day[g]!=null?"Done today ✓":G.sub,"brainBack","")}<div class="stack">${g==="ws"?vWS():g==="su"?vSU():g==="cw"?vCW():g==="rd"?vRD():g==="jk"?vJK():vMX()}</div>`;}
   const st=bStreak();
   return `${topbar("DBS Brain",`${bCount()}/${GAMES.length} today${st?` · ${st}-day streak`:""}`,"brainBack","")}
   <div class="stack">
-   ${GAMES.map(G=>{const v=day[G.id];return `<button class="card tap row" style="gap:14px;text-align:left;width:100%" data-a="brainOpen" data-g="${G.id}"><span class="bico">${G.ic}</span><div style="flex:1;min-width:0"><h3>${G.n}</h3><div class="small muted">${v!=null?(G.id==="mx"?`Today ${v} · best ${BR().best.mx||v}`:`Solved in ${secs(v)}`):G.sub}</div></div>${v!=null?`<span class="pill ok">${ic("check",14)}</span>`:`<span class="muted">${ic("chev",18)}</span>`}</button>`;}).join("")}
+   ${GAMES.map(G=>{const v=day[G.id];return `<button class="card tap row" style="gap:14px;text-align:left;width:100%" data-a="brainOpen" data-g="${G.id}"><span class="bico">${G.ic}</span><div style="flex:1;min-width:0"><h3>${G.n}</h3><div class="small muted">${v!=null?(G.id==="mx"?`Today ${v} · best ${BR().best.mx||v}`:G.id==="rd"?(v?"Got it":"Answer seen"):`Solved in ${secs(v)}`):G.sub}</div></div>${v!=null?`<span class="pill ok">${ic("check",14)}</span>`:`<span class="muted">${ic("chev",18)}</span>`}</button>`;}).join("")}
+   <button class="card tap row" style="gap:14px;text-align:left;width:100%" data-a="brainOpen" data-g="jk"><span class="bico">${JOKE_G.ic}</span><div style="flex:1;min-width:0"><h3>${JOKE_G.n}</h3><div class="small muted">${JOKE_G.sub}</div></div><span class="muted">${ic("chev",18)}</span></button>
    <div class="small muted" style="text-align:center;padding:0 10px">New puzzles every day. Novelty and challenge matter most; for long-term brain health the strongest evidence is still exercise, sleep and time with people.</div>
   </div>`;}
 function brainAction(a,d){
  switch(a){
-  case "brainOpen":U.bg=d.g;U.wsA=null;U.suSel=null;window.scrollTo(0,0);render();return true;
+  case "brainOpen":U.bg=d.g;U.wsA=null;U.suSel=null;U.jkShow=0;window.scrollTo(0,0);render();return true;
   case "brainBack":if(U.bg){U.bg=null;if(U.mx&&!U.mx.over)U.mx=null;}else{U.view="today";}window.scrollTo(0,0);render();return true;
   case "wsTap":wsTap(+d.r,+d.c);render();return true;
   case "suTap":U.suSel=+d.i;render();return true;
@@ -2637,6 +2796,10 @@ function brainAction(a,d){
   case "cwCheck":U.cwCheck=!U.cwCheck;render();return true;
   case "cwReveal":{const C=bProg().cw;const s=U.cwSel;const w=s&&cwWordAt(C,s.r,s.c,s.d);if(w){for(let i=0;i<w.w.length;i++){const r=w.r+(w.d==="d"?i:0),c=w.c+(w.d==="a"?i:0);C.v[r][c]=w.w[i];}C.revealed=(C.revealed||0)+1;
      if(C.sol.every((row,r)=>row.every((x,c)=>!x||C.v[r][c]===x))){bFinish("cw",Math.round((Date.now()-C.t0)/1000));toast("Crossword complete");}save();}render();return true;}
+  case "rdShow":bProg().rdShow=1;save();render();return true;
+  case "rdRes":bFinish("rd",+d.v);render();return true;
+  case "jkShow":U.jkShow=1;render();return true;
+  case "jkNext":U.jkOff=(U.jkOff||0)+1;U.jkShow=0;render();return true;
   case "mxStart":U.mx={score:0,end:Date.now()+60000,cur:mxQ(),inp:""};render();return true;
   case "mxKey":{const M=U.mx;if(!M||M.over)return true;if(Date.now()>=M.end){mxEnd();return true;}
     if(d.k==="skip"){M.cur=mxQ();M.inp="";}else if(d.k==="⌫")M.inp=M.inp.slice(0,-1);else{M.inp=(M.inp+d.k).slice(0,5);M.bad=false;
