@@ -566,7 +566,38 @@ const P_CENA={id:"cena",name:"DBS CENA",sub:"Legs · Chest · Arms · Shoulders 
  {id:"shoulders",name:"Shoulders",sub:"Day 4",groups:[G(60,E("Rear Delt Machine Flyes",5,"20")),G(75,E("Machine Overhead Press",5,"20")),G(60,E("Machine Lateral Raise",5,"20")),G(90,E("Seated Overhead Press",3,"10")),G(60,E("Dumbbell Lateral Raise",3,"12")),G(120,E("Military Press",3,"10")),ABS()]},
  {id:"back",name:"Back",sub:"Day 5",groups:[G(75,E("Lat Pull Down",5,"20")),G(90,E("Barbell Row",5,"12–20")),G(75,E("One Arm Dumbbell Row",5,"12–20 /arm")),G(120,E("Deadlift",4,"8–15")),G(75,E("High Pulls",4,"20")),G(90,E("Pull Up",4,"Failure","bw")),G(60,E("Barbell Shrug",5,"20")),ABS()]},
 ]};
-const BUILTIN=[P_V1,P_TAC,P_SEAL,P_ARN,P_CENA,P_V2,P_PPL3];
+
+/* ---------- Women's programmes ---------- */
+const S34=w=>w<=6?3:4, S23=w=>w<=6?2:3;
+const P_MSW={id:"msw12",name:"Muscle & Strength Women's Workout",sub:"Legs & Glutes · Back & Arms · Chest & Shoulders",weeks:12,source:"Muscle & Strength 12-Week Women's Workout",
+ note:"Rest 30–90 s. Start at the low end of sets, add a set as weeks go on, then add reps or weight. Optional cardio after each session.",
+ days:[
+ {id:"lg1",name:"Legs & Glutes",sub:"Mon · optional 15 min bike HIIT",build:w=>[G(90,E("Squat",S34(w),"6–12")),G(75,E("Dumbbell Lunge",S23(w),"12–15 /leg")),G(75,E("Dumbbell Step Up",S23(w),"12–15 /leg")),G(90,E("Barbell Hip Thrust",3,"6–12")),G(60,E("Glute Cable Kickback",S23(w),"12–15 /leg"))]},
+ {id:"ba",name:"Back & Arms",sub:"Tue · optional 30 min StairMill",build:w=>[G(90,E("Lat Pull Down",S34(w),"6–12")),G(75,E("One Arm Dumbbell Row",S23(w),"12–15 /arm")),G(75,E("Seated Cable Row",S23(w),"12–15")),G(60,[E("Dumbbell Curl",3,"12"),E("Tricep Overhead Extension",3,"12")],"Superset"),G(60,[E("Cable Curl",3,"15"),E("Cable Pressdown",3,"15")],"Superset")]},
+ {id:"lg2",name:"Legs & Glutes",sub:"Wed · optional 30 min incline walk",build:w=>[G(90,E("Goblet Squat",S34(w),"6–12")),G(75,E("Romanian Deadlift",S23(w),"12–15")),G(75,E("Dumbbell Stiff Leg Deadlift",S23(w),"12–15")),G(75,E("Smith Machine Sumo Squat",3,"6–12")),G(60,E("Glute Kickback",3,"15 /leg"))]},
+ {id:"cs",name:"Chest & Shoulders",sub:"Thu · optional 15 min row/bike HIIT",build:w=>[G(90,E("Dumbbell Bench Press",S34(w),"6–12")),G(75,E("Incline Dumbbell Press",S23(w),"12–15")),G(60,E("Machine Chest Fly",S23(w),"12–15")),G(90,E("Seated Dumbbell Press",S34(w),"6–12")),G(60,E("Lateral Raise",S23(w),"12–15"))]},
+ {id:"la",name:"Legs & Arms",sub:"Fri · optional 30 min StairMill",build:w=>[G(120,E("Deadlift",S34(w),"6–12")),G(75,E("Good Morning",S23(w),"12–15")),G(60,E("Leg Extension",S23(w),"12–15")),G(60,E("Incline Dumbbell Curl",3,"12")),G(60,E("Incline Skullcrusher",3,"12"))]},
+ {id:"abs",name:"Abs",sub:"Weekend · optional",optional:true,groups:[G(45,E("Plank",3,"20 s","time")),G(45,E("Lying Floor Leg Raise",3,"10","bw")),G(45,E("Crunch",3,"20","bw")),G(45,E("Side Crunch",2,"15 /side","bw"))]},
+]};
+const P_AMW={id:"amw8",name:"Advanced Muscle Building for Women",sub:"Upper / Lower · 4 days · 8 weeks",weeks:8,source:"Muscle & Strength 8-Week Advanced Muscle Building Workout for Women (structure)",
+ note:"Slow, controlled reps. Finish 1–2 reps short of failure. Main lifts 2–3 min rest, secondary 90 s, isolation and core ~60 s.",
+ days:[
+ {id:"lo1",name:"Lower Body & Core",sub:"Quads · strength · core",groups:[G(150,E("Back Squat",4,"6–8")),G(90,E("Leg Press",3,"10–12")),G(90,E("Bulgarian Split Squat",3,"10 /leg")),G(60,E("Leg Extension",3,"12–15")),G(60,E("Seated Calf Raise",3,"12–15")),G(60,E("Cable Crunch",3,"12–15")),G(60,E("Plank",3,"45 s","time"))]},
+ {id:"up1",name:"Upper Body",sub:"Back · shoulders",groups:[G(150,E("Assisted Pull Up",4,"6–10")),G(120,E("Barbell Row",4,"8–10")),G(90,E("Seated Dumbbell Press",3,"8–10")),G(75,E("Single Arm Cable Row",3,"10–12 /arm")),G(60,E("Lateral Raise",3,"12–15")),G(60,E("Face Pull",3,"15")),G(60,[E("EZ Bar Curl",3,"10–12"),E("Rope Pushdown",3,"10–12")],"Superset")]},
+ {id:"lo2",name:"Lower Body & Glutes",sub:"Hamstrings · glutes",groups:[G(150,E("Romanian Deadlift",4,"8")),G(120,E("Barbell Hip Thrust",4,"8–10")),G(90,E("Walking Lunge",3,"12 /leg")),G(60,E("Lying Leg Curl",3,"10–12")),G(60,E("Glute Cable Kickback",3,"12–15 /leg")),G(60,E("Hanging Knee Raise",3,"12","bw"))]},
+ {id:"up2",name:"Upper Body",sub:"Chest · shoulders · arms",groups:[G(150,E("Incline Dumbbell Press",4,"8–10")),G(90,E("Machine Chest Press",3,"10–12")),G(90,E("Arnold Press",3,"10")),G(90,E("Lat Pull Down",3,"10–12")),G(60,E("Cable Lateral Raise",3,"15")),G(60,[E("Incline Dumbbell Curl",3,"12"),E("Overhead Cable Extension",3,"12")],"Superset")]},
+]};
+const RG=(w,a,b,c)=>w<=4?a:w<=8?b:c;
+const P_SCULPT={id:"sculpt",name:"DBS SCULPT",sub:"Glutes · Shape · Strength · Conditioning",weeks:12,deload:[4,8],source:"DBS original",
+ note:"Glute-priority 4-day split with optional conditioning. Reps drop and weight climbs across three 4-week blocks. Train 1–2 reps from failure; add weight when you hit the top of the range on every set.",
+ days:[
+ {id:"gh",name:"Glutes & Hamstrings",sub:"Day 1",build:w=>[G(150,E("Barbell Hip Thrust",4,RG(w,"10–12","8–10","6–8"))),G(120,E("Romanian Deadlift",3,RG(w,"10–12","8–10","6–8"))),G(90,E("Bulgarian Split Squat",3,RG(w,"12 /leg","10 /leg","8 /leg"),"kg","Lean slightly forward for glutes")),G(60,E("Lying Leg Curl",3,"10–12")),G(60,E("Cable Hip Abduction",3,"15 /leg")),G(60,E("45° Back Extension",2,"15","bw","Round the upper back, squeeze glutes"))]},
+ {id:"push",name:"Upper · Shape",sub:"Day 2 · shoulders · chest · arms",build:w=>[G(120,E("Incline Dumbbell Press",4,RG(w,"10–12","8–10","6–8"))),G(90,E("Seated Dumbbell Press",3,RG(w,"10–12","8–10","8"))),G(60,E("Cable Lateral Raise",4,"12–15 /arm")),G(60,E("Push Up",2,"Max","bw")),G(60,[E("Rope Pushdown",3,"12"),E("Overhead Cable Extension",3,"12")],"Superset"),G(45,E("Pallof Press",3,"10 /side"))]},
+ {id:"qg",name:"Quads & Glutes",sub:"Day 3",build:w=>[G(150,E("Back Squat",4,RG(w,"10","8","6"))),G(90,E("Leg Press",3,RG(w,"12–15","10–12","8–10"),"kg","Feet high and wide for glutes")),G(90,E("Walking Lunge",3,"12 /leg")),G(60,E("Leg Extension",3,"15")),G(60,E("Glute Bridge",3,"15","kg","Pause 2 s at the top")),G(45,E("Standing Calf Raise",3,"15"))]},
+ {id:"pull",name:"Upper · Posture",sub:"Day 4 · back · rear delts · arms",build:w=>[G(120,E("Lat Pull Down",4,RG(w,"10–12","8–10","6–8"))),G(90,E("Chest Supported Row",3,"10–12")),G(75,E("Single Arm Cable Row",3,"12 /arm")),G(60,E("Face Pull",3,"15")),G(60,E("Reverse Pec Deck",3,"15")),G(60,[E("Dumbbell Curl",3,"12"),E("Hammer Curl",3,"12")],"Superset"),G(45,E("Dead Bug",3,"10 /side","bw"))]},
+ {id:"cond",name:"Conditioning & Core",sub:"Optional · 30–40 min",optional:true,groups:[G(60,E("Kettlebell Swing",5,"15")),G(60,E("Farmer's Carry",4,"30 m","len")),G(45,E("Hanging Knee Raise",3,"12","bw")),G(45,E("Side Plank",3,"30 s /side","time")),G(0,E("Incline Walk or Bike (Zone 2)",1,"20–30 min","time"))]},
+]};
+const BUILTIN=[P_V1,P_TAC,P_SEAL,P_ARN,P_CENA,P_V2,P_PPL3,P_SCULPT,P_MSW,P_AMW];
 
 const YP=(n,s)=>({n,s});
 const FLOWS=[
@@ -2306,7 +2337,7 @@ const GAMES=[
  {id:"mx",n:"Maths sprint",sub:"60 seconds, quick fire",ic:"±"},
  {id:"rd",n:"Riddle",sub:"One a day",ic:"?"},
 ];
-const JOKE_G={id:"jk",n:"Daily joke",sub:"Something to make you smile",ic:"☺"};
+const JOKE_G={id:"jk",n:"Jokes",sub:"Something to make you smile",ic:"☺"};
 const bDay=()=>BR().done[todayKey()]||{};
 const bCount=()=>GAMES.filter(g=>bDay()[g.id]!=null).length;
 function bStreak(){const d=new Date();const has=k=>Object.keys(BR().done[k]||{}).length>0;if(!has(todayKey(d)))d.setDate(d.getDate()-1);let n=0;while(n<999&&has(todayKey(d))){n++;d.setDate(d.getDate()-1);}return n;}
@@ -2747,7 +2778,7 @@ function vRD(){const [q,a]=RIDDLES[dayIdx(RIDDLES.length,"rd")];const v=bDay().r
    :`<div class="small muted" style="margin-top:14px">Have a think. No rush.</div><button class="btn block" style="margin-top:14px" data-a="rdShow">Reveal answer</button>`}</div>
    ${(()=>{const b=BR();const ks=Object.keys(b.done).filter(k=>b.done[k].rd!=null);const got=ks.filter(k=>b.done[k].rd).length;return ks.length?`<div class="small muted" style="text-align:center">Solved ${got} of ${ks.length} riddles so far</div>`:"";})()}`;}
 function vJK(){const n=JOKES.length;const i=(dayIdx(n,"jk")+(U.jkOff||0))%n;const [s1,p1]=JOKES[i];
-  return `<div class="card" style="text-align:center;padding:22px 18px"><div class="tiny muted">${U.jkOff?"Bonus joke":"Joke of the day"}</div>
+  return `<div class="card" style="text-align:center;padding:22px 18px"><div class="tiny muted">${U.jkOff?"Another one":"Today's joke"}</div>
    <div style="font-family:var(--display);font-size:21px;line-height:1.35;font-weight:500;margin-top:12px">${esc(s1)}</div>
    ${U.jkShow?`<div style="font-size:19px;margin-top:14px;color:var(--accent-text);font-weight:600">${esc(p1)}</div><button class="btn ghost block" style="margin-top:18px" data-a="jkNext">Another one</button>`:`<button class="btn block" style="margin-top:16px" data-a="jkShow">Punchline</button>`}</div>`;}
 
