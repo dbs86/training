@@ -337,6 +337,8 @@ details summary{cursor:pointer;list-style:none}details summary::-webkit-details-
 .segr span{display:grid;place-items:center;height:40px;border-radius:11px;background:var(--surface2);font-weight:700;color:var(--muted)}
 .segr input:checked+span{background:var(--accent);color:var(--accent-ink,#fff)}
 .today .top h1,.top h1[data-fit]{text-transform:none!important}
+.today .daily{padding:2px 8px 0;gap:3px}
+.today .daily.sm .dtxt{font-size:14px;line-height:1.3}.today .daily.sm .tiny{display:none}.today .daily.sm .dwho{display:inline;margin:0 0 0 4px}
 </style>
 </head>
 <body>
@@ -789,7 +791,7 @@ const weekStart=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate(
 
 /* ================= STORE ================= */
 const KEY="dbspplx_v2";
-const DEF={v:3,theme:"system",style:"b",accent:null,font:"outfit",unit:"kg",height:178,targetKg:84,targetBf:12,
+const DEF={v:3,theme:"light",style:"b",accent:null,font:"outfit",unit:"kg",height:178,targetKg:84,targetBf:12,
   prog:"pplx2",progWeek:{pplx2:1},logs:{},completions:[],swaps:{},customProgs:[],active:null,
   yoga:{},cardio:[],stretch:[],body:[],fast:{active:null,goal:16,history:[]},fastView:"elapsed",
   checkinSeen:"",notif:false,spotify:{clientId:"",tokens:null},oldImported:false,oldDismissed:false};
@@ -982,7 +984,7 @@ const ICON={
 const ic=(n,s=16)=>ICON[n].replace("<svg",`<svg width="${s}" height="${s}"`);
 
 /* ================= THEME ================= */
-const STYLES=[{id:"a",name:"Carbon",sub:"+ Volt",sw:["#0B0C0B","#1E211E","#C6F432"]},{id:"b",name:"Sand",sub:"+ Clay",sw:["#F3EDE4","#EDE5D9","#B65F3C"]},{id:"c",name:"Midnight",sub:"+ Ember",sw:["#0D1019","#1F2432","#F07A3A"]},{id:"d",name:"Forest",sub:"+ Brass",sw:["#0F1510","#1F2A21","#D4AF4E"]},{id:"e",name:"Arctic",sub:"+ Ice",sw:["#F0F4F7","#E3EAF0","#2C8FD6"]},{id:"f",name:"Blackout",sub:"+ Crimson",sw:["#0C0A0B","#211B1C","#E0303F"]},{id:"g",name:"Modern",sub:"Slate · Mint",sw:["#16191E", "#2A2F37", "#34D399"]},{id:"h",name:"Influencer",sub:"Blush · Gold",sw:["#FBF3F1", "#D4918A", "#D9B27C"]},{id:"i",name:"Gothic",sub:"Velvet · Plum",sw:["#0D0A0F", "#211A25", "#9B4D8A"]},{id:"j",name:"Heavy Metal",sub:"Steel · Hazard",sw:["#08090A", "#3A3F45", "#FFD000"]},{id:"k",name:"Basic",sub:"Paper · Ink",sw:["#FFFFFF", "#BDBDBD", "#111111"]},{id:"l",name:"Psychedelic",sub:"Neon · Haze",sw:["#FF4FD8", "#7B61FF", "#3EE6C9"]}];
+const STYLES=[{id:"b",name:"Sand",sub:"+ Clay",sw:["#F3EDE4","#EDE5D9","#B65F3C"]},{id:"a",name:"Carbon",sub:"+ Volt",sw:["#0B0C0B","#1E211E","#C6F432"]},{id:"c",name:"Midnight",sub:"+ Ember",sw:["#0D1019","#1F2432","#F07A3A"]},{id:"d",name:"Forest",sub:"+ Brass",sw:["#0F1510","#1F2A21","#D4AF4E"]},{id:"e",name:"Arctic",sub:"+ Ice",sw:["#F0F4F7","#E3EAF0","#2C8FD6"]},{id:"f",name:"Blackout",sub:"+ Crimson",sw:["#0C0A0B","#211B1C","#E0303F"]},{id:"g",name:"Modern",sub:"Slate · Mint",sw:["#16191E", "#2A2F37", "#34D399"]},{id:"h",name:"Influencer",sub:"Blush · Gold",sw:["#FBF3F1", "#D4918A", "#D9B27C"]},{id:"i",name:"Gothic",sub:"Velvet · Plum",sw:["#0D0A0F", "#211A25", "#9B4D8A"]},{id:"j",name:"Heavy Metal",sub:"Steel · Hazard",sw:["#08090A", "#3A3F45", "#FFD000"]},{id:"k",name:"Basic",sub:"Paper · Ink",sw:["#FFFFFF", "#BDBDBD", "#111111"]},{id:"l",name:"Psychedelic",sub:"Neon · Haze",sw:["#FF4FD8", "#7B61FF", "#3EE6C9"]}];
 const ACCENTS=["#B65F3C","#E0303F","#F07A3A","#D4AF4E","#B9EA1E","#2FB67C","#2C8FD6","#7B61FF"];
 const FONTS=[
  {id:"outfit",name:"Outfit",fam:"Outfit",q:"Outfit:wght@400;500;600",w:500,ls:"-.01em",vibe:"Soft"},
@@ -1051,7 +1053,7 @@ function render(){
 }
 function fitAll(){document.querySelectorAll("[data-fit]").forEach(el=>{el.style.fontSize="";const max=parseFloat(getComputedStyle(el).fontSize);let fs=max;
   while(el.scrollWidth>el.clientWidth+1&&fs>14){fs-=0.5;el.style.fontSize=fs+"px";}});}
-window.addEventListener("resize",()=>{fitAll();fitDaily();});try{document.fonts&&document.fonts.ready.then(fitAll);document.fonts&&document.fonts.addEventListener("loadingdone",fitAll);}catch(e){}
+window.addEventListener("resize",()=>{fitAll();fitDaily();});try{document.fonts&&document.fonts.ready.then(()=>{fitAll();fitDaily();});document.fonts&&document.fonts.addEventListener("loadingdone",fitAll);}catch(e){}
 function nav(){
   const t=[["today","Today"],["train","Train"],["food","Food"],["recover","Recover"],["progress","Progress"]];
   const cur=U.view==="brain"?"today":U.view==="fast"?"food":["body","photos"].includes(U.view)?"progress":U.view==="log"?"recover":U.view==="yoga"?(U.yoga&&U.yoga.mob?"recover":"today"):["programmes","edit","editDay"].includes(U.view)?"train":U.view;
@@ -2286,8 +2288,10 @@ function dailyItem(){const d=new Date();const doy=Math.floor((d-new Date(d.getFu
 function dailyCard(){const [t,x,who]=dailyItem();
   return `<button class="daily" data-a="dailyNext"><div class="tiny muted">${t==="q"?"Quote of the day":"Fact of the day"}</div><div class="dtxt">${t==="q"?`“${esc(x)}”`:esc(x)}${who?`<span class="dwho"> — ${esc(who)}</span>`:""}</div></button>`;}
 function fitDaily(){let c=document.querySelector(".today .daily");if(!c)return;
-  const over=()=>{const nav=document.querySelector(".nav");const top=nav?nav.getBoundingClientRect().top:innerHeight;return c.getBoundingClientRect().bottom>top-6||document.documentElement.scrollHeight>innerHeight+1;};
-  const base=U.dailyOff||0;for(let k=0;k<DAILY.length;k++){U.dailyOff=base+k;const h=document.createElement("div");h.innerHTML=dailyCard();const n=h.firstElementChild;c.replaceWith(n);c=n;if(!over())return;}
+  c.style.display="none";const base0=document.documentElement.scrollHeight;c.style.display="";
+  const over=()=>{const nav=document.querySelector(".nav");const top=nav?nav.getBoundingClientRect().top:innerHeight;return c.getBoundingClientRect().bottom>top-4||document.documentElement.scrollHeight>Math.max(base0,innerHeight)+1;};
+  const base=U.dailyOff||0;
+  for(const small of [false,true]){for(let k=0;k<DAILY.length;k++){U.dailyOff=base+k;const h=document.createElement("div");h.innerHTML=dailyCard();const n=h.firstElementChild;if(small)n.classList.add("sm");c.replaceWith(n);c=n;if(!over())return;}}
   U.dailyOff=base;c.style.display="none";}
 
 /* ================= DBS BRAIN ================= */
