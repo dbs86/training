@@ -26,7 +26,7 @@
 <title>DBS HEALTH &amp; FITNESS</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root{--display:Outfit,Inter,system-ui,sans-serif;
   --bg:#F3EDE4;--surface:#FBF8F3;--surface2:#EDE5D9;--line:#E2D8CA;
@@ -285,6 +285,58 @@ button.card{width:100%;font:inherit;color:inherit}
 .chipn{width:28px;height:28px;border-radius:8px;background:var(--surface2);font-weight:700;font-size:12.5px;color:var(--muted)}.chipn.on{background:var(--accent);color:#fff}
 .icon-btn.sm{width:32px;height:32px}
 details summary{cursor:pointer;list-style:none}details summary::-webkit-details-marker{display:none}details summary:before{content:"＋ "}details[open] summary:before{content:"－ "}
+.today .daily{text-align:left;width:100%;display:flex;flex-direction:column;gap:4px;justify-content:center;padding:10px 14px}
+.today .daily .dwho{font-family:var(--body,inherit);font-size:12.5px;color:var(--muted);font-weight:500;white-space:nowrap}
+.today .daily .dtxt{font-family:var(--display);font-size:15.5px;line-height:1.3;font-weight:500;color:var(--text);text-wrap:pretty}
+@media (max-height:780px){.today .daily .dtxt{font-size:14.5px}}
+/* today halves */
+.today .halves{gap:9px}.today .half{padding:11px 12px}.today .half .ell{font-size:14.5px}
+@media (max-height:780px){.today .halves{gap:7px}}
+/* daily quote: no card */
+.today .daily{background:none;border:0;box-shadow:none;padding:6px 10px 0;text-align:center;align-items:center;gap:6px}
+.today .daily .tiny{opacity:.7}
+.today .daily .dtxt{font-family:"Inter",var(--body,system-ui),sans-serif;font-style:italic;font-weight:400;font-size:16.5px;line-height:1.4;color:var(--text);opacity:.85;max-width:34ch}
+.today .daily .dwho{display:block;font-style:normal;margin-top:4px;font-size:12px;letter-spacing:.02em}
+@media (max-height:780px){.today .daily .dtxt{font-size:15px}}
+/* sleep card */
+.sleeprow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.sbig{background:var(--surface2);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.sbig .bare{border:0;background:none;font-family:var(--display);font-size:28px;font-weight:600;color:var(--text);width:100%;padding:0;outline:none}
+.sbig .bare::placeholder{color:var(--muted);opacity:.6}
+.sbig span{font-size:12px;color:var(--muted);font-weight:600}
+.bedwake{display:flex;align-items:center;gap:8px;margin-top:10px}
+.tpill{position:relative;flex:1;display:flex;flex-direction:column;gap:2px;background:var(--surface2);border-radius:14px;padding:9px 12px;cursor:pointer}
+.tpill span{font-size:12px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:5px}
+.tpill b{font-family:var(--display);font-size:22px;font-weight:600}
+.tpill input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;-webkit-appearance:none;appearance:none}
+.bwarrow{color:var(--muted);font-weight:700}
+/* brain */
+.bico{width:40px;height:40px;border-radius:12px;background:var(--accent-soft,var(--surface2));color:var(--accent-text,var(--accent));display:grid;place-items:center;font-size:20px;font-weight:700;flex:none}
+.wsg{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;max-width:360px;margin-left:auto;margin-right:auto}
+.wsc{aspect-ratio:1;border-radius:7px;font-weight:700;font-size:15px;background:transparent;color:var(--text);font-family:var(--display)}
+.wsc.f{background:var(--accent-soft,var(--surface2));color:var(--accent-text,var(--accent))}
+.wsc.a{background:var(--accent);color:#fff}
+.wsl{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}.wsl span{font-weight:600;font-size:14px}.wsl span.f{text-decoration:line-through;color:var(--muted)}
+.sug{display:grid;grid-template-columns:repeat(9,1fr);max-width:360px;margin:10px auto 0;border:2px solid var(--text);border-radius:6px;overflow:hidden}
+.suc{aspect-ratio:1;font-size:19px;font-weight:500;color:var(--accent-text,var(--accent));background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--display)}
+.suc.g{color:var(--text);font-weight:700}.suc.h{background:var(--surface2)}.suc.m{background:var(--accent-soft,var(--surface2))}.suc.s{background:var(--accent);color:#fff}
+.suc.x{color:#c0392b;text-decoration:underline}.suc.br{border-right:2px solid var(--text)}.suc.bb{border-bottom:2px solid var(--text)}
+.supad{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}.supad .btn{height:44px;font-size:18px;padding:0}
+.cwg{display:grid;gap:2px;justify-content:center}
+.cwc{position:relative;background:var(--surface);border:1.5px solid var(--text);border-radius:4px;font-weight:700;font-size:17px;text-transform:uppercase;font-family:var(--display);color:var(--text);padding:0}
+.cwc i{position:absolute;top:1px;left:2px;font-size:8.5px;font-style:normal;font-weight:700;color:var(--muted)}
+.cwc.h{background:var(--accent-soft,var(--surface2))}.cwc.s{background:var(--accent);color:#fff}.cwc.s i{color:#fff}.cwc.x{color:#c0392b}
+.cwbar{margin-top:10px;background:var(--surface2);border-radius:10px;padding:8px 10px;font-size:14px}
+.cwcl{text-align:left;padding:6px 8px;border-radius:8px;font-size:14px;width:100%;background:none;color:var(--text)}.cwcl.on{background:var(--accent-soft,var(--surface2))}
+.kb{margin-top:10px;display:flex;flex-direction:column;gap:5px}.kb div{display:flex;gap:4px;justify-content:center}
+.kb button{flex:1;max-width:34px;height:42px;border-radius:7px;background:var(--surface2);font-weight:700;font-size:15px;color:var(--text);padding:0}
+.mxin{font-family:var(--display);font-size:30px;font-weight:600;border-bottom:2px solid var(--line);min-width:120px;display:inline-block;padding:2px 10px;margin-bottom:6px}
+.mxin.x{color:#c0392b;border-color:#c0392b}
+.cwcl{min-height:0;height:auto;line-height:1.35;display:block}
+.segr{position:relative;display:block;cursor:pointer}.segr input{position:absolute;opacity:0;inset:0;margin:0}
+.segr span{display:grid;place-items:center;height:40px;border-radius:11px;background:var(--surface2);font-weight:700;color:var(--muted)}
+.segr input:checked+span{background:var(--accent);color:var(--accent-ink,#fff)}
+.today .top h1,.top h1[data-fit]{text-transform:none!important}
 </style>
 </head>
 <body>
@@ -900,6 +952,8 @@ function checkin(){
 /* ================= ICONS ================= */
 const sv=(p,w=1.8)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const ICON={
+ moon:sv('<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>'),
+ sun:sv('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
  today:sv('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
  train:sv('<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>'),
  progress:sv('<path d="M3 17l5-5 4 4 8-8M15 8h5v5"/>'),
@@ -989,18 +1043,18 @@ function figure(fig,size=130){const f=FIGS[fig]||FIGS.stretch;return `<svg width
 function render(){
   applyTheme();
   const v=U.view;let h="";
-  const V={tests:vTests,bloods:vBloods,recover:vRecover,photos:vPhotos,food:vFood,edit:vEdit,editDay:vEditDay,today:vToday,train:vTrain,session:vSession,yoga:vYoga,log:vLog,body:vBody,fast:vFast,settings:vSettings,progress:vProgress,programmes:vProgrammes};
+  const V={brain:vBrain,tests:vTests,bloods:vBloods,recover:vRecover,photos:vPhotos,food:vFood,edit:vEdit,editDay:vEditDay,today:vToday,train:vTrain,session:vSession,yoga:vYoga,log:vLog,body:vBody,fast:vFast,settings:vSettings,progress:vProgress,programmes:vProgrammes};
   h=(V[v]||vToday)();
   const showNav=!(v==="session"||(v==="yoga"&&U.yoga));
   $("#app").innerHTML=`<div class="wrap ${showNav?"":"nonav"} ${v==="today"?"todayw":""}">${h}</div>${showNav?nav():""}`;
-  renderOverlay();renderTicker();fitAll();
+  renderOverlay();renderTicker();fitAll();fitDaily();
 }
 function fitAll(){document.querySelectorAll("[data-fit]").forEach(el=>{el.style.fontSize="";const max=parseFloat(getComputedStyle(el).fontSize);let fs=max;
   while(el.scrollWidth>el.clientWidth+1&&fs>14){fs-=0.5;el.style.fontSize=fs+"px";}});}
-window.addEventListener("resize",fitAll);try{document.fonts&&document.fonts.ready.then(fitAll);document.fonts&&document.fonts.addEventListener("loadingdone",fitAll);}catch(e){}
+window.addEventListener("resize",()=>{fitAll();fitDaily();});try{document.fonts&&document.fonts.ready.then(fitAll);document.fonts&&document.fonts.addEventListener("loadingdone",fitAll);}catch(e){}
 function nav(){
   const t=[["today","Today"],["train","Train"],["food","Food"],["recover","Recover"],["progress","Progress"]];
-  const cur=U.view==="fast"?"food":["body","photos"].includes(U.view)?"progress":U.view==="log"?"recover":U.view==="yoga"?(U.yoga&&U.yoga.mob?"recover":"today"):["programmes","edit","editDay"].includes(U.view)?"train":U.view;
+  const cur=U.view==="brain"?"today":U.view==="fast"?"food":["body","photos"].includes(U.view)?"progress":U.view==="log"?"recover":U.view==="yoga"?(U.yoga&&U.yoga.mob?"recover":"today"):["programmes","edit","editDay"].includes(U.view)?"train":U.view;
   return `<div class="nav"><div class="in">${t.map(([k,l])=>`<button data-a="go" data-v="${k}" class="${cur===k?"on":""}">${ICON[k]}<span>${l}</span></button>`).join("")}</div></div>`;
 }
 function topbar(title,sub,back,right){
@@ -1023,14 +1077,14 @@ function vToday(){
   const notice=hasOld()&&!S.oldImported&&!S.oldDismissed?`<div class="notice slim"><span class="ell" style="flex:1"><b>Bring over your old app's data</b></span><button class="btn sm" data-a="oldImport">Import</button><button class="del" data-a="oldDismiss" aria-label="Dismiss">×</button></div>`
     :showCi?`<div class="notice slim tap" data-a="openCheckin"><span class="ni">${ic("cal",15)}</span><span class="ell" style="flex:1"><b>Weekly check-in</b> <span class="muted">· ${esc(ci.tips[0].t)}</span></span><button class="del" data-a="ciDismiss" aria-label="Dismiss">×</button></div>`:backupDue()?backupNotice():"";
   return `<div class="today">
-  ${topbar(greet+", David",now.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}))}
+  ${topbar(greet+(PROF().name?", "+esc(niceName(PROF().name)):""),now.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"}))}
   ${notice}
   <div class="card tap ${yDone?"":"hero"}" data-a="openYoga" data-f="${f.id}">
     <div class="row between"><span class="tiny" style="opacity:.85">Morning yoga</span>${yDone?`<span class="pill ok">${ic("check",14)} Done</span>`:`<span class="pill" style="background:rgba(255,255,255,.18);color:inherit">${Math.round(flowSecs(f)/60)} min</span>`}</div>
     <h2 class="ell" style="margin-top:6px">${esc(f.name)}</h2>
     <div class="row between yfoot" style="margin-top:4px"><span class="small ell" style="opacity:.85">${esc(f.focus)}</span><span class="small num" style="font-weight:700;white-space:nowrap">${ys} day streak</span></div>
   </div>
-  <div class="card tap" data-a="go" data-v="recover"><div class="row" style="gap:12px">${ring(46,5,rd?rd.score/100:0,rd?rd.adv.c:"var(--line)",`<span class="num" style="font-weight:700;font-size:14px">${rd?rd.score:"?"}</span>`)}<div style="flex:1;min-width:0"><div class="tiny muted">Readiness</div><div class="ell" style="font-weight:700;${rd?`color:${rd.adv.c}`:""}">${rd?esc(rd.adv.t):"Check in: sleep, HR, HRV"}</div><div class="small muted ell rsub">${rd?esc(rd.adv.x):"Takes 20 seconds · tunes today's weights"}</div></div><span class="muted">${ic("chev",18)}</span></div></div>
+  <div class="grid2 halves"><div class="card tap half" data-a="go" data-v="recover"><div class="row" style="gap:10px">${ring(44,5,rd?rd.score/100:0,rd?rd.adv.c:"var(--line)",`<span class="num" style="font-weight:700;font-size:14px">${rd?rd.score:"?"}</span>`)}<div style="flex:1;min-width:0"><div class="tiny muted">Readiness</div><div class="ell" style="font-weight:700;${rd?`color:${rd.adv.c}`:""}">${rd?({"Ready to push":"Push hard","Train as planned":"As planned"}[rd.adv.t]||rd.adv.t):"Check in"}</div><div class="small muted ell rsub">${rd?`Sleep ${(()=>{const d=recDay(todayKey())||{};return d.score?d.score:d.sleep?d.sleep+"h":"—";})()}`:"20 seconds"}</div></div></div></div>${brainCard()}</div>
   <div class="card tap" data-a="go" data-v="progress">
     <div class="row between wkh"><span class="tiny muted">This week</span><span class="small muted">${st?`${st}-day active streak`:"Get moving today"}</span></div>
     <div class="row between wkr" style="margin-top:8px">${wk.map(d=>{const k=todayKey(d);const fut=k>tk;return `<div style="text-align:center;font-size:11px;font-weight:700;color:${k===tk?"var(--accent-text)":"var(--muted)"};opacity:${fut?.45:1}">${ring(30,4,Math.min(1,act[k]||0),"var(--accent)")}<div style="margin-top:2px">${d.toLocaleDateString("en-GB",{weekday:"narrow"})}</div></div>`;}).join("")}</div>
@@ -1047,6 +1101,7 @@ function vToday(){
     <div class="card tap tile" data-a="go" data-v="food"><div class="tiny muted">Food</div><div class="v num">${Math.round(ft.kcal)}<span class="small muted"> kcal</span></div><div class="mbar" style="margin:2px 0"><i style="width:${Math.min(100,ft.kcal/T.kcal*100)}%"></i></div><div class="small muted ell">${Math.max(0,Math.round(T.kcal-ft.kcal))} left</div></div>
     <div class="card tap tile" data-a="go" data-v="fast"><div class="tiny muted">Fasting</div><div class="v num" data-live="fastMini">${fa?hhmm(Date.now()-fa.start).slice(0,-3):"—"}</div><div class="small muted ell">${fa?`Goal ${fa.goal}h`:"Not fasting"}</div></div>
   </div>
+  ${dailyCard()}
   </div>`;
 }
 const sumMins=(list,days)=>{const cut=Date.now()-days*864e5;return list.filter(c=>toDate(c.date).getTime()>=cut).reduce((a,c)=>a+(+c.mins||0),0);};
@@ -1073,6 +1128,7 @@ function vTrain(){
    </div>
    ${p.days.map((d,i)=>{const dn=isSessionDone(p.id,w,d.id);const n=sessionFor(p,d.id,w).reduce((a,g)=>a+g.ex.length,0);const ld=lastDone(p.id,d.id);
      return `<div class="card tap day ${dn?"done":""}" data-a="openDay" data-d="${d.id}"><div class="badge">${dn?ic("check",22):(d.optional?"+":i+1)}</div><div style="flex:1;min-width:0"><div class="row between"><h3 class="ell">${esc(d.name)}</h3>${d.optional?`<span class="pill">Optional</span>`:dn?`<span class="pill ok">Done</span>`:ld?`<span class="small muted">${fmtShort(ld)}</span>`:""}</div><div class="small muted ell">${esc(d.sub||"")} · ${n} exercises</div></div></div>`;}).join("")}
+   <button class="card tap row" style="gap:12px;text-align:left;width:100%;padding:12px 14px" data-a="go" data-v="brain"><span class="bico">✎</span><div style="flex:1;min-width:0"><div style="font-weight:700">DBS BRAIN</div><div class="small muted">${bCount()}/${GAMES.length} puzzles today${bStreak()?` · ${bStreak()}-day streak`:""}</div></div><span class="muted">${ic("chev",18)}</span></button>
   </div>`;
 }
 
@@ -1279,6 +1335,10 @@ function vSettings(){
   const sp=S.spotify;
   return `${topbar("Settings","DBS HEALTH & FITNESS","goToday")}
   <div class="stack">
+   <div class="card"><label class="l">You</label>
+     <div class="grid2"><div><label class="l tiny">Name</label><input class="f" autocomplete="given-name" placeholder="Your first name" value="${esc(PROF().name||"")}" data-in="prof" data-k="name"></div><div><label class="l tiny">Age</label><input class="f num" inputmode="numeric" value="${PROF().age}" data-in="prof" data-k="age"></div></div>
+     <label class="l tiny" style="margin-top:10px">Sex</label><div class="seg">${[["m","Male"],["f","Female"]].map(([k,l])=>`<button class="${PROF().sex===k?"on":""}" data-a="profSex" data-s="${k}">${l}</button>`).join("")}</div>
+     <div class="small muted" style="margin-top:8px">Used for your greeting, calorie targets, nutrient amounts and fitness-test targets.</div></div>
    <div class="card"><label class="l">Look</label><div class="grid3">${STYLES.map(x=>`<button class="style-card ${(S.style||"b")===x.id?"on":""}" data-a="style" data-s="${x.id}"><div class="sw">${x.sw.map(c=>`<i style="background:${c}"></i>`).join("")}</div><div class="small" style="font-weight:700">${x.name}</div><div class="small muted">${x.sub}</div></button>`).join("")}</div></div>
    <div class="card"><div class="row between"><label class="l" style="margin:0">Accent colour</label>${S.accent?`<button class="btn sm ghost" data-a="accentReset">Use look's default</button>`:`<span class="small muted">Look's default</span>`}</div>
      <div class="dotrow">${ACCENTS.map(c=>`<button class="dotpick ${S.accent===c?"on":""}" style="background:${c}" data-a="accent" data-c="${c}" aria-label="${c}"></button>`).join("")}
@@ -1411,12 +1471,18 @@ const MEALS=[{id:"lunch",name:"Lunch",sub:"Break fast · 12:00",pct:.30},{id:"pr
 const MEAL_IDEAS={lunch:["Eggs on sourdough + Greek yoghurt & berries","Chicken wrap + piece of fruit","Overnight oats with whey & banana"],pre:["Rice cakes, jam & a whey shake","Banana + high-protein yoghurt","Bagel with peanut butter"],post:["Chicken, rice & mixed veg","Whey, oats & banana shake","Salmon, potatoes & greens"],dinner:["Steak, sweet potato & salad","Turkey chilli with rice","Cod, new potatoes & broccoli"]};
 const GOALS=[{id:"cut",name:"Cut",f:.85,p:2.2,why:"~15% under maintenance · lose fat, keep muscle"},{id:"recomp",name:"Recomp",f:.95,p:2.0,why:"Just under maintenance · lean out while building"},{id:"bulk",name:"Lean bulk",f:1.08,p:1.8,why:"~8% over maintenance · slow, lean muscle gain"}];
 const ACTS=[{v:1.375,l:"Light (1–3 days)"},{v:1.55,l:"Moderate (4–5 days)"},{v:1.725,l:"Hard (6+ days)"}];
+const PROF=()=>{S.profile=S.profile||{};const p=S.profile;if(p.sex!=="f")p.sex="m";if(!(p.age>0))p.age=(S.food&&S.food.plan&&S.food.plan.age)||40;return p;};
+const isF=()=>PROF().sex==="f";
+const niceName=n=>String(n).trim().toLowerCase().replace(/(^|[\s\-'])(\p{L})/gu,(m,a,b)=>a+b.toUpperCase());
+const decade=()=>`${Math.floor(PROF().age/10)*10}s`;
+const MICRO_F={mag:"270 mg",zinc:"7 mg",iron:"14.8 mg",selenium:"60 µg"};
+const microT=m=>isF()&&MICRO_F[m.id]?MICRO_F[m.id]:m.t;
 const MICROS=[
  {id:"vitd",n:"Vitamin D",t:"10 µg",src:"Oily fish, eggs, fortified foods",why:"NHS advice: everyone should consider a 10 µg supplement through autumn and winter — very little sun in Scotland Oct–Mar."},
  {id:"omega3",n:"Omega-3 (EPA/DHA)",t:"~450 mg",src:"Salmon, mackerel, sardines, trout",why:"Aim for at least one portion of oily fish a week, or a fish/algae oil."},
  {id:"mag",n:"Magnesium",t:"300 mg",src:"Nuts, seeds, spinach, oats, dark chocolate",why:"Muscle and nerve function, sleep quality."},
  {id:"zinc",n:"Zinc",t:"9.5 mg",src:"Red meat, shellfish, pumpkin seeds, dairy",why:"Immunity, testosterone production, recovery."},
- {id:"iron",n:"Iron",t:"8.7 mg",src:"Red meat, lentils, beans, fortified cereal",why:"Oxygen transport. Men rarely need a supplement."},
+ {id:"iron",n:"Iron",t:"8.7 mg",src:"Red meat, lentils, beans, fortified cereal",why:"Oxygen transport. Men rarely need a supplement; women with periods often need more and may benefit from a blood test."},
  {id:"calcium",n:"Calcium",t:"700 mg",src:"Milk, yoghurt, cheese, tinned fish with bones",why:"Bones and muscle contraction."},
  {id:"potassium",n:"Potassium",t:"3,500 mg",src:"Potatoes, bananas, beans, spinach",why:"Fluid balance and blood pressure; you lose it in sweat."},
  {id:"b12",n:"Vitamin B12",t:"1.5 µg",src:"Meat, fish, eggs, dairy",why:"Energy and red blood cells."},
@@ -1442,7 +1508,7 @@ const MENS=[
 const SKIPLIST="D-aspartic acid, Tribulus, most proprietary \"test booster\" blends";
 const CHECKS=[
  {id:"bp",n:"Blood pressure",every:12,why:"Silent risk factor. Many pharmacies check it for free."},
- {id:"bloods",n:"Blood test: cholesterol, HbA1c, liver, kidney",every:12,why:"Ask your GP, or use a private home test kit. At 40+ these are the key heart and diabetes markers."},
+ {id:"bloods",n:"Blood test: cholesterol, HbA1c, liver, kidney",every:12,why:"Ask your GP, or use a private home test kit. From 40 these are the key heart and diabetes markers."},
  {id:"hormone",n:"Testosterone, vitamin D, ferritin",every:12,why:"Get a test before you supplement. Morning testosterone test; worth doing if energy, libido, recovery or mood dip."},
  {id:"eyes",n:"Eye test",every:24,why:"Every 2 years. Glaucoma risk climbs after 40."},
  {id:"dental",n:"Dental check",every:12,why:"Gum health is linked with heart health."},
@@ -1452,7 +1518,7 @@ const FD=()=>{S.food=S.food||{};const f=S.food;f.entries=f.entries||[];f.foods=f
 const r10=v=>Math.round(v/10)*10;
 function latestKg(){const b=S.body.slice().sort((a,c)=>a.date.localeCompare(c.date));return b.length?b[b.length-1].kg:(S.targetKg||84);}
 function calcPlan(){const f=FD();const pl=f.plan;const kg=latestKg();const g=GOALS.find(x=>x.id===pl.goal)||GOALS[1];
-  const bmr=10*kg+6.25*(S.height||178)-5*(pl.age||40)+5;const tdee=bmr*(pl.act||1.55);const kcal=r10(tdee*g.f);
+  const bmr=10*kg+6.25*(S.height||170)-5*PROF().age+(isF()?-161:5);const tdee=bmr*(pl.act||1.55);const kcal=r10(tdee*g.f);
   const p=Math.round(kg*g.p),fat=Math.round(kg*.9),c=Math.max(50,Math.round((kcal-p*4-fat*9)/4));
   return {kg,bmr:Math.round(bmr),tdee:r10(tdee),kcal,p,c,f:fat,fib:30,water:Math.round(kg*35/250)*250+500,goal:g};}
 function targets(){const c=calcPlan();const cu=FD().plan.custom;return cu?{...c,kcal:+cu.kcal||c.kcal,p:+cu.p||c.p,c:+cu.c||c.c,f:+cu.f||c.f,custom:true}:c;}
@@ -1491,7 +1557,7 @@ function vPlan(){
   const f=FD();const pl=f.plan;const c=calcPlan();const T=targets();
   return `<div class="stack">
    <div class="card"><label class="l">Goal</label><div class="seg">${GOALS.map(g=>`<button class="${pl.goal===g.id?"on":""}" data-a="planGoal" data-g="${g.id}">${g.name}</button>`).join("")}</div><div class="small muted" style="margin-top:8px">${esc(c.goal.why)}</div>
-    <div class="grid3" style="margin-top:12px"><div><label class="l">Weight</label><input class="f num" disabled value="${n1(c.kg)} kg" style="background:var(--surface2);opacity:1"></div><div><label class="l">Height cm</label><input class="f" inputmode="numeric" value="${S.height}" data-in="cfg" data-k="height"></div><div><label class="l">Age</label><input class="f" inputmode="numeric" value="${pl.age}" data-in="planAge"></div></div>
+    <div class="grid3" style="margin-top:12px"><div><label class="l">Weight</label><input class="f num" disabled value="${n1(c.kg)} kg" style="background:var(--surface2);opacity:1"></div><div><label class="l">Height cm</label><input class="f" inputmode="numeric" value="${S.height}" data-in="cfg" data-k="height"></div><div><label class="l">Age</label><input class="f" inputmode="numeric" value="${PROF().age}" data-in="planAge"></div></div>
     <label class="l" style="margin-top:12px">Training</label><div class="seg">${ACTS.map(a=>`<button class="${pl.act===a.v?"on":""}" data-a="planAct" data-v="${a.v}">${a.l.split(" ")[0]}</button>`).join("")}</div>
     <div class="small muted" style="margin-top:8px">Weight comes from your latest Body entry. Maintenance ≈ ${c.tdee} kcal.</div></div>
    <div class="card"><div class="row between"><label class="l" style="margin:0">Daily targets</label>${T.custom?`<button class="btn sm ghost" data-a="planReset">Use calculated</button>`:`<span class="small muted">Calculated · tap to adjust</span>`}</div>
@@ -1511,16 +1577,16 @@ function vMicros(){
     <div class="list" style="margin-top:4px">${f.supps.map(s=>`<div class="li"><button class="row" style="gap:12px;flex:1;min-width:0;text-align:left" data-a="suppTick" data-id="${s.id}"><span class="tick ${sl[s.id]?"on":""}" style="width:38px;height:38px;flex:none">${ICON.check}</span><div style="min-width:0"><div class="ell" style="font-weight:700">${esc(s.name)}</div><div class="small muted">${esc(s.dose||"")}${suppStreak(s.id)?` · ${suppStreak(s.id)}-day streak`:""}</div></div></button><button class="del" data-a="suppDel" data-id="${s.id}" aria-label="Remove">×</button></div>`).join("")||`<div class="empty">No supplements added</div>`}</div></div>
    <div class="card"><label class="l">From today's food</label><div class="stack">${macroBar("Fibre",t.fib,30)}<div><div class="row between small"><b>Salt</b><span class="muted num">${n1(t.salt)} / 6 g max</span></div><div class="mbar"><i style="width:${Math.min(100,t.salt/6*100)}%;${t.salt>6?"background:#c0392b":""}"></i></div></div><div class="row between small"><b>Sugar (total)</b><span class="muted num">${Math.round(t.sug)} g</span></div></div><div class="small muted" style="margin-top:8px">Filled in from scanned and saved foods.</div></div>
    <div class="card"><div class="row between"><label class="l" style="margin:0">Essentials checklist</label><span class="pill ${n===MICROS.length?"ok":"acc"} num">${n}/${MICROS.length}</span></div>
-    <div class="small muted" style="margin:6px 0 4px">Tick what you've covered today through food or supplements. Tap ⓘ for sources. UK daily amounts for adult men.</div>
-    <div class="list">${MICROS.map(m=>`<div class="li"><button class="row" style="gap:12px;flex:1;min-width:0;text-align:left" data-a="microTick" data-id="${m.id}"><span class="tick ${got[m.id]?"on":""}" style="width:38px;height:38px;flex:none">${ICON.check}</span><div style="min-width:0"><div class="ell" style="font-weight:700">${esc(m.n)} <span class="small muted" style="font-weight:500">${esc(m.t)}</span></div><div class="small muted ell">${esc(m.src)}</div></div></button><button class="del" data-a="microInfo" data-id="${m.id}" aria-label="About ${esc(m.n)}">${ic("info",17)}</button></div>`).join("")}</div></div>
+    <div class="small muted" style="margin:6px 0 4px">Tick what you've covered today through food or supplements. Tap ⓘ for sources. UK daily amounts for adult ${isF()?"women":"men"}.</div>
+    <div class="list">${MICROS.map(m=>`<div class="li"><button class="row" style="gap:12px;flex:1;min-width:0;text-align:left" data-a="microTick" data-id="${m.id}"><span class="tick ${got[m.id]?"on":""}" style="width:38px;height:38px;flex:none">${ICON.check}</span><div style="min-width:0"><div class="ell" style="font-weight:700">${esc(m.n)} <span class="small muted" style="font-weight:500">${esc(microT(m))}</span></div><div class="small muted ell">${esc(m.src)}</div></div></button><button class="del" data-a="microInfo" data-id="${m.id}" aria-label="About ${esc(m.n)}">${ic("info",17)}</button></div>`).join("")}</div></div>
    ${mensCard()}${checksCard()}<button class="card tap" style="text-align:left;width:100%" data-a="go" data-v="bloods"><div class="row between"><div><h3>Blood results</h3><div class="small muted">${MX().bloods.length?`${MX().bloods.length} test${MX().bloods.length>1?"s":""} logged`:"Cholesterol, HbA1c, vitamin D, testosterone…"}</div></div><span class="muted">${ic("chev",18)}</span></div></button>
    <div class="small muted" style="text-align:center">General guidance, not medical advice. Check with a GP or pharmacist before starting new supplements, especially if you take any medication.</div>
   </div>`;
 }
 function mensCard(){const f=FD();const have=new Set(f.supps.map(s=>s.from||s.name.toLowerCase()));
-  return `<div class="card"><div class="row between"><label class="l" style="margin:0">Men's health · 40+</label><span class="small muted">Tap + to add</span></div>
+  return `<div class="card"><div class="row between"><label class="l" style="margin:0">${isF()?"Supplements":"Men's health"} · evidence-based</label><span class="small muted">Tap + to add</span></div>
    <div class="small muted" style="margin:6px 0 2px">Based on the evidence, not the marketing. Lifestyle moves hormones far more than pills do: 7–9 h sleep, lifting, staying lean, low alcohol and managing stress.</div>
-   ${MENS.map(t=>`<div class="tiny muted" style="margin-top:14px">${t.tier}</div><div class="list">${t.items.map(m=>{const mn=m.n.toLowerCase();const on=f.supps.some(s=>{const sn=s.name.toLowerCase();return s.from===m.id||mn.startsWith(sn)||sn.startsWith(mn);});return `<div class="li"><button style="text-align:left;flex:1;min-width:0" data-a="mensInfo" data-id="${m.id}"><div class="ell" style="font-weight:700">${esc(m.n)}</div><div class="small muted ell">${esc(m.dose)}</div></button>${on?`<span class="pill ok">Added</span>`:`<button class="mini" data-a="mensAdd" data-id="${m.id}" aria-label="Add ${esc(m.n)}">+</button>`}</div>`;}).join("")}</div>`).join("")}
+   ${MENS.map(t=>`<div class="tiny muted" style="margin-top:14px">${t.tier}</div><div class="list">${t.items.filter(m=>!isF()||!["m_tongkat"].includes(m.id)).map(m=>{const mn=m.n.toLowerCase();const on=f.supps.some(s=>{const sn=s.name.toLowerCase();return s.from===m.id||mn.startsWith(sn)||sn.startsWith(mn);});return `<div class="li"><button style="text-align:left;flex:1;min-width:0" data-a="mensInfo" data-id="${m.id}"><div class="ell" style="font-weight:700">${esc(m.n)}</div><div class="small muted ell">${esc(m.dose)}</div></button>${on?`<span class="pill ok">Added</span>`:`<button class="mini" data-a="mensAdd" data-id="${m.id}" aria-label="Add ${esc(m.n)}">+</button>`}</div>`;}).join("")}</div>`).join("")}
    <div class="note" style="margin-top:12px">Skip: ${SKIPLIST}. The evidence is weak or inconsistent.</div></div>`;}
 function checksCard(){const fy=k=>toDate(k).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});const f=FD();f.checks=f.checks||{};const now=Date.now();
   return `<div class="card"><label class="l">Health checks</label><div class="small muted" style="margin-bottom:4px">Log when you last had each one, and it tells you when the next is due.</div>
@@ -1651,7 +1717,7 @@ function foodAction(a,d){
    case "planAct":f.plan.act=+d.v;f.plan.custom=null;save();render();return true;
    case "planReset":f.plan.custom=null;save();render();return true;
    case "microTick":{const k=todayKey();f.micros[k]=f.micros[k]||{};f.micros[k][d.id]=!f.micros[k][d.id];save();render();return true;}
-   case "microInfo":{const m=MICROS.find(x=>x.id===d.id);openModal(`<h2>${esc(m.n)}</h2><div class="pill acc" style="margin-top:8px">${esc(m.t)} a day</div><p style="margin:14px 0 6px">${esc(m.why)}</p><div class="tiny muted" style="margin-top:12px">Good sources</div><div style="margin-top:4px;font-weight:600">${esc(m.src)}</div><button class="btn block" style="margin-top:18px" data-a="modalClose">Got it</button>`);return true;}
+   case "microInfo":{const m=MICROS.find(x=>x.id===d.id);openModal(`<h2>${esc(m.n)}</h2><div class="pill acc" style="margin-top:8px">${esc(microT(m))} a day</div><p style="margin:14px 0 6px">${esc(m.why)}</p><div class="tiny muted" style="margin-top:12px">Good sources</div><div style="margin-top:4px;font-weight:600">${esc(m.src)}</div><button class="btn block" style="margin-top:18px" data-a="modalClose">Got it</button>`);return true;}
    case "suppTick":{const k=todayKey();f.suppLog[k]=f.suppLog[k]||{};f.suppLog[k][d.id]=!f.suppLog[k][d.id];vib(12);save();render();return true;}
    case "mensInfo":{const m=MENS.flatMap(t=>t.items).find(x=>x.id===d.id);openModal(`<h2>${esc(m.n)}</h2><div class="pill acc" style="margin-top:8px">${esc(m.dose)}</div><p style="margin:14px 0 0">${esc(m.why)}</p><div class="small muted" style="margin-top:12px">General guidance, not medical advice.</div><button class="btn block" style="margin-top:16px" data-a="modalClose">Got it</button>`);return true;}
    case "mensAdd":{const m=MENS.flatMap(t=>t.items).find(x=>x.id===d.id);f.supps.push({id:"s"+uid(),name:m.n,dose:m.dose.replace(/ daily$/,""),from:m.id});save();render();toast(`${m.n} added to your supplements`);return true;}
@@ -1680,7 +1746,7 @@ function foodInput(k,el){
   const f=FD();
   if(k==="porQty"){const v=parseFloat(el.value.replace(",","."));if(v>0&&U.portion){U.portion.qty=v;const b=$("#porTot");if(b)b.innerHTML=porTiles(portionCalc());}return true;}
   if(k==="mineQ"){const q=el.value;const pos=el.selectionStart;addSheet(U.addMeal,"mine",q);const n=document.querySelector('[data-in="mineQ"]');if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(e){}}return true;}
-  if(k==="planAge"){const v=parseInt(el.value);if(v>12&&v<100){f.plan.age=v;f.plan.custom=null;save();}return true;}
+  if(k==="planAge"){const v=parseInt(el.value);if(v>12&&v<100){PROF().age=v;f.plan.age=v;f.plan.custom=null;save();}return true;}
   if(k==="planCustom"){const v=parseFloat(el.value);if(v>0){const T=targets();f.plan.custom=f.plan.custom||{kcal:T.kcal,p:T.p,c:T.c,f:T.f};f.plan.custom[el.dataset.k]=v;save();}return true;}
   return false;
 }
@@ -1708,7 +1774,8 @@ const recDay=k=>RECD().days[k]||null;
 function baseline(field,k,n=14){const r=RECD();const vals=[];const d=toDate(k);for(let i=1;i<=n;i++){const x=new Date(d);x.setDate(d.getDate()-i);const v=r.days[todayKey(x)];if(v&&+v[field]>0)vals.push(+v[field]);}return vals.length>=3?vals.reduce((a,b)=>a+b,0)/vals.length:null;}
 function readiness(k=todayKey()){
   const d=recDay(k);if(!d)return null;const parts=[];
-  if(+d.sleep>0){const h=+d.sleep;let s=h>=8?100:h>=7?85+(h-7)*15:h>=6?60+(h-6)*25:h>=5?35+(h-5)*25:15;if(d.sq)s=Math.min(100,Math.max(0,s+(+d.sq-3)*6));parts.push([s,.35,"Sleep"]);}
+  if(+d.score>0){let s=Math.min(100,+d.score);if(d.sq)s=Math.min(100,Math.max(0,s+(+d.sq-3)*4));parts.push([s,.35,"Sleep"]);}
+  else if(+d.sleep>0){const h=+d.sleep;let s=h>=8?100:h>=7?85+(h-7)*15:h>=6?60+(h-6)*25:h>=5?35+(h-5)*25:15;if(d.sq)s=Math.min(100,Math.max(0,s+(+d.sq-3)*6));parts.push([s,.35,"Sleep"]);}
   if(+d.hrv>0){const b=baseline("hrv",k);const s=b?Math.max(10,Math.min(100,100+((+d.hrv/b)-1)*250)):70;parts.push([s,.25,"HRV"]);}
   if(+d.rhr>0){const b=baseline("rhr",k);const s=b?Math.max(10,Math.min(100,100-Math.max(0,+d.rhr-b)*9)):70;parts.push([s,.2,"Resting HR"]);}
   const subj=["sore","energy","stress"].filter(x=>+d[x]>0);if(subj.length){const avg=subj.reduce((a,x)=>a+(x==="energy"?+d[x]:6-+d[x]),0)/subj.length;parts.push([(avg-1)/4*100,.2,"How you feel"]);}
@@ -1747,12 +1814,21 @@ function vCheckin(){
    <div class="card"><div class="row" style="gap:16px">${ring(104,10,R?R.score/100:0,R?R.adv.c:"var(--line)",`<div style="text-align:center"><div class="num" style="font-family:var(--display);font-size:30px;font-weight:600;line-height:1">${R?R.score:"—"}</div><div class="tiny muted" style="margin-top:3px">Readiness</div></div>`)}
      <div style="flex:1;min-width:0">${R?`<h3 style="color:${R.adv.c}">${R.adv.t}</h3><div class="small muted" style="margin-top:4px">${esc(R.adv.x)}</div>${R.score<75?`<div class="small" style="margin-top:6px">Biggest drag: <b>${esc(R.low)}</b></div>`:""}`:`<h3>Check in</h3><div class="small muted" style="margin-top:4px">Add last night's sleep and your watch numbers to get today's score.</div>`}</div></div>
      <div class="spark14">${last14.map(x=>{const r=readiness(x);return `<i title="${x}" style="height:${r?Math.max(8,r.score):4}%;background:${r?r.adv.c:"var(--line)"};opacity:${x===k?1:.65}"></i>`;}).join("")}</div><div class="tiny muted" style="text-align:center;margin-top:4px">Last 14 days</div></div>
-   <div class="card"><div class="row between"><label class="l" style="margin:0">From your watch</label><div class="row" style="gap:6px"><button class="btn sm" data-a="healthPaste">Paste from Health</button><button class="icon-btn sm" data-a="healthHow" aria-label="How to set up">${ic("info",16)}</button></div></div><div style="height:10px"></div>
-     <div class="grid2"><div><label class="l">Sleep (hours)</label><input class="f num" inputmode="decimal" placeholder="e.g. 7.5" value="${d.sleep??""}" data-in="rec" data-f="sleep"></div><div><label class="l">Steps</label><input class="f num" inputmode="numeric" placeholder="e.g. 9500" value="${d.steps??""}" data-in="rec" data-f="steps"></div></div>
-     <div class="grid2" style="margin-top:10px"><div><label class="l">Resting HR (bpm)</label><input class="f num" inputmode="numeric" value="${d.rhr??""}" data-in="rec" data-f="rhr"></div><div><label class="l">HRV (ms)</label><input class="f num" inputmode="numeric" value="${d.hrv??""}" data-in="rec" data-f="hrv"></div></div>
-     <div class="grid2" style="margin-top:10px"><div><label class="l">Bedtime</label><input class="f num" type="time" value="${d.bed||""}" data-in="rec" data-f="bed"></div><div><label class="l">Wake time</label><input class="f num" type="time" value="${d.wake||""}" data-in="rec" data-f="wake"></div></div>
-     ${(()=>{const T=sleepTiming(k);if(T.n<3)return `<div class="small muted" style="margin-top:8px">Log bed and wake times for 3+ days to see how regular your sleep is.</div>`;const worst=Math.max(T.bed||0,T.wake||0);return `<div class="note" style="margin-top:10px">Sleep regularity (14 days): bedtime ±${T.bed??"—"} min, wake ±${T.wake??"—"} min. ${worst<=30?"Nicely consistent.":worst<=60?"Decent. Within ±30 min is the aim.":"Irregular. A fixed wake time, even at weekends, is the easiest fix."}</div>`;})()}
-     <div class="small muted" style="margin-top:8px">Resting HR and HRV are compared with your own 14-day average. Regular sleep timing is linked with better health on top of sleep length.</div></div>
+   <div class="card"><div class="row between"><label class="l" style="margin:0">Last night</label><div class="row" style="gap:6px"><button class="btn sm" data-a="healthPaste">Paste from Health</button><button class="icon-btn sm" data-a="healthHow" aria-label="How to set up">${ic("info",16)}</button></div></div>
+     <div class="sleeprow">
+      <div class="sbig"><input class="bare num" inputmode="numeric" placeholder="—" value="${d.score??""}" data-in="rec" data-f="score" aria-label="Sleep score"><span>Sleep score</span></div>
+      <div class="sbig"><input class="bare num" inputmode="decimal" placeholder="—" value="${d.sleep??""}" data-in="rec" data-f="sleep" aria-label="Hours asleep"><span>Hours asleep</span></div>
+     </div>
+     <div class="bedwake">
+      <label class="tpill"><span>${ic("moon",15)} Bed</span><b class="num">${d.bed||"--:--"}</b><input type="time" value="${d.bed||""}" data-in="rec" data-f="bed" aria-label="Bedtime"></label>
+      <span class="bwarrow">→</span>
+      <label class="tpill"><span>${ic("sun",15)} Wake</span><b class="num">${d.wake||"--:--"}</b><input type="time" value="${d.wake||""}" data-in="rec" data-f="wake" aria-label="Wake time"></label>
+     </div>
+     ${(()=>{const T=sleepTiming(k);if(T.n<3)return `<div class="small muted" style="margin-top:10px">Log bed and wake for 3+ days to see how regular your sleep is.</div>`;const worst=Math.max(T.bed||0,T.wake||0);return `<div class="small" style="margin-top:10px"><b>Regularity</b> <span class="muted">· bed ±${T.bed??"—"} min · wake ±${T.wake??"—"} min ·</span> <span style="color:${worst<=30?"var(--sage)":worst<=60?"var(--accent-text)":"#c0392b"};font-weight:700">${worst<=30?"Consistent":worst<=60?"Aim for ±30":"Irregular"}</span></div>`;})()}
+   </div>
+   <div class="card"><label class="l">Heart & steps</label>
+     <div class="grid3"><div><label class="l tiny">Resting HR</label><input class="f num" inputmode="numeric" placeholder="bpm" value="${d.rhr??""}" data-in="rec" data-f="rhr"></div><div><label class="l tiny">HRV</label><input class="f num" inputmode="numeric" placeholder="ms" value="${d.hrv??""}" data-in="rec" data-f="hrv"></div><div><label class="l tiny">Steps</label><input class="f num" inputmode="numeric" placeholder="0" value="${d.steps??""}" data-in="rec" data-f="steps"></div></div>
+     <div class="small muted" style="margin-top:8px">Compared with your own 14-day average.</div></div>
    <div class="card stack"><div><label class="l">Sleep quality</label>${slider("sq",d.sq,"Awful","Great")}</div><div><label class="l">Muscle soreness</label>${slider("sore",d.sore,"None","Very sore")}</div><div><label class="l">Energy</label>${slider("energy",d.energy,"Drained","Buzzing")}</div><div><label class="l">Stress</label>${slider("stress",d.stress,"Calm","Maxed")}</div></div>
    ${nigglesCard()}
    <div class="small muted" style="text-align:center">When readiness is under 55, new working-weight suggestions drop about 10%.</div>
@@ -1877,6 +1953,7 @@ function recAction(a,d){
      <div><label class="l">Type</label><select class="f" name="type">${Object.entries(SAUNA_TYPES).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select></div>
      <input class="f" name="note" placeholder="Notes (optional)"><div class="small muted">Minutes = total time in the heat across all rounds. Cold water within a few hours after lifting can blunt muscle gains: keep cold for rest days or well before training.</div>
      <div class="row" style="gap:10px"><button type="button" class="btn ghost" style="flex:1" data-a="modalClose">Cancel</button><button class="btn" style="flex:2">Save</button></div></form>`);return true;
+   case "dailyNext":U.dailyOff=(U.dailyOff||0)+1;render();return true;
    case "mobStart":{const f=MOBILITY.find(x=>x.id===d.f);U.view="yoga";U.yoga={flow:f.id,idx:0,left:f.poses[0].s,paused:false,mob:true};ac();window.scrollTo(0,0);render();return true;}
    case "numAdd":openModal(d.k==="vo2"?`<h2>VO₂ max</h2><div class="small muted" style="margin:6px 0 12px">Health app → Heart → Cardio Fitness.</div><form data-form="vo2" class="stack"><div class="grid2"><div><label class="l">ml/kg/min</label><input class="f num" name="v" inputmode="decimal" required></div><div><label class="l">Date</label><input class="f" type="date" name="date" value="${todayKey()}"></div></div><button class="btn block">Save</button></form>`
       :`<h2>Blood pressure</h2><form data-form="bp" class="stack" style="margin-top:14px"><div class="grid3"><div><label class="l">Systolic</label><input class="f num" name="sys" inputmode="numeric" required placeholder="120"></div><div><label class="l">Diastolic</label><input class="f num" name="dia" inputmode="numeric" required placeholder="80"></div><div><label class="l">Date</label><input class="f" type="date" name="date" value="${todayKey()}"></div></div><button class="btn block">Save</button></form>`);return true;
@@ -1898,7 +1975,7 @@ function recSubmit(t,fd){
   return false;
 }
 function recInput(k,el){
-  if(k==="rec"){const r=RECD();const key=U.recDate||todayKey();r.days[key]=r.days[key]||{};const v=el.value.replace(",",".").trim();r.days[key][el.dataset.f]=el.type==="time"?el.value:(v===""?"":+v);if(el.type==="time"){const dd=r.days[key];if(dd.bed&&dd.wake&&!(+dd.sleep>0)){const h=hoursFrom(dd.bed,dd.wake);if(h){dd.sleep=h;save();render();return true;}}}save();return true;}
+  if(k==="rec"){const r=RECD();const key=U.recDate||todayKey();r.days[key]=r.days[key]||{};const v=el.value.replace(",",".").trim();r.days[key][el.dataset.f]=el.type==="time"?el.value:(v===""?"":+v);if(el.type==="time"){const b=el.previousElementSibling;if(b)b.textContent=el.value||"--:--";const dd=r.days[key];if(dd.bed&&dd.wake&&!(+dd.sleep>0)){const h=hoursFrom(dd.bed,dd.wake);if(h){dd.sleep=h;const si=document.querySelector('[data-f="sleep"]');if(si)si.value=h;}}}save();return true;}
   if(k==="cmp"){if(el.dataset.k==="A")U.cmpA=el.value;else U.cmpB=el.value;render();return true;}
   return false;
 }
@@ -1925,13 +2002,13 @@ function sleepTiming(k,n=14){const r=RECD();const b=[],w=[];const d=toDate(k);fo
 const hoursFrom=(bed,wake)=>{const b=wMin(bed),w=wMin(wake);if(b==null||w==null)return null;let m=w-b;if(m<=0)m+=1440;return Math.round(m/6)/10;};
 
 /* ---- Health paste ---- */
-const HK={sleep:["sleep","asleep","sleephours"],rhr:["rhr","restinghr","restingheartrate","resting"],hrv:["hrv","heartratevariability"],steps:["steps","stepcount"],vo2:["vo2","vo2max","cardiofitness"],weight:["weight","bodymass","kg"],bed:["bed","bedtime"],wake:["wake","waketime","woke"],bf:["bodyfat","bf","bodyfatpercentage"]};
+const HK={score:["sleepscore","score"],sleep:["sleep","asleep","sleephours"],rhr:["rhr","restinghr","restingheartrate","resting"],hrv:["hrv","heartratevariability"],steps:["steps","stepcount"],vo2:["vo2","vo2max","cardiofitness"],weight:["weight","bodymass","kg"],bed:["bed","bedtime"],wake:["wake","waketime","woke"],bf:["bodyfat","bf","bodyfatpercentage"]};
 function parseHealth(txt){const o={};String(txt||"").split(/[\n;|&]+/).forEach(line=>{const m=line.match(/^\s*([A-Za-z0-9 _₂\-]+?)\s*[:=]\s*(.+?)\s*$/);if(!m)return;const key=m[1].toLowerCase().replace(/[^a-z0-9]/g,"").replace("₂","2");const f=Object.keys(HK).find(k=>HK[k].includes(key));if(!f)return;let v=m[2].trim();
   if(f==="bed"||f==="wake"){const t=v.match(/(\d{1,2})[:.](\d{2})/);if(t)o[f]=`${pad(+t[1])}:${t[2]}`;return;}
   const n=parseFloat(v.replace(/,(?=\d{3}(\D|$))/g,"").replace(",",".").replace(/[^\d.\-]/g,""));if(!isFinite(n)||n<=0)return;
   if(f==="sleep"&&n>24)o.sleep=Math.round(n/60*10)/10;else if(f==="bf"&&n<1)o.bf=Math.round(n*1000)/10;else o[f]=f==="steps"?Math.round(n):Math.round(n*10)/10;});return o;}
 function applyHealth(o,k){const r=RECD();k=k||todayKey();r.days[k]=r.days[k]||{};const done=[];
-  ["sleep","rhr","hrv","steps","bed","wake"].forEach(f=>{if(o[f]!=null){r.days[k][f]=o[f];done.push(f);}});
+  ["score","sleep","rhr","hrv","steps","bed","wake"].forEach(f=>{if(o[f]!=null){r.days[k][f]=o[f];done.push(f);}});
   if(!(+r.days[k].sleep>0)&&r.days[k].bed&&r.days[k].wake){const h=hoursFrom(r.days[k].bed,r.days[k].wake);if(h)r.days[k].sleep=h;}
   if(o.vo2){r.nums.vo2=r.nums.vo2.filter(x=>x.date!==k);r.nums.vo2.push({date:k,v:o.vo2});done.push("vo2");}
   if(o.weight&&o.weight>30&&o.weight<250){const old=S.body.find(x=>x.date===k);S.body=S.body.filter(x=>x.date!==k);S.body.push({id:uid(),date:k,kg:+o.weight.toFixed(2),bf:o.bf!=null?o.bf:(old?old.bf:null)});done.push("weight");}
@@ -1959,7 +2036,9 @@ const runVO2=s=>s>0?Math.round((483/(s/60)+3.5)*10)/10:null;
 const parseMS=v=>{v=String(v||"").trim();const m=v.match(/^(\d{1,2})[:.](\d{1,2})$/);if(m)return +m[1]*60+ +m[2];const n=parseFloat(v);return n>0?Math.round(n*60):null;};
 const fmtMS=s=>`${Math.floor(s/60)}:${pad(Math.round(s%60))}`;
 const tVal=(t,v)=>t.id==="run"?fmtMS(v):v;
-function tRate(t,v){if(v==null)return null;const ok=t.hi?v>=t.good:v<=t.good,top=t.hi?v>=t.great:v<=t.great;return top?{l:"Excellent",c:"var(--sage)"}:ok?{l:"Good",c:"var(--accent)"}:{l:"Work on it",c:"var(--muted)"};}
+const TEST_F={grip:[27,32],push:[15,25],run:[13*60,11.5*60]};
+const tGood=t=>isF()&&TEST_F[t.id]?TEST_F[t.id][0]:t.good,tGreat=t=>isF()&&TEST_F[t.id]?TEST_F[t.id][1]:t.great;
+function tRate(t,v){if(v==null)return null;const g=tGood(t),G=tGreat(t);const ok=t.hi?v>=g:v<=g,top=t.hi?v>=G:v<=G;return top?{l:"Excellent",c:"var(--sage)"}:ok?{l:"Good",c:"var(--accent)"}:{l:"Work on it",c:"var(--muted)"};}
 function lastTest(){const L=MX().tests;return L.length?L.slice().sort((a,b)=>a.date.localeCompare(b.date)).pop():null;}
 function testsDue(){const l=lastTest();if(!l)return 0;const d=toDate(l.date);d.setMonth(d.getMonth()+3);return Math.round((d-new Date())/864e5);}
 function testsCard(){const l=lastTest();const due=testsDue();
@@ -1970,20 +2049,20 @@ function vTests(){const L=MX().tests.slice().sort((a,b)=>a.date.localeCompare(b.
   <div class="stack">
    <button class="btn block" data-a="testAdd">+ Record a test day</button>
    ${TESTS.map(t=>{const vals=L.filter(x=>x.v[t.id]!=null);const cur=vals.length?vals[vals.length-1].v[t.id]:null;const R=tRate(t,cur);const first=vals.length>1?vals[0].v[t.id]:null;
-     return `<div class="card"><div class="row between" style="gap:10px"><div style="min-width:0"><h3>${t.n}</h3><div class="small muted">Good ${tVal(t,t.good)} · Excellent ${tVal(t,t.great)}${t.id==="run"?"":" "+t.u}</div></div>
+     return `<div class="card"><div class="row between" style="gap:10px"><div style="min-width:0"><h3>${t.n}</h3><div class="small muted">Good ${tVal(t,tGood(t))} · Excellent ${tVal(t,tGreat(t))}${t.id==="run"?"":" "+t.u}</div></div>
        <div style="text-align:right"><div class="num" style="font-family:var(--display);font-size:24px;font-weight:600">${cur!=null?tVal(t,cur):"—"}</div>${R?`<div class="small" style="color:${R.c};font-weight:700">${R.l}</div>`:""}</div></div>
        ${vals.length>1?spark(vals.map(x=>t.hi?x.v[t.id]:-x.v[t.id]),300,26)+`<div class="small muted">${t.id==="run"?(cur<first?"Faster by "+fmtMS(first-cur):"Slower by "+fmtMS(cur-first)):fmtSigned(Math.round((cur-first)*10)/10)+" "+t.u} since ${fmtShort(vals[0].date)}</div>`:""}
        ${t.id==="run"&&cur?`<div class="small" style="margin-top:4px">Estimated VO₂ max <b class="num">${runVO2(cur)}</b> ml/kg/min</div>`:""}
        <details style="margin-top:6px"><summary class="small muted">How to test · why it matters</summary><div class="small" style="margin-top:6px">${esc(t.how)}</div><div class="small muted" style="margin-top:4px">${esc(t.why)}</div></details></div>`;}).join("")}
    ${L.length?`<div class="card"><label class="l">Test days</label><div class="list">${L.slice().reverse().map(x=>`<div class="li"><div style="min-width:0"><div style="font-weight:700">${fmtDate(x.date)}</div><div class="small muted ell">${TESTS.filter(t=>x.v[t.id]!=null).map(t=>`${t.n.split(" ")[0]} ${tVal(t,x.v[t.id])}`).join(" · ")}</div></div><button class="del" data-a="testDel" data-id="${x.id}" aria-label="Delete">×</button></div>`).join("")}</div></div>`:""}
-   <div class="small muted" style="text-align:center">Targets are for men in their 40s. Test fresh, not after a workout.</div>
+   <div class="small muted" style="text-align:center">Targets are for ${isF()?"women":"men"} in their ${decade()}. Test fresh, not after a workout.</div>
   </div>`;}
 
 /* ---- bloods ---- */
 const BLOODS=[
  {id:"tc",n:"Total cholesterol",u:"mmol/L",r:v=>v<5?0:v<6.5?1:2,t:"Under 5"},
  {id:"ldl",n:"LDL",u:"mmol/L",r:v=>v<3?0:v<4.1?1:2,t:"Under 3"},
- {id:"hdl",n:"HDL",u:"mmol/L",r:v=>v>=1?0:v>=0.9?1:2,t:"1.0 or more"},
+ {id:"hdl",n:"HDL",u:"mmol/L",r:v=>{const m=isF()?1.2:1;return v>=m?0:v>=m-0.1?1:2;},t:"1.0 or more (women 1.2)"},
  {id:"nonhdl",n:"Non-HDL",u:"mmol/L",r:v=>v<4?0:v<5?1:2,t:"Under 4"},
  {id:"tg",n:"Triglycerides",u:"mmol/L",r:v=>v<1.7?0:v<2.3?1:2,t:"Under 1.7 fasting"},
  {id:"apob",n:"ApoB",u:"g/L",r:v=>v<1?0:v<1.3?1:2,t:"Under 1.0"},
@@ -1993,8 +2072,8 @@ const BLOODS=[
  {id:"egfr",n:"eGFR (kidney)",u:"mL/min",r:v=>v>=90?0:v>=60?1:2,t:"90 or more"},
  {id:"vitd",n:"Vitamin D",u:"nmol/L",r:v=>v>=50?0:v>=25?1:2,t:"50 or more"},
  {id:"ferr",n:"Ferritin",u:"µg/L",r:v=>v>=30&&v<=400?0:v>=15&&v<=600?1:2,t:"30–400"},
- {id:"testo",n:"Testosterone (total, morning)",u:"nmol/L",r:v=>v>=12?0:v>=8?1:2,t:"12 or more"},
- {id:"psa",n:"PSA",u:"ng/mL",r:v=>v<2.5?0:v<4?1:2,t:"Under 2.5 in your 40s"},
+ {id:"testo",male:1,n:"Testosterone (total, morning)",u:"nmol/L",r:v=>v>=12?0:v>=8?1:2,t:"12 or more"},
+ {id:"psa",male:1,n:"PSA",u:"ng/mL",r:v=>v<2.5?0:v<4?1:2,t:"Under 2.5 in your 40s"},
 ];
 const BCOL=["var(--sage)","var(--accent)","#c0392b"],BLBL=["In range","Borderline","Flag with GP"];
 function vBloods(){const L=MX().bloods.slice().sort((a,b)=>a.date.localeCompare(b.date));
@@ -2055,7 +2134,7 @@ function moreAction(a,d){const m=MX();
     <div class="small muted">Leave any you didn't do blank.</div><div class="row" style="gap:10px"><button type="button" class="btn ghost" style="flex:1" data-a="modalClose">Cancel</button><button class="btn" style="flex:2">Save</button></div></form>`);return true;
   case "testDel":m.tests=m.tests.filter(x=>x.id!==d.id);save();render();return true;
   case "bloodAdd":openModal(`<h2>Blood results</h2><form data-form="bloods" class="stack" style="margin-top:14px"><div class="grid2"><div><label class="l">Date</label><input class="f" type="date" name="date" value="${todayKey()}"></div><div><label class="l">Where</label><input class="f" name="lab" placeholder="GP, Medichecks…"></div></div>
-    <div class="grid2">${BLOODS.map(b=>`<div><label class="l ell">${b.n} <span class="muted">${b.u}</span></label><input class="f num" name="${b.id}" inputmode="decimal"></div>`).join("")}</div>
+    <div class="grid2">${BLOODS.filter(b=>!b.male||!isF()).map(b=>`<div><label class="l ell">${b.n} <span class="muted">${b.u}</span></label><input class="f num" name="${b.id}" inputmode="decimal"></div>`).join("")}</div>
     <div class="small muted">Fill in what you have. UK units.</div><div class="row" style="gap:10px"><button type="button" class="btn ghost" style="flex:1" data-a="modalClose">Cancel</button><button class="btn" style="flex:2">Save</button></div></form>`);return true;
   case "bloodDel":m.bloods=m.bloods.filter(x=>x.id!==d.id);save();render();return true;
   case "goFoodMicros":U.view="food";U.foodTab="micros";window.scrollTo(0,0);render();return true;
@@ -2070,12 +2149,496 @@ function moreAction(a,d){const m=MX();
  return false;}
 function healthModal(t){return `<h2>Paste from Health</h2><div class="small muted" style="margin:6px 0 12px">${t?"Couldn't read that. ":""}Paste what your Shortcut copied, one item per line.</div><form data-form="health" class="stack"><textarea class="f" name="txt" style="min-height:150px" placeholder="sleep: 7.4&#10;rhr: 52&#10;hrv: 61&#10;steps: 10342">${esc(t||"")}</textarea><div class="row" style="gap:10px"><button type="button" class="btn ghost" style="flex:1" data-a="healthHow">Set up shortcut</button><button class="btn" style="flex:2">Add</button></div></form>`;}
 function moreSubmit(t,fd){const m=MX();const num=v=>{const x=parseFloat(String(v??"").replace(",","."));return isFinite(x)&&x>0?x:null;};
+ if(t==="welcome"){const p=PROF();p.name=String(fd.name||"").trim().slice(0,24);const a=parseInt(fd.age);if(a>12&&a<100){p.age=a;if(FD().plan)FD().plan.age=a;}p.sex=fd.sex==="f"?"f":"m";const h=parseFloat(fd.height);if(h>120&&h<230)S.height=h;p.asked=1;if(FD().plan)FD().plan.custom=null;save();closeModal();render();return true;}
  if(t==="health"){const o=parseHealth(fd.txt);if(!Object.keys(o).length){toast("Nothing recognised: use lines like sleep: 7.4");return true;}const done=applyHealth(o,U.recDate||todayKey());closeModal();toast(`Added ${done.length} from Health`);render();return true;}
  if(t==="tests"){const v={};TESTS.forEach(x=>{const r=x.id==="run"?parseMS(fd[x.id]):num(fd[x.id]);if(r!=null)v[x.id]=r;});if(Object.keys(v).length){m.tests=m.tests.filter(x=>x.date!==fd.date);m.tests.push({id:"t"+uid(),date:fd.date||todayKey(),v});
    if(v.run){const r=RECD();r.nums.vo2=r.nums.vo2.filter(x=>x.date!==fd.date);r.nums.vo2.push({date:fd.date||todayKey(),v:runVO2(v.run),src:"run"});}save();}closeModal();render();return true;}
  if(t==="bloods"){const v={};BLOODS.forEach(b=>{const r=num(fd[b.id]);if(r!=null)v[b.id]=r;});if(Object.keys(v).length){m.bloods.push({id:"b"+uid(),date:fd.date||todayKey(),lab:String(fd.lab||"").trim(),v});const f=FD();f.checks=f.checks||{};if(["tc","ldl","hdl","hba1c","alt","egfr"].some(k=>k in v))f.checks.bloods=fd.date||todayKey();if(["testo","vitd","ferr"].some(k=>k in v))f.checks.hormone=fd.date||todayKey();save();}closeModal();render();return true;}
  if(t==="niggle"){m.niggles.push({id:"n"+uid(),area:fd.area,sev:+fd.sev||2,date:todayKey(),note:String(fd.note||"").trim()});save();closeModal();render();return true;}
  if(t==="waist"){const c=num(fd.cm);if(c&&c>40&&c<200){m.waist=m.waist.filter(x=>x.date!==fd.date);m.waist.push({id:"w"+uid(),date:fd.date||todayKey(),cm:Math.round(c*10)/10});save();}closeModal();render();return true;}
+ return false;}
+
+/* ================= DAILY FACT / QUOTE ================= */
+const DAILY=[
+ ["f","Your heart beats about 100,000 times a day, pumping roughly 7,000 litres of blood."],
+ ["q","We suffer more often in imagination than in reality.","Seneca"],
+ ["f","Muscle is metabolically active tissue that helps clear glucose from the blood. It's one of your best defences against type 2 diabetes."],
+ ["q","You have power over your mind, not outside events. Realise this, and you will find strength.","Marcus Aurelius (paraphrased)"],
+ ["f","Octopuses have three hearts and blue blood."],
+ ["q","It is not the mountain we conquer, but ourselves.","Edmund Hillary"],
+ ["f","Bones are living tissue. Your skeleton is broken down and rebuilt so steadily that it's largely replaced over about 10 years."],
+ ["q","The impediment to action advances action. What stands in the way becomes the way.","Marcus Aurelius"],
+ ["f","Honey found in ancient Egyptian tombs has been reported as still edible after thousands of years."],
+ ["q","Discipline is choosing between what you want now and what you want most.","Unknown"],
+ ["f","Light from the Sun takes about 8 minutes 20 seconds to reach Earth."],
+ ["f","Grip strength is one of the simplest predictors of long-term health: weaker grip is linked with higher risk of heart disease and early death."],
+ ["q","He who has a why to live can bear almost any how.","Friedrich Nietzsche"],
+ ["f","The Forth Bridge took over 4,000 workers seven years to build and opened in 1890."],
+ ["f","Sleep is when your brain's glymphatic system clears waste products, including proteins linked to Alzheimer's."],
+ ["q","Difficulties strengthen the mind, as labour does the body.","Seneca"],
+ ["f","A teaspoon of a neutron star would weigh around a billion tonnes on Earth."],
+ ["f","Zone 2 training builds mitochondria, the parts of your cells that turn fuel into energy."],
+ ["q","Well done is better than well said.","Benjamin Franklin"],
+ ["f","Scotland's national animal is the unicorn."],
+ ["f","Your body has more bacterial cells than you might think: roughly as many as human cells."],
+ ["q","First say to yourself what you would be; and then do what you have to do.","Epictetus"],
+ ["f","The RAF was formed on 1 April 1918, making it the world's oldest independent air force."],
+ ["f","Walking 7,000+ steps a day is linked with a markedly lower risk of early death compared with under 4,000."],
+ ["q","Nothing will work unless you do.","Maya Angelou"],
+ ["f","Sharks existed before trees. Sharks appeared over 400 million years ago; the first trees around 385 million."],
+ ["f","Muscle strength peaks around your 30s and, untrained, falls 1–2% a year after 50. Lifting slows that dramatically."],
+ ["q","If you are going through hell, keep going.","Often attributed to Winston Churchill"],
+ ["f","A bolt of lightning is about five times hotter than the surface of the Sun."],
+ ["f","Wombats produce cube-shaped poo."],
+ ["q","The man who moves a mountain begins by carrying away small stones.","Proverb"],
+ ["f","Each kilogram of muscle burns roughly 13 kcal a day at rest. Small, but it adds up and improves how your body handles carbs."],
+ ["f","Water expands by about 9% when it freezes, which is why ice floats."],
+ ["q","Luck is what happens when preparation meets opportunity.","Seneca (attributed)"],
+ ["f","Bananas are berries. Strawberries are not."],
+ ["f","Your brain uses about 20% of your body's energy while being about 2% of its weight."],
+ ["q","No man is free who is not master of himself.","Epictetus"],
+ ["f","Electricity travels through a cable at a large fraction of the speed of light, but the electrons themselves drift at millimetres per second."],
+ ["f","Cold showers raise alertness, but strength gains are better protected by keeping cold plunges away from lifting sessions."],
+ ["q","Do what you can, with what you have, where you are.","Theodore Roosevelt"],
+ ["f","There are more possible games of chess than atoms in the observable universe."],
+ ["f","Cardiorespiratory fitness is one of the strongest predictors of how long you live, more than smoking in some studies."],
+ ["q","It does not matter how slowly you go as long as you do not stop.","Often attributed to Confucius"],
+ ["f","Scotland has around 790 islands, about 90 of them inhabited."],
+ ["f","Your eyes can distinguish around a million colours."],
+ ["q","Waste no more time arguing what a good man should be. Be one.","Marcus Aurelius"],
+ ["f","Venus spins so slowly that a day there is longer than its year."],
+ ["f","Protein spread across 3–4 meals stimulates more muscle building than the same amount eaten in one go."],
+ ["q","We are what we repeatedly do. Excellence, then, is not an act, but a habit.","Will Durant, summarising Aristotle"],
+ ["f","A sneeze can travel several metres."],
+ ["q","The best time to plant a tree was 20 years ago. The second best time is now.","Proverb"],
+ ["f","Loch Ness holds more fresh water than all the lakes in England and Wales combined."],
+ ["f","Regular sauna use is linked with lower blood pressure and lower risk of cardiovascular death in long-term Finnish studies."],
+ ["q","Man is not worried by real problems so much as by his imagined anxieties about real problems.","Epictetus"],
+ ["f","Your skin is your largest organ, weighing around 4 kg in an adult."],
+ ["q","Courage is not the absence of fear, but the judgement that something else is more important.","Ambrose Redmoon"],
+ ["f","The first powered flight by the Wright brothers in 1903 covered 37 metres in 12 seconds, less than the wingspan of a Boeing 747."],
+ ["q","Hard times create strong men.","G. Michael Hopf"],
+ ["q","Begin at once to live, and count each separate day as a separate life.","Seneca"],
+ ["f","An adult human has 206 bones; a baby is born with around 300 that fuse over time."],
+ ["f","A single night of short sleep can reduce insulin sensitivity in healthy people by around 20–25%."],
+ ["f","Edinburgh Castle sits on an extinct volcano."],
+ ["f","Mantis shrimp punch with the acceleration of a .22 bullet and can crack aquarium glass."],
+ ["q","The more you sweat in peace, the less you bleed in war.","Military maxim"],
+ ["f","Push-ups predict heart health: men who could do 40+ had 96% fewer cardiovascular events over 10 years than those under 10."],
+ ["f","Earth's core is roughly as hot as the surface of the Sun, around 5,000°C+."],
+ ["q","Strength does not come from winning. Your struggles develop your strengths.","Attributed to Arnold Schwarzenegger"],
+ ["f","Your stomach lining replaces itself every few days so it doesn't digest itself."],
+ ["q","A ship in harbour is safe, but that is not what ships are built for.","John A. Shedd"],
+ ["f","Alcohol is one of the biggest disruptors of deep sleep and HRV, even at moderate doses."],
+ ["f","James Clerk Maxwell, born in Edinburgh, unified electricity, magnetism and light."],
+ ["q","Don't count the days, make the days count.","Attributed to Muhammad Ali"],
+ ["f","The human nose can detect over a trillion different scents, by one estimate."],
+ ["f","Sunlight in the morning helps set your body clock and can improve sleep that night."],
+ ["q","Whether you think you can, or you think you can't, you're right.","Often attributed to Henry Ford"],
+ ["f","Dogs' sense of smell is 10,000 to 100,000 times more sensitive than ours."],
+ ["f","Fibre feeds gut bacteria that produce compounds which lower inflammation. UK guidance is 30 g a day; most get about 20."],
+ ["q","It is not that we have a short time to live, but that we waste a lot of it.","Seneca"],
+ ["f","There are more trees on Earth (around 3 trillion) than stars in the Milky Way (100–400 billion)."],
+ ["f","Balance declines with age but trains back quickly. Failing a 10-second one-leg stand in mid-life is linked with higher mortality."],
+ ["q","The successful warrior is the average man, with laser-like focus.","Bruce Lee"],
+ ["f","Scottish inventors gave the world the telephone, television, penicillin and the pneumatic tyre."],
+ ["f","Tardigrades can survive the vacuum of space, extreme radiation and decades without water."],
+ ["q","Character is doing the right thing when nobody's looking.","J. C. Watts"],
+ ["f","Your heart rate variability tends to rise with fitness and good sleep, and drop with stress, illness and alcohol."],
+ ["f","A day on Earth was about 22 hours long 600 million years ago. The Moon is slowly braking our spin."],
+ ["q","Fall seven times, stand up eight.","Japanese proverb"],
+ ["f","Deadlifts and squats train your bones as well as muscles. Heavy loading is one of the best defences against osteoporosis."],
+ ["f","Octopuses can taste with their arms."],
+ ["q","Be tolerant with others and strict with yourself.","Marcus Aurelius"],
+ ["f","The Falkirk Wheel is the world's only rotating boat lift, and it turns using about the energy of boiling eight kettles."],
+ ["f","Your lungs have a surface area roughly the size of half a tennis court."],
+ ["q","Energy and persistence conquer all things.","Benjamin Franklin"],
+ ["f","Muscle memory is real: muscle fibres keep extra nuclei after training, which helps you regain strength faster after a break."],
+ ["f","A group of crows is called a murder; a group of owls, a parliament."],
+ ["q","Only those who will risk going too far can possibly find out how far one can go.","T. S. Eliot"],
+ ["f","Light exercise after meals, even a 10-minute walk, noticeably blunts blood sugar spikes."],
+ ["f","Space smells of seared steak and hot metal, according to astronauts."],
+ ["q","How we spend our days is, of course, how we spend our lives.","Annie Dillard"],
+ ["f","Creatine is one of the most researched supplements and also shows benefits for brain function, especially under sleep loss."],
+ ["f","Neurons can send signals at up to around 120 metres per second."],
+ ["f","The Antonine Wall, crossing central Scotland near Falkirk, was the northernmost frontier of the Roman Empire."],
+ ["f","Laughter lowers stress hormones and briefly increases blood flow."],
+ ["q","The obstacle is the way.","Ryan Holiday, after Marcus Aurelius"],
+ ["f","Most of the deep ocean floor has never been seen by human eyes."],
+ ["f","Eccentric reps, the lowering part, build strength and tendon resilience with less fatigue than you'd expect."],
+ ["q","He who conquers himself is the mightiest warrior.","Often attributed to Confucius"],
+ ["f","Strong legs are linked with better brain health: leg power in mid-life predicted less brain ageing in a twin study."],
+ ["q","Small deeds done are better than great deeds planned.","Peter Marshall"],
+ ["f","The human body glows faintly in visible light, about 1,000 times too dim for our eyes to see."],
+ ["f","Your resting heart rate dropping over months is one of the clearest signs your cardio is working."],
+ ["q","Stay hungry, stay foolish.","Whole Earth Catalog, quoted by Steve Jobs"],
+ ["f","Koalas have fingerprints almost identical to humans'."],
+ ["f","Social connection is linked with longevity about as strongly as not smoking, according to large reviews."],
+ ["q","A smooth sea never made a skilled sailor.","Proverb"],
+ ["f","Earth travels around the Sun at about 107,000 km/h."],
+ ["f","Muscle protein synthesis stays elevated for 24–48 hours after training, so recovery days are when you actually grow."],
+ ["q","You cannot step into the same river twice.","Heraclitus"],
+ ["f","Sound travels about four times faster in water than in air."],
+ ["f","Standing up from the floor without using your hands is a simple test linked with long-term survival."],
+ ["q","Do not pray for an easy life, pray for the strength to endure a difficult one.","Bruce Lee"],
+];
+function dailyItem(){const d=new Date();const doy=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5);const i=((doy*37+d.getFullYear())%DAILY.length+(U.dailyOff||0))%DAILY.length;return DAILY[(i+DAILY.length)%DAILY.length];}
+function dailyCard(){const [t,x,who]=dailyItem();
+  return `<button class="daily" data-a="dailyNext"><div class="tiny muted">${t==="q"?"Quote of the day":"Fact of the day"}</div><div class="dtxt">${t==="q"?`“${esc(x)}”`:esc(x)}${who?`<span class="dwho"> — ${esc(who)}</span>`:""}</div></button>`;}
+function fitDaily(){let c=document.querySelector(".today .daily");if(!c)return;
+  const over=()=>{const nav=document.querySelector(".nav");const top=nav?nav.getBoundingClientRect().top:innerHeight;return c.getBoundingClientRect().bottom>top-6||document.documentElement.scrollHeight>innerHeight+1;};
+  const base=U.dailyOff||0;for(let k=0;k<DAILY.length;k++){U.dailyOff=base+k;const h=document.createElement("div");h.innerHTML=dailyCard();const n=h.firstElementChild;c.replaceWith(n);c=n;if(!over())return;}
+  U.dailyOff=base;c.style.display="none";}
+
+/* ================= DBS BRAIN ================= */
+const BR=()=>{S.brain=S.brain||{};const b=S.brain;b.done=b.done||{};b.prog=b.prog||{};b.best=b.best||{};return b;};
+function rngFrom(str){let h=1779033703^str.length;for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
+  let a=h>>>0;return ()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
+const shuf=(arr,R)=>{const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const GAMES=[
+ {id:"cw",n:"Crossword",sub:"Criss-cross clues",ic:"✎"},
+ {id:"ws",n:"Word search",sub:"Find 8 hidden words",ic:"⌕"},
+ {id:"su",n:"Sudoku",sub:"Classic 9×9",ic:"#"},
+ {id:"mx",n:"Maths sprint",sub:"60 seconds, quick fire",ic:"±"},
+];
+const bDay=()=>BR().done[todayKey()]||{};
+const bCount=()=>GAMES.filter(g=>bDay()[g.id]!=null).length;
+function bStreak(){const d=new Date();const has=k=>Object.keys(BR().done[k]||{}).length>0;if(!has(todayKey(d)))d.setDate(d.getDate()-1);let n=0;while(n<999&&has(todayKey(d))){n++;d.setDate(d.getDate()-1);}return n;}
+function bProg(g){const b=BR();const k=todayKey();if(!b.prog[k]){Object.keys(b.prog).forEach(x=>{if(x<k)delete b.prog[x];});b.prog[k]={};}return b.prog[k];}
+function bFinish(g,val){BR().done[todayKey()]=Object.assign({},bDay(),{[g]:val});save();}
+const secs=t=>`${Math.floor(t/60)}:${pad(t%60)}`;
+
+/* ---- word search ---- */
+const WS_THEMES={
+ "Training":["SQUAT","DEADLIFT","BENCH","PRESS","LUNGE","PLANK","SPRINT","KETTLEBELL","BARBELL","DUMBBELL","PULLUP","TEMPO","CARDIO","STRETCH","POWER","ROWING","CURLS","DIPS"],
+ "Scotland":["FALKIRK","STIRLING","GLASGOW","EDINBURGH","DUNDEE","ABERDEEN","INVERNESS","PERTH","LOCHNESS","HIGHLANDS","THISTLE","TARTAN","KELPIES","CEILIDH","HAGGIS","ISLAY","SKYE","ARRAN"],
+ "The body":["HEART","LUNGS","LIVER","KIDNEY","FEMUR","TIBIA","BICEPS","TRICEPS","GLUTES","HAMSTRING","QUADS","SPINE","PELVIS","TENDON","NEURON","CORTEX","PLASMA","ENZYME"],
+ "Space":["GALAXY","NEBULA","COMET","ORBIT","PLANET","METEOR","QUASAR","PULSAR","SATURN","JUPITER","MERCURY","VENUS","ECLIPSE","ROCKET","COSMOS","ASTEROID"],
+ "Aviation":["TYPHOON","TORNADO","HERCULES","CHINOOK","SPITFIRE","HURRICANE","LANCASTER","RUNWAY","HANGAR","COCKPIT","RADAR","SQUADRON","AIRFIELD","THRUST","ROTOR","JETSTREAM"],
+ "Electrical":["VOLTAGE","CURRENT","CIRCUIT","BREAKER","CONDUIT","NEUTRAL","EARTH","FUSE","SOCKET","CABLE","TRUNKING","ISOLATOR","RESISTANCE","INSULATION","SWITCH","AMPERE"],
+ "Music":["GUITAR","AMPLIFIER","RIFF","CHORUS","VERSE","BREAKDOWN","DRUMS","CYMBAL","TUNING","DISTORTION","VOCALS","LYRICS","ENCORE","SETLIST","BASS","MELODY"],
+ "Wildlife":["OTTER","BADGER","OSPREY","PUFFIN","SALMON","HERON","HEATHER","BRACKEN","BIRCH","ROWAN","EAGLE","RED KITE","STAG","WILDCAT","SEAL","DOLPHIN"],
+ "Good food":["SALMON","OATS","LENTILS","SPINACH","BROCCOLI","AVOCADO","WALNUTS","BERRIES","CHICKPEA","YOGURT","EGGS","QUINOA","GARLIC","KALE","MACKEREL","SARDINES"],
+ "Chess":["KNIGHT","BISHOP","ROOK","QUEEN","KING","PAWN","CASTLE","GAMBIT","CHECKMATE","STALEMATE","OPENING","ENDGAME","SICILIAN","FORK","PIN","TEMPO"],
+};
+function genWS(seed){const R=rngFrom(seed);const names=Object.keys(WS_THEMES);const theme=names[Math.floor(R()*names.length)];
+  const N=10;const dirs=[[0,1],[1,0],[1,1],[-1,1],[0,-1],[-1,0],[1,-1],[-1,-1]];
+  for(let attempt=0;attempt<40;attempt++){const g=Array.from({length:N},()=>Array(N).fill(""));const words=[];
+    for(const raw of shuf(WS_THEMES[theme],R)){if(words.length>=8)break;const w=raw.replace(/\s/g,"");if(w.length>N)continue;let ok=false;
+      for(let t=0;t<120&&!ok;t++){const [dr,dc]=dirs[Math.floor(R()*(t<60&&words.length<3?2:dirs.length))];const r0=Math.floor(R()*N),c0=Math.floor(R()*N);const r1=r0+dr*(w.length-1),c1=c0+dc*(w.length-1);
+        if(r1<0||r1>=N||c1<0||c1>=N)continue;let fit=true;for(let i=0;i<w.length;i++){const x=g[r0+dr*i][c0+dc*i];if(x&&x!==w[i]){fit=false;break;}}
+        if(!fit)continue;for(let i=0;i<w.length;i++)g[r0+dr*i][c0+dc*i]=w[i];words.push({w,show:raw,r0,c0,r1,c1});ok=true;}}
+    if(words.length>=8){const AZ="ABCDEFGHIJKLMNOPRSTUWY";for(let r=0;r<N;r++)for(let c=0;c<N;c++)if(!g[r][c])g[r][c]=AZ[Math.floor(R()*AZ.length)];return {theme,g,words,found:[],t0:Date.now()};}}
+  return null;}
+function vWS(){const P=bProg();if(!P.ws){P.ws=genWS(todayKey()+"ws");save();}const W=P.ws;const done=bDay().ws!=null;
+  const inFound=(r,c)=>W.found.some(i=>{const x=W.words[i];const n=Math.max(Math.abs(x.r1-x.r0),Math.abs(x.c1-x.c0));const dr=Math.sign(x.r1-x.r0),dc=Math.sign(x.c1-x.c0);for(let k=0;k<=n;k++)if(x.r0+dr*k===r&&x.c0+dc*k===c)return true;return false;});
+  const A=U.wsA;
+  return `<div class="card"><div class="row between"><span class="tiny muted">Theme</span><b>${esc(W.theme)}</b></div>
+   <div class="wsg" style="margin-top:10px">${W.g.map((row,r)=>row.map((ch,c)=>`<button class="wsc ${inFound(r,c)?"f":""} ${A&&A[0]===r&&A[1]===c?"a":""}" data-a="wsTap" data-r="${r}" data-c="${c}">${ch}</button>`).join("")).join("")}</div>
+   <div class="small muted" style="margin-top:8px;text-align:center">${done?`Solved in ${secs(bDay().ws)}`:A?"Now tap the last letter":"Tap the first letter of a word, then the last"}</div></div>
+   <div class="card"><div class="wsl">${W.words.map((x,i)=>`<span class="${W.found.includes(i)?"f":""}">${esc(x.show)}</span>`).join("")}</div></div>`;}
+function wsTap(r,c){const P=bProg();const W=P.ws;if(!W||bDay().ws!=null)return;
+  if(!U.wsA){U.wsA=[r,c];return;}const [r0,c0]=U.wsA;U.wsA=null;if(r0===r&&c0===c)return;
+  const i=W.words.findIndex((x,j)=>!W.found.includes(j)&&((x.r0===r0&&x.c0===c0&&x.r1===r&&x.c1===c)||(x.r0===r&&x.c0===c&&x.r1===r0&&x.c1===c0)));
+  if(i>=0){W.found.push(i);vib(15);if(W.found.length===W.words.length){bFinish("ws",Math.round((Date.now()-W.t0)/1000));toast("Word search solved 🧠");}save();}else{U.wsA=[r,c];}}
+
+/* ---- sudoku ---- */
+function suSolve(g,count=false){const a=g.slice();let n=0;
+  const ok=(i,v)=>{const r=Math.floor(i/9),c=i%9,br=r-r%3,bc=c-c%3;for(let k=0;k<9;k++){if(a[r*9+k]===v||a[k*9+c]===v)return false;const rr=br+Math.floor(k/3),cc=bc+k%3;if(a[rr*9+cc]===v)return false;}return true;};
+  const go=()=>{let best=-1,bestOpts=null;for(let i=0;i<81;i++)if(!a[i]){const o=[];for(let v=1;v<=9;v++)if(ok(i,v))o.push(v);if(!o.length)return false;if(!bestOpts||o.length<bestOpts.length){best=i;bestOpts=o;if(o.length===1)break;}}
+    if(best<0){n++;return !count||n>1;}for(const v of bestOpts){a[best]=v;if(go())return true;}a[best]=0;return false;};
+  go();return count?n:a;}
+function genSU(seed){const R=rngFrom(seed);const g=Array(81).fill(0);
+  const fill=i=>{if(i===81)return true;if(g[i])return fill(i+1);const r=Math.floor(i/9),c=i%9,br=r-r%3,bc=c-c%3;
+    for(const v of shuf([1,2,3,4,5,6,7,8,9],R)){let ok=true;for(let k=0;k<9;k++){if(g[r*9+k]===v||g[k*9+c]===v||g[(br+Math.floor(k/3))*9+bc+k%3]===v){ok=false;break;}}if(ok){g[i]=v;if(fill(i+1))return true;g[i]=0;}}return false;};
+  fill(0);const sol=g.slice();const dow=new Date().getDay();const target=dow===0||dow===6?28:dow%2?36:32;const p=sol.slice();let clues=81;
+  for(const i of shuf([...Array(81).keys()],R)){if(clues<=target)break;const keep=p[i];p[i]=0;if(suSolve(p,true)!==1)p[i]=keep;else clues--;}
+  return {p,sol,v:p.slice(),t0:Date.now(),lvl:target<=28?"Hard":target<=32?"Medium":"Gentle"};}
+function vSU(){const P=bProg();if(!P.su){P.su=genSU(todayKey()+"su");save();}const G=P.su;const done=bDay().su!=null;const sel=U.suSel;
+  const sv=sel!=null?G.v[sel]:0;
+  return `<div class="card"><div class="row between"><span class="tiny muted">Today</span><b>${G.lvl}</b></div>
+   <div class="sug" style="margin-top:10px">${G.v.map((v,i)=>{const r=Math.floor(i/9),c=i%9;const given=!!G.p[i];const same=sel!=null&&(Math.floor(sel/9)===r||sel%9===c||(Math.floor(sel/27)===Math.floor(i/27)&&Math.floor((sel%9)/3)===Math.floor(c/3)));
+     const bad=v&&!given&&U.suCheck&&v!==G.sol[i];return `<button class="suc ${given?"g":""} ${i===sel?"s":same?"h":""} ${v&&sv&&v===sv&&i!==sel?"m":""} ${bad?"x":""} ${c%3===2&&c<8?"br":""} ${r%3===2&&r<8?"bb":""}" data-a="suTap" data-i="${i}">${v||""}</button>`;}).join("")}</div>
+   ${done?`<div class="small muted" style="margin-top:8px;text-align:center">Solved in ${secs(bDay().su)}</div>`:`<div class="supad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="btn ghost" data-a="suNum" data-n="${n}">${n}</button>`).join("")}<button class="btn ghost" data-a="suNum" data-n="0">⌫</button></div>
+   <div class="row" style="gap:8px;margin-top:8px"><button class="btn sm ghost" style="flex:1" data-a="suCheck">${U.suCheck?"Hide mistakes":"Check"}</button></div>`}</div>`;}
+function suNum(n){const P=bProg();const G=P.su;const i=U.suSel;if(i==null||G.p[i]||bDay().su!=null)return;G.v[i]=n;
+  if(G.v.every((v,k)=>v===G.sol[k])){bFinish("su",Math.round((Date.now()-G.t0)/1000));toast("Sudoku solved 🧠");}save();}
+
+/* ---- crossword ---- */
+const CW_BANK=`ALOE|Soothing plant gel
+ARIA|Opera solo
+ATOM|Smallest unit of an element
+BRAVE|Courageous
+CABLE|Wire for power or TV
+CAMEL|Desert animal with a hump
+CANOE|Paddled boat
+CARGO|Freight
+CHESS|Game of kings and pawns
+CIDER|Apple drink
+CLIMB|Go up
+COMET|Icy body with a glowing tail
+CRANE|Lifting machine, or long-legged bird
+DELTA|River mouth, or fourth Greek letter
+DIET|What you eat
+EAGLE|Golden bird of prey
+EARTH|Our planet, or protective conductor
+ECHO|Repeated sound
+EDGE|Border
+ENERGY|Capacity to do work
+ESSAY|Written piece
+FALKIRK|Town of the Kelpies
+FEMUR|Thigh bone
+FUSE|Device that melts to protect a circuit
+GLEN|Scottish valley
+GRIP|Hold firmly
+GUITAR|Six-stringed instrument
+HABIT|Regular practice
+HEART|Organ that pumps blood
+HERON|Long-legged wading bird
+IDEA|Thought
+INDEX|Pointer finger, or list at the back of a book
+IRON|Metal, or appliance for shirts
+ISLE|Small island
+KALE|Leafy green
+KNEE|Leg joint
+LASER|Focused beam of light
+LEMON|Sour yellow fruit
+LEVER|Bar used with a pivot
+LIVER|Organ that filters blood
+LOCH|Scottish lake
+LUNGE|Forward-stepping leg exercise
+MANGO|Tropical stone fruit
+MEDAL|Winner's award
+METRE|Unit of length
+MOTOR|Engine
+NERVE|Courage, or fibre carrying signals
+NOVEL|Book-length story
+OASIS|Desert spring
+OCEAN|Atlantic or Pacific
+OLIVE|Fruit pressed for oil
+OPERA|Sung drama
+ORBIT|Path round a planet
+OTTER|Playful river mammal
+OVEN|Baking chamber
+PEDAL|Bike part pushed by feet
+PIANO|Keyboard instrument
+PILOT|Flies the plane
+PLANK|Core exercise held face down
+PRESS|Push a weight overhead
+RADAR|Detection system using radio waves
+RAVEN|Large black bird
+RELAY|Team race, or electrical switch
+REPS|Lifting repetitions
+RIDGE|Long narrow hilltop
+RIFF|Repeated guitar phrase
+RIVER|Forth or Clyde, for example
+ROAST|Cook in an oven
+ROTOR|Helicopter's spinning blades
+SALMON|Pink-fleshed fish
+SAUNA|Hot room for sweating
+SCALE|Musical sequence, or weighing device
+SKATE|Glide on ice
+SLEEP|Nightly rest
+SOLAR|Of the sun
+SPINE|Backbone
+SPRINT|Flat-out run
+SQUAT|Leg exercise, often with a barbell
+STEAM|Water vapour
+STONE|Fourteen pounds
+STORM|Wild weather
+SUGAR|Sweetener
+TEMPO|Speed of music, or of a lift
+TIGER|Striped big cat
+TORSO|Upper body
+TRAIN|Work out, or rail transport
+TREND|General direction
+TULIP|Spring bulb flower
+UNION|Joining together
+VALVE|Device controlling flow
+VENUS|Second planet from the Sun
+VOLTS|Units of electrical pressure
+WATER|H2O
+WHEAT|Cereal for bread
+YOGA|Practice of poses and breathing
+ZEBRA|Striped African animal
+OATS|Porridge grain
+ROWAN|Tree with red berries
+ATLAS|Book of maps
+ALERT|Watchful
+ANGLE|Corner measure
+ARROW|Archer's missile
+BADGE|Emblem worn on a uniform
+BEACH|Sandy shore
+BRAIN|Organ of thought
+CABIN|Small hut
+CADET|Trainee officer
+CEDAR|Fragrant evergreen
+CLOUD|Floating mass of vapour
+DANCE|Move to music
+DRILL|Military exercise, or power tool
+EAGER|Keen
+EIGHT|Number after seven
+ELBOW|Arm joint
+ENTER|Go in
+EVENT|Occasion
+FIBRE|Roughage in food
+FLAME|Tongue of fire
+GIANT|Huge
+GRAIN|Wheat or barley
+HONEY|Bees' product
+JUDGE|Court official
+LEARN|Gain knowledge
+LIGHT|Not heavy, or not dark
+MAGIC|Conjuring
+MERIT|Worth
+MOUSE|Small rodent, or computer device
+NORTH|Compass point
+OCTET|Group of eight
+PEARL|Oyster's gem
+PLANE|Aircraft
+POWER|Strength, or rate of doing work
+RADIO|Wireless set
+RANGE|Mountain chain, or cooker
+RATIO|Proportion
+SHIRT|Collared garment
+SNAIL|Slow shelled creature
+STEEL|Iron alloy
+TABLE|Furniture with legs
+TENOR|High male singing voice
+TOAST|Browned bread
+TOWER|Tall structure
+TRACK|Running circuit
+UNCLE|Parent's brother
+VIRUS|Infectious agent
+WATCH|Timepiece on the wrist
+WORLD|The Earth
+ARM|Limb
+EGG|Hen's product
+OAT|Cereal grain
+ICE|Frozen water
+ORE|Mined rock
+EAR|Hearing organ
+ELM|Shade tree
+GYM|Workout venue
+RUN|Jog
+ROW|Pull oars
+TEA|Hot brew
+SET|Group of reps
+LEG|Limb
+ACE|Top card
+OWL|Night bird
+EEL|Snakelike fish
+ANVIL|Blacksmith's block
+BISON|American buffalo
+CORAL|Reef builder
+DINGO|Wild Australian dog
+EMBER|Glowing coal
+FERRY|Boat for passengers and cars
+GECKO|Small lizard
+HAVEN|Safe place
+IGLOO|Snow house
+JOULE|Unit of energy
+KAYAK|Covered canoe
+LLAMA|Andean pack animal
+MAPLE|Tree of syrup fame
+NINJA|Japanese stealth warrior
+ONION|Layered bulb vegetable
+PANDA|Bamboo-eating bear
+QUOTA|Allotted share
+ROBIN|Red-breasted bird
+SWORD|Bladed weapon
+THYME|Herb
+ULTRA|Extreme
+WALTZ|Ballroom dance
+YACHT|Sailing vessel
+`.trim().split("\n").map(l=>{const [w,cl]=l.split("|");return {w,cl};});
+function genCW(seed){let best=null;
+  for(let t=0;t<30;t++){const R=rngFrom(seed+":"+t);const bank=shuf(CW_BANK,R);const N=11;const g=Array.from({length:N},()=>Array(N).fill(""));const placed=[];
+    const first=bank.find(x=>x.w.length>=6)||bank[0];const r0=5,c0=Math.floor((N-first.w.length)/2);for(let i=0;i<first.w.length;i++)g[r0][c0+i]=first.w[i];placed.push({...first,r:r0,c:c0,d:"a"});
+    const can=(w,r,c,d)=>{const dr=d==="d"?1:0,dc=d==="a"?1:0;const er=r+dr*(w.length-1),ec=c+dc*(w.length-1);if(r<0||c<0||er>=N||ec>=N)return -1;
+      const br=r-dr,bc=c-dc,ar=er+dr,ac=ec+dc;if(br>=0&&bc>=0&&g[br][bc])return -1;if(ar<N&&ac<N&&g[ar][ac])return -1;let cross=0;
+      for(let i=0;i<w.length;i++){const rr=r+dr*i,cc=c+dc*i;const x=g[rr][cc];if(x){if(x!==w[i])return -1;cross++;continue;}
+        const n1=d==="a"?[rr-1,cc]:[rr,cc-1],n2=d==="a"?[rr+1,cc]:[rr,cc+1];if(n1[0]>=0&&n1[1]>=0&&g[n1[0]][n1[1]])return -1;if(n2[0]<N&&n2[1]<N&&g[n2[0]][n2[1]])return -1;}
+      return cross&&cross<w.length?cross:-1;};
+    for(const cand of bank){if(placed.length>=9)break;if(placed.some(p=>p.w===cand.w))continue;let done=false;
+      for(const p of shuf(placed,R)){if(done)break;const d=p.d==="a"?"d":"a";
+        for(let i=0;i<p.w.length&&!done;i++)for(let j=0;j<cand.w.length&&!done;j++){if(p.w[i]!==cand.w[j])continue;const pr=p.d==="a"?p.r:p.r+i,pc=p.d==="a"?p.c+i:p.c;const r=d==="d"?pr-j:pr,c=d==="a"?pc-j:pc;
+          if(can(cand.w,r,c,d)>0){for(let k=0;k<cand.w.length;k++)g[r+(d==="d"?k:0)][c+(d==="a"?k:0)]=cand.w[k];placed.push({...cand,r,c,d});done=true;}}}}
+    if(!best||placed.length>best.placed.length)best={g,placed};if(placed.length>=9)break;}
+  let minR=99,minC=99,maxR=0,maxC=0;best.g.forEach((row,r)=>row.forEach((x,c)=>{if(x){minR=Math.min(minR,r);maxR=Math.max(maxR,r);minC=Math.min(minC,c);maxC=Math.max(maxC,c);}}));
+  const H=maxR-minR+1,Wd=maxC-minC+1;const sol=Array.from({length:H},(_,r)=>Array.from({length:Wd},(_,c)=>best.g[r+minR][c+minC]));
+  const words=best.placed.map(p=>({w:p.w,clue:p.cl,r:p.r-minR,c:p.c-minC,d:p.d}));
+  // numbering
+  const starts={};words.slice().sort((a,b)=>a.r-b.r||a.c-b.c).forEach(x=>{const k=x.r+","+x.c;if(!starts[k])starts[k]=Object.keys(starts).length+1;x.n=starts[k];});
+  words.forEach(x=>{x.n=starts[x.r+","+x.c];});
+  return {sol,H,W:Wd,words,v:sol.map(r=>r.map(x=>x?"":null)),t0:Date.now(),num:starts};}
+function cwWordAt(C,r,c,d){return C.words.find(x=>x.d===d&&(d==="a"?x.r===r&&c>=x.c&&c<x.c+x.w.length:x.c===c&&r>=x.r&&r<x.r+x.w.length));}
+function vCW(){const P=bProg();if(!P.cw){P.cw=genCW(todayKey()+"cw");save();}const C=P.cw;const done=bDay().cw!=null;
+  let S0=U.cwSel;if(!S0||!C.sol[S0.r]||!C.sol[S0.r][S0.c]){const w=C.words.slice().sort((a,b)=>a.n-b.n)[0];S0=U.cwSel={r:w.r,c:w.c,d:w.d};}
+  const cur=cwWordAt(C,S0.r,S0.c,S0.d)||cwWordAt(C,S0.r,S0.c,S0.d==="a"?"d":"a");if(cur)S0.d=cur.d;
+  const inCur=(r,c)=>cur&&(cur.d==="a"?r===cur.r&&c>=cur.c&&c<cur.c+cur.w.length:c===cur.c&&r>=cur.r&&r<cur.r+cur.w.length);
+  const cs=Math.min(36,Math.floor((Math.min(innerWidth,480)-70-2*(C.W-1))/C.W));
+  const clues=d=>C.words.filter(x=>x.d===d).sort((a,b)=>a.n-b.n).map(x=>`<button class="cwcl ${cur===x?"on":""}" data-a="cwClue" data-r="${x.r}" data-c="${x.c}" data-d="${x.d}"><b>${x.n}</b> ${esc(x.clue)} <span class="muted">(${x.w.length})</span></button>`).join("");
+  return `<div class="card"><div class="cwg" style="grid-template-columns:repeat(${C.W},${cs}px)">${C.sol.map((row,r)=>row.map((x,c)=>x?`<button class="cwc ${r===S0.r&&c===S0.c?"s":inCur(r,c)?"h":""} ${U.cwCheck&&C.v[r][c]&&C.v[r][c]!==x?"x":""}" style="width:${cs}px;height:${cs}px" data-a="cwTap" data-r="${r}" data-c="${c}">${C.num[r+","+c]?`<i>${C.num[r+","+c]}</i>`:""}${C.v[r][c]||""}</button>`:`<span style="width:${cs}px;height:${cs}px"></span>`).join("")).join("")}</div>
+   ${cur?`<div class="cwbar"><b>${cur.n} ${cur.d==="a"?"Across":"Down"}</b> ${esc(cur.clue)}</div>`:""}
+   ${done?`<div class="small muted" style="margin-top:8px;text-align:center">Solved in ${secs(bDay().cw)}</div>`:`<div class="kb">${["QWERTYUIOP","ASDFGHJKL","ZXCVBNM⌫"].map(row=>`<div>${[...row].map(k=>`<button data-a="cwKey" data-k="${k}">${k}</button>`).join("")}</div>`).join("")}</div>
+   <div class="row" style="gap:8px;margin-top:8px"><button class="btn sm ghost" style="flex:1" data-a="cwCheck">${U.cwCheck?"Hide mistakes":"Check"}</button><button class="btn sm ghost" style="flex:1" data-a="cwReveal">Reveal word</button></div>`}</div>
+   <div class="card"><label class="l">Across</label><div class="stack" style="gap:2px">${clues("a")}</div><label class="l" style="margin-top:12px">Down</label><div class="stack" style="gap:2px">${clues("d")}</div></div>`;}
+function cwKey(k){const C=bProg().cw;if(!C||bDay().cw!=null)return;const s=U.cwSel;if(!s)return;const w=cwWordAt(C,s.r,s.c,s.d);if(!w)return;const dr=w.d==="d"?1:0,dc=w.d==="a"?1:0;
+  if(k==="⌫"){if(C.v[s.r][s.c])C.v[s.r][s.c]="";else{const pr=s.r-dr,pc=s.c-dc;if(C.sol[pr]&&C.sol[pr][pc]&&cwWordAt(C,pr,pc,w.d)===w){s.r=pr;s.c=pc;C.v[pr][pc]="";}}}
+  else{C.v[s.r][s.c]=k;const nr=s.r+dr,nc=s.c+dc;if(C.sol[nr]&&C.sol[nr][nc]&&cwWordAt(C,nr,nc,w.d)===w){s.r=nr;s.c=nc;}}
+  if(C.sol.every((row,r)=>row.every((x,c)=>!x||C.v[r][c]===x))){bFinish("cw",Math.round((Date.now()-C.t0)/1000));toast("Crossword solved 🧠");}save();}
+
+/* ---- maths sprint ---- */
+function mxQ(){const t=Math.floor(Math.random()*5);let a,b,q,ans;
+  if(t===0){a=12+Math.floor(Math.random()*88);b=12+Math.floor(Math.random()*88);q=`${a} + ${b}`;ans=a+b;}
+  else if(t===1){a=30+Math.floor(Math.random()*90);b=5+Math.floor(Math.random()*(a-5));q=`${a} − ${b}`;ans=a-b;}
+  else if(t===2){a=3+Math.floor(Math.random()*10);b=3+Math.floor(Math.random()*10);q=`${a} × ${b}`;ans=a*b;}
+  else if(t===3){b=2+Math.floor(Math.random()*11);ans=2+Math.floor(Math.random()*11);a=b*ans;q=`${a} ÷ ${b}`;}
+  else{a=10*(2+Math.floor(Math.random()*18));b=[10,20,25,50][Math.floor(Math.random()*4)];q=`${b}% of ${a}`;ans=a*b/100;if(ans%1){a=200;ans=a*b/100;q=`${b}% of ${a}`;}}
+  return {q,ans};}
+function vMX(){const M=U.mx;const best=BR().best.mx||0;const today=bDay().mx;
+  if(!M||M.over)return `<div class="card" style="text-align:center"><div class="tiny muted">60 seconds · as many as you can</div>
+    ${M&&M.over?`<div class="num" style="font-family:var(--display);font-size:48px;font-weight:600;margin-top:10px">${M.score}</div><div class="small muted">${M.score>=best&&M.score>0?"New best!":`Best ${best}`}</div>`:`<div class="small muted" style="margin-top:8px">${today!=null?`Today: ${today} · Best: ${best}`:best?`Best: ${best}`:"Adding, subtracting, times tables, division and percentages."}</div>`}
+    <button class="btn block" style="margin-top:14px" data-a="mxStart">${M&&M.over?"Go again":"Start"}</button></div>`;
+  return `<div class="card" style="text-align:center"><div class="row between"><span class="small muted">Score <b class="num">${M.score}</b></span><span class="num" data-live="mx" style="font-weight:700">${Math.max(0,Math.ceil((M.end-Date.now())/1000))}s</span></div>
+   <div class="num" style="font-family:var(--display);font-size:40px;font-weight:600;margin:18px 0 6px">${M.cur.q}</div>
+   <div class="mxin num ${M.bad?"x":""}">${M.inp||"&nbsp;"}</div>
+   <div class="supad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="btn ghost" data-a="mxKey" data-k="${n}">${n}</button>`).join("")}<button class="btn ghost" data-a="mxKey" data-k="⌫">⌫</button><button class="btn ghost" data-a="mxKey" data-k="0">0</button><button class="btn ghost" data-a="mxKey" data-k="skip">Skip</button></div></div>`;}
+function mxEnd(){const M=U.mx;if(!M||M.over)return;M.over=true;const b=BR();if(M.score>(b.best.mx||0))b.best.mx=M.score;const prev=bDay().mx;bFinish("mx",Math.max(prev||0,M.score));render();}
+setInterval(()=>{const M=U.mx;if(!M||M.over)return;const left=Math.ceil((M.end-Date.now())/1000);const el=document.querySelector('[data-live="mx"]');if(el)el.textContent=Math.max(0,left)+"s";if(left<=0)mxEnd();},250);
+
+/* ---- views ---- */
+function brainCard(){const n=bCount();const st=bStreak();
+  return `<div class="card tap half" data-a="go" data-v="brain"><div class="row" style="gap:10px">${ring(44,5,n/GAMES.length,"var(--accent)",`<span class="num" style="font-weight:700;font-size:13px">${n}/${GAMES.length}</span>`)}<div style="min-width:0;flex:1"><div class="tiny muted">DBS Brain</div><div class="ell" style="font-weight:700">${n===GAMES.length?"All done":n?"Keep going":"Daily puzzles"}</div><div class="small muted ell rsub">${st?`${st}-day streak`:"4 puzzles"}</div></div></div></div>`;}
+function vBrain(){const g=U.bg;const day=bDay();
+  if(g){const G=GAMES.find(x=>x.id===g);return `${topbar(G.n,day[g]!=null?"Done today ✓":G.sub,"brainBack","")}<div class="stack">${g==="ws"?vWS():g==="su"?vSU():g==="cw"?vCW():vMX()}</div>`;}
+  const st=bStreak();
+  return `${topbar("DBS Brain",`${bCount()}/${GAMES.length} today${st?` · ${st}-day streak`:""}`,"brainBack","")}
+  <div class="stack">
+   ${GAMES.map(G=>{const v=day[G.id];return `<button class="card tap row" style="gap:14px;text-align:left;width:100%" data-a="brainOpen" data-g="${G.id}"><span class="bico">${G.ic}</span><div style="flex:1;min-width:0"><h3>${G.n}</h3><div class="small muted">${v!=null?(G.id==="mx"?`Today ${v} · best ${BR().best.mx||v}`:`Solved in ${secs(v)}`):G.sub}</div></div>${v!=null?`<span class="pill ok">${ic("check",14)}</span>`:`<span class="muted">${ic("chev",18)}</span>`}</button>`;}).join("")}
+   <div class="small muted" style="text-align:center;padding:0 10px">New puzzles every day. Novelty and challenge matter most; for long-term brain health the strongest evidence is still exercise, sleep and time with people.</div>
+  </div>`;}
+function brainAction(a,d){
+ switch(a){
+  case "brainOpen":U.bg=d.g;U.wsA=null;U.suSel=null;window.scrollTo(0,0);render();return true;
+  case "brainBack":if(U.bg){U.bg=null;if(U.mx&&!U.mx.over)U.mx=null;}else{U.view="today";}window.scrollTo(0,0);render();return true;
+  case "wsTap":wsTap(+d.r,+d.c);render();return true;
+  case "suTap":U.suSel=+d.i;render();return true;
+  case "suNum":suNum(+d.n);render();return true;
+  case "suCheck":U.suCheck=!U.suCheck;render();return true;
+  case "cwTap":{const C=bProg().cw;const r=+d.r,c=+d.c;const s=U.cwSel;if(s&&s.r===r&&s.c===c){const o=s.d==="a"?"d":"a";if(cwWordAt(C,r,c,o))s.d=o;}else{U.cwSel={r,c,d:cwWordAt(C,r,c,s?s.d:"a")?(s?s.d:"a"):(s&&s.d==="a"?"d":"a")};}render();return true;}
+  case "cwClue":U.cwSel={r:+d.r,c:+d.c,d:d.d};window.scrollTo(0,0);render();return true;
+  case "cwKey":cwKey(d.k);render();return true;
+  case "cwCheck":U.cwCheck=!U.cwCheck;render();return true;
+  case "cwReveal":{const C=bProg().cw;const s=U.cwSel;const w=s&&cwWordAt(C,s.r,s.c,s.d);if(w){for(let i=0;i<w.w.length;i++){const r=w.r+(w.d==="d"?i:0),c=w.c+(w.d==="a"?i:0);C.v[r][c]=w.w[i];}C.revealed=(C.revealed||0)+1;
+     if(C.sol.every((row,r)=>row.every((x,c)=>!x||C.v[r][c]===x))){bFinish("cw",Math.round((Date.now()-C.t0)/1000));toast("Crossword complete");}save();}render();return true;}
+  case "mxStart":U.mx={score:0,end:Date.now()+60000,cur:mxQ(),inp:""};render();return true;
+  case "mxKey":{const M=U.mx;if(!M||M.over)return true;if(Date.now()>=M.end){mxEnd();return true;}
+    if(d.k==="skip"){M.cur=mxQ();M.inp="";}else if(d.k==="⌫")M.inp=M.inp.slice(0,-1);else{M.inp=(M.inp+d.k).slice(0,5);M.bad=false;
+      if(+M.inp===M.cur.ans){M.score++;M.cur=mxQ();M.inp="";vib(8);}else if(String(M.cur.ans).length<=M.inp.length){M.bad=true;}}
+    render();return true;}
+ }
  return false;}
 
 /* ================= OVERLAY ================= */
@@ -2298,6 +2861,7 @@ document.addEventListener("click",ev=>{
   if(foodAction(a,d))return;
   if(recAction(a,d))return;
   if(moreAction(a,d))return;
+  if(brainAction(a,d))return;
   switch(a){
    case "go":if(d.v==="log"){U.view="recover";U.recTab="cardio";}else if(d.v==="fast"){U.view="food";U.foodTab="fast";}else{U.view=d.v;if(d.v==="food"&&!U.foodTab)U.foodTab="diary";}window.scrollTo(0,0);render();break;
    case "goToday":U.view="today";U.yogaPick=null;render();break;
@@ -2357,7 +2921,9 @@ document.addEventListener("click",ev=>{
    case "delFast":S.fast.history=S.fast.history.filter(x=>x.id!==d.id);save();render();break;
    case "editFast":{const h=S.fast.history.find(x=>x.id===d.id);openModal(`<h2>Edit fast</h2><form data-form="fastEdit" data-id="${h.id}" class="stack" style="margin-top:14px"><div><label class="l">Start</label><input class="f" type="datetime-local" name="start" value="${toLocalInput(h.start)}"></div><div><label class="l">End</label><input class="f" type="datetime-local" name="end" value="${toLocalInput(h.end)}"></div><div><label class="l">Goal hours</label><input class="f" name="goal" inputmode="numeric" value="${h.goal}"></div><div class="row" style="gap:10px"><button type="button" class="btn ghost" style="flex:1" data-a="modalClose">Cancel</button><button class="btn" style="flex:2">Save</button></div></form>`);break;}
    case "theme":S.theme=d.t;save();render();break;
-   case "style":S.style=d.s;save();render();break;
+   case "profSex":PROF().sex=d.s;if(FD().plan)FD().plan.custom=null;save();render();break;
+   case "welcomeSkip":PROF().asked=1;save();closeModal();render();break;
+   case "style":S.style=d.s;S.accent=null;save();render();break;
    case "accent":S.accent=d.c;save();render();break;
    case "accentReset":S.accent=null;save();render();break;
    case "font":S.font=d.f;save();render();break;
@@ -2387,6 +2953,7 @@ document.addEventListener("input",ev=>{
   else if(k==="work"){const en=getLog(p.id,W(p),U.day,el.dataset.ex);en.work=el.value.replace(",",".").replace(/[^0-9.]/g,"");save();document.querySelectorAll(`input[data-k="w"][data-ex="${CSS.escape(el.dataset.ex)}"]`).forEach(x=>x.placeholder=en.work||"kg");}
   else if(k==="exNote"){getLog(p.id,W(p),U.day,el.dataset.ex).note=el.value;save();}
   else if(k==="sessNote"){const w=W(p);S.logs[p.id]=S.logs[p.id]||{};S.logs[p.id][w]=S.logs[p.id][w]||{};S.logs[p.id][w][U.day]=S.logs[p.id][w][U.day]||{};S.logs[p.id][w][U.day]._note=el.value;save();}
+  else if(k==="prof"){const p=PROF();if(el.dataset.k==="name"){p.name=el.value.trim().slice(0,24);save();const h=document.querySelector(".top h1");}else{const v=parseInt(el.value);if(v>12&&v<100){p.age=v;if(FD().plan){FD().plan.age=v;FD().plan.custom=null;}save();}}}
   else if(k==="cfg"){const v=parseFloat(el.value);if(!isNaN(v)){S[el.dataset.k]=v;save();}}
   else if(k==="accentPick"){S.accent=el.value;save();applyTheme();}
   else if(k==="spId"){S.spotify.clientId=el.value.trim();save();}
@@ -2403,7 +2970,7 @@ function handleJSON(kind,txt){
   let o;try{o=JSON.parse(txt);}catch(e){toast("That file isn't valid JSON");return false;}
   if(kind==="prog"){const pr=normProg(o);if(!pr){toast("That doesn't look like a programme");return false;}S.customProgs=S.customProgs.filter(x=>x.id!==pr.id).concat([pr]);save();toast(`${pr.name} added`);return true;}
   // backup: new format or old app format
-  if(o&&(o.v===2||o.v===3)){S=upgrade(o);save();toast("Backup restored");return true;}
+  if(o&&(o.v===2||o.v===3)){const keep=S.profile;S=upgrade(o);if(keep&&keep.name&&!(S.profile&&S.profile.name))S.profile=keep;save();toast("Backup restored");return true;}
   if(o&&OLDK.some(k=>k in o)){const r=importOld(o);toast(`Old backup imported · ${r.logs} logs, ${r.comps} sessions`);return true;}
   toast("That doesn't look like a DBS backup");return false;
 }
@@ -2443,6 +3010,11 @@ document.addEventListener("touchend",e=>{if(!sw0)return;const t=e.changedTouches
 try{if("serviceWorker" in navigator&&location.protocol==="https:"&&!/claude|anthropic/.test(location.hostname))navigator.serviceWorker.register("./sw.js").catch(()=>{});}catch(e){}
 
 render();
+setTimeout(()=>{const p=PROF();if(!p.name&&!p.asked&&!document.querySelector(".modal"))openModal(`<h2>Welcome to DBS HEALTH &amp; FITNESS</h2><div class="small muted" style="margin:6px 0 14px">A few details so targets and your greeting fit you. You can change these any time in Settings.</div>
+ <form data-form="welcome" class="stack"><div><label class="l">First name</label><input class="f" name="name" autocomplete="given-name" placeholder="Your first name"></div>
+ <div class="grid2"><div><label class="l">Age</label><input class="f num" name="age" inputmode="numeric" value="${p.age}"></div><div><label class="l">Height cm</label><input class="f num" name="height" inputmode="decimal" value="${S.height||""}"></div></div>
+ <div><label class="l">Sex</label><div class="dots5" style="grid-template-columns:1fr 1fr">${[["m","Male"],["f","Female"]].map(([k,l])=>`<label class="segr"><input type="radio" name="sex" value="${k}" ${p.sex===k?"checked":""}><span>${l}</span></label>`).join("")}</div></div>
+ <div class="row" style="gap:10px"><button type="button" class="btn ghost" style="flex:1" data-a="welcomeSkip">Skip</button><button class="btn" style="flex:2">Let's go</button></div></form>`);},600);
 })();
 
 </script>
