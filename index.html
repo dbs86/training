@@ -282,7 +282,7 @@ button.card{width:100%;font:inherit;color:inherit}
 @media (max-height:700px){.today .sdone,.today .tile .small,.today .wkh{display:none}.today .wkr{margin-top:0!important}.today .yfoot{margin-top:2px!important}.notice.slim{padding:5px 8px 5px 12px}.notice.slim .btn{height:30px}}
 .seg.s5 button{padding:0 3px;font-size:12.5px;min-width:0}.sw8{gap:6px}
 .steps{padding-left:20px;margin:0;display:flex;flex-direction:column;gap:10px}.steps li{padding-left:2px}.steps code,.small code{font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:5px;display:inline-block;margin-top:3px}
-.chipn{width:28px;height:28px;border-radius:8px;background:var(--surface2);font-weight:700;font-size:12.5px;color:var(--muted)}.chipn.on{background:var(--accent);color:#fff}
+.chipn{width:28px;height:28px;border-radius:8px;background:var(--surface2);font-weight:700;font-size:12.5px;color:var(--muted)}.chipn.on{background:var(--accent);color:var(--accent-ink,#fff)}
 .icon-btn.sm{width:32px;height:32px}
 details summary{cursor:pointer;list-style:none}details summary::-webkit-details-marker{display:none}details summary:before{content:"＋ "}details[open] summary:before{content:"－ "}
 .today .daily{text-align:left;width:100%;display:flex;flex-direction:column;gap:4px;justify-content:center;padding:10px 14px}
@@ -315,17 +315,17 @@ details summary{cursor:pointer;list-style:none}details summary::-webkit-details-
 .wsg{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;max-width:360px;margin-left:auto;margin-right:auto}
 .wsc{aspect-ratio:1;border-radius:7px;font-weight:700;font-size:15px;background:transparent;color:var(--text);font-family:var(--display)}
 .wsc.f{background:var(--accent-soft,var(--surface2));color:var(--accent-text,var(--accent))}
-.wsc.a{background:var(--accent);color:#fff}
+.wsc.a{background:var(--accent);color:var(--accent-ink,#fff)}
 .wsl{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center}.wsl span{font-weight:600;font-size:14px}.wsl span.f{text-decoration:line-through;color:var(--muted)}
 .sug{display:grid;grid-template-columns:repeat(9,1fr);max-width:360px;margin:10px auto 0;border:2px solid var(--text);border-radius:6px;overflow:hidden}
 .suc{aspect-ratio:1;font-size:19px;font-weight:500;color:var(--accent-text,var(--accent));background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--display)}
-.suc.g{color:var(--text);font-weight:700}.suc.h{background:var(--surface2)}.suc.m{background:var(--accent-soft,var(--surface2))}.suc.s{background:var(--accent);color:#fff}
+.suc.g{color:var(--text);font-weight:700}.suc.h{background:var(--surface2)}.suc.m{background:var(--accent-soft,var(--surface2))}.suc.s{background:var(--accent);color:var(--accent-ink,#fff)}
 .suc.x{color:#c0392b;text-decoration:underline}.suc.br{border-right:2px solid var(--text)}.suc.bb{border-bottom:2px solid var(--text)}
 .supad{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}.supad .btn{height:44px;font-size:18px;padding:0}
 .cwg{display:grid;gap:2px;justify-content:center}
 .cwc{position:relative;background:var(--surface);border:1.5px solid var(--text);border-radius:4px;font-weight:700;font-size:17px;text-transform:uppercase;font-family:var(--display);color:var(--text);padding:0}
 .cwc i{position:absolute;top:1px;left:2px;font-size:8.5px;font-style:normal;font-weight:700;color:var(--muted)}
-.cwc.h{background:var(--accent-soft,var(--surface2))}.cwc.s{background:var(--accent);color:#fff}.cwc.s i{color:#fff}.cwc.x{color:#c0392b}
+.cwc.h{background:var(--accent-soft,var(--surface2))}.cwc.s{background:var(--accent);color:var(--accent-ink,#fff)}.cwc.s i{color:var(--accent-ink,#fff)}.cwc.x{color:#c0392b}
 .cwbar{margin-top:10px;background:var(--surface2);border-radius:10px;padding:8px 10px;font-size:14px}
 .cwcl{text-align:left;padding:6px 8px;border-radius:8px;font-size:14px;width:100%;background:none;color:var(--text)}.cwcl.on{background:var(--accent-soft,var(--surface2))}
 .kb{margin-top:10px;display:flex;flex-direction:column;gap:5px}.kb div{display:flex;gap:4px;justify-content:center}
@@ -339,6 +339,20 @@ details summary{cursor:pointer;list-style:none}details summary::-webkit-details-
 .today .top h1,.top h1[data-fit]{text-transform:none!important}
 .today .daily{padding:2px 8px 0;gap:3px}
 .today .daily.sm .dtxt{font-size:14px;line-height:1.3}.today .daily.sm .tiny{display:none}.today .daily.sm .dwho{display:inline;margin:0 0 0 4px}
+/* centred titles */
+.top.topc{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:8px}
+.top.topc .tmid{min-width:0;text-align:center}
+.top.topc .tmid h1{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top.topc .tside{display:flex;align-items:center}.top.topc .tside.r{justify-content:flex-end}
+.today{gap:12px}.today .card{padding:14px 16px}
+@media (max-height:780px){.today{gap:9px}.today .card{padding:11px 13px}}
+@media (max-height:700px){.today{gap:7px}.today .card{padding:9px 12px}}
+.today .card.half{padding:12px 11px}
+@media (min-height:781px){.today{gap:17px}.today .card{padding:16px 18px}.today .card.half{padding:14px 12px}.today .top{margin-bottom:6px}.today .daily{margin-top:4px}}
+@media (min-height:701px) and (max-height:780px){.today{gap:13px}.today .card{padding:13px 15px}}
+@media (max-height:700px){.today{gap:10px}}
+@media (min-height:781px){.today{gap:18px}.today .card{padding:20px 20px}.today .card.half{padding:16px 14px}.today .card .btn{margin-top:14px!important}}
+@media (min-height:701px) and (max-height:780px){.today .card{padding:15px 16px}}
 </style>
 </head>
 <body>
@@ -841,7 +855,7 @@ function upgrade(o){
   n.fast=Object.assign({},DEF.fast,o.fast||{});n.spotify=Object.assign({},DEF.spotify,o.spotify||{});
   return n;
 }
-function save(){try{delete S.logs["[object Object]"];localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+let saveWarned=0;function save(){try{delete S.logs["[object Object]"];localStorage.setItem(KEY,JSON.stringify(S));}catch(e){if(!saveWarned||Date.now()-saveWarned>6e4){saveWarned=Date.now();setTimeout(()=>{try{toast("⚠ Couldn't save: phone storage is full. Back up in Settings now.");}catch(_){}},600);}}}
 save();
 
 const U={view:"today",day:null,step:0,mode:"coach",rest:null,yoga:null,modal:null,yogaPick:null,logTab:"cardio",sheet:null,summary:null,sessPRs:[],track:null};
@@ -857,7 +871,7 @@ const W=(p=P())=>Math.min(p.weeks,Math.max(1,S.progWeek[p.id]||1));
 const coreDays=p=>p.days.filter(d=>!d.optional);
 function blockIdx(p,w){if(!p.blocks)return null;const i=p.blocks.findIndex(b=>w>=b.from&&w<=b.to);return i<0?p.blocks.length:i+1;}
 const isDeload=(p,w)=>!!(p.deload&&p.deload.includes(w));
-function weekLabel(p=P(),w=W(p)){const b=blockIdx(p,w);return `Week ${w}${b?` · ${p.blocks[b-1].name}`:""}${isDeload(p,w)?" · Deload":""}`;}
+function weekLabel(p=P(),w=W(p)){const b=blockIdx(p,w);return `${cycOf(p.id)>1?`Cycle ${cycOf(p.id)} · `:""}Week ${w}${b?` · ${p.blocks[b-1].name}`:""}${isDeload(p,w)?" · Deload":""}`;}
 function sessionFor(p,dayId,w){
   const d=p.days.find(x=>x.id===dayId);if(!d)return [];
   const ov=S.edits?.[p.id]?.groups?.[edKey(p,blockIdx(p,w),d.id)]?.[d.id];
@@ -880,6 +894,8 @@ function prevEntry(p,n,w){
     const days=LP?.[x];if(!days)continue;
     for(const d in days){const en=days[d][n];if(en&&(doneSets(en).length||parseFloat(en.work)>0))return {week:x,entry:en};}
   }
+  const pc=S.logs?.[p.id+"#"+(cycOf(p.id)-1)];
+  if(pc)for(let x=p.weeks;x>=1;x--){if(isDeload(p,x))continue;const days=pc[x];if(!days)continue;for(const d in days){const en=days[d][n];if(en&&(doneSets(en).length||parseFloat(en.work)>0))return {week:x,entry:en};}}
   return null;
 }
 function topOf(en){let t=0,r=null;doneSets(en).forEach(s=>{const w=parseFloat(s.w);if(w>t){t=w;r=parseFloat(s.r)||null;}});return {w:t,r};}
@@ -913,7 +929,7 @@ function crossSuggest(p,e,w){
   const fromR=t.r||topNum(src.entry.tr)||5;const nowT=topNum(e.r)||fromR;
   let sw=est1RM(t.w*factor,fromR)/(1+nowT/30);sw=Math.max(inc,Math.floor(sw/inc+1e-6)*inc);
   if(isDeload(p,w))sw=roundTo(sw*.65,inc);
-  const pn=src.pid!==p.id?` (${progById(src.pid).name})`:"";
+  const realPid=String(src.pid).split("#")[0];const pn=realPid!==p.id?` (${progById(realPid).name})`:"";
   return {w:sw,why:`From your ${src.name} ${t.w} kg × ${fromR}${pn}${factor!==1?` · ~${Math.round(factor*100)}%`:""}`,base:sw};
 }
 function prepSession(p,d,w){
@@ -930,7 +946,8 @@ function prepSession(p,d,w){
 }
 function entryVolume(en,e){let v=0;doneSets(en).forEach(s=>{const w=parseFloat(s.w),r=parseFloat(s.r)||firstNum(e?e.r:"");if(w>0&&r)v+=w*r;});return v;}
 function itemDone(p,d,w,g){return g.ex.every(e=>doneSets(peek(p,w,d,e.n)).length>=e.s);}
-const isSessionDone=(p,w,d)=>S.completions.some(c=>c.prog===p&&c.week===w&&c.day===d);
+const cycOf=pid=>((S.cycle||{})[pid]||1);
+const isSessionDone=(p,w,d)=>S.completions.some(c=>c.prog===p&&c.week===w&&c.day===d&&(c.cyc||1)===cycOf(p));
 function lastDone(p,d){const l=S.completions.filter(c=>c.prog===p&&c.day===d);return l.length?l[l.length-1].date:null;}
 // records by display name
 function allRecords(){
@@ -974,7 +991,7 @@ function checkin(){
   if(sl.length>=3){const av=sl.reduce((q,z)=>q+z,0)/sl.length;if(av<7)tips.unshift({t:"Sleep is the bottleneck",x:`You averaged ${av.toFixed(1)} h last week. Getting to 7+ will do more for recovery and hormones than any supplement.`});}
   const sau=(S.rec&&S.rec.sauna)||[];const sT=(S.rec&&S.rec.saunaT)||{n:4,mins:20};const sq=sau.filter(x=>inR(x.date,start,thisMon)&&+x.mins>=sT.mins).length;
   if(sau.length){if(sq>=sT.n)tips.push({t:"Sauna dose hit",x:`${sq} sessions of ${sT.mins}+ min last week.`});else tips.push({t:`Sauna: ${sq} of ${sT.n}`,x:`Aim for ${sT.n} sessions of ${sT.mins}+ minutes this week.`});}
-  {const T=sleepTiming(todayKey(new Date(thisMon.getTime()-864e5)),7);const w=Math.max(T.bed||0,T.wake||0);if(T.n>=4&&w>60)tips.push({t:"Fix your wake time",x:`Bed/wake times varied by about ±${w} min last week. A set wake time, weekends too, is the simplest way to steady it.`});}
+  {const T=sleepTiming(todayKey((()=>{const x=new Date(thisMon);x.setDate(x.getDate()-1);return x;})()),7);const w=Math.max(T.bed||0,T.wake||0);if(T.n>=4&&w>60)tips.push({t:"Fix your wake time",x:`Bed/wake times varied by about ±${w} min last week. A set wake time, weekends too, is the simplest way to steady it.`});}
   {const l=lastTest();const due=testsDue();if(!l||due<0)tips.push({t:l?"Fitness tests due":"Do a fitness test day",x:"Grip, push-ups, sit-to-rise, balance and a 2.4 km run. Every 3 months under Progress."});}
   if(yoga>=5)tips.push({t:"Great morning consistency",x:`${yoga} yoga mornings last week.`});
   if(!tips.length)tips.push({t:"Steady week",x:"Nothing flagged. Keep stacking sessions."});
@@ -1082,8 +1099,8 @@ function render(){
   $("#app").innerHTML=`<div class="wrap ${showNav?"":"nonav"} ${v==="today"?"todayw":""}">${h}</div>${showNav?nav():""}`;
   renderOverlay();renderTicker();fitAll();fitDaily();
 }
-function fitAll(){document.querySelectorAll("[data-fit]").forEach(el=>{el.style.fontSize="";const max=parseFloat(getComputedStyle(el).fontSize);let fs=max;
-  while(el.scrollWidth>el.clientWidth+1&&fs>14){fs-=0.5;el.style.fontSize=fs+"px";}});}
+function fitAll(){document.querySelectorAll("[data-fit]").forEach(el=>{el.style.removeProperty("font-size");const max=parseFloat(getComputedStyle(el).fontSize);let fs=max;
+  while(el.scrollWidth>el.clientWidth&&fs>14){fs-=0.5;el.style.setProperty("font-size",fs+"px","important");}});}
 window.addEventListener("resize",()=>{fitAll();fitDaily();});try{document.fonts&&document.fonts.ready.then(()=>{fitAll();fitDaily();});document.fonts&&document.fonts.addEventListener("loadingdone",fitAll);}catch(e){}
 function nav(){
   const t=[["today","Today"],["train","Train"],["food","Food"],["recover","Recover"],["progress","Progress"]];
@@ -1091,7 +1108,8 @@ function nav(){
   return `<div class="nav"><div class="in">${t.map(([k,l])=>`<button data-a="go" data-v="${k}" class="${cur===k?"on":""}">${ICON[k]}<span>${l}</span></button>`).join("")}</div></div>`;
 }
 function topbar(title,sub,back,right){
-  return `<div class="top"><div class="row" style="min-width:0">${back?`<button class="icon-btn" data-a="${back}" aria-label="Back">${ICON.back}</button>`:""}<div style="min-width:0"><div class="tiny muted ell">${sub||""}</div><h1 class="${back?"ell":"fit"}" ${back?"":"data-fit"}>${title}</h1></div></div>${right!==undefined?right:(!back?`<button class="icon-btn" data-a="go" data-v="settings" aria-label="Settings">${ICON.gear}</button>`:"")}</div>`;
+  const rt=right!==undefined?right:(!back?`<button class="icon-btn" data-a="go" data-v="settings" aria-label="Settings">${ICON.gear}</button>`:"");
+  return `<div class="top topc"><div class="tside">${back?`<button class="icon-btn" data-a="${back}" aria-label="Back">${ICON.back}</button>`:""}</div><div class="tmid"><div class="tiny muted ell">${sub||""}</div><h1 class="${back?"ell":"fit"}" ${back?"":"data-fit"}>${title}</h1></div><div class="tside r">${rt||""}</div></div>`;
 }
 
 /* ---------- TODAY ---------- */
@@ -1118,16 +1136,12 @@ function vToday(){
     <div class="row between yfoot" style="margin-top:4px"><span class="small ell" style="opacity:.85">${esc(f.focus)}</span><span class="small num" style="font-weight:700;white-space:nowrap">${ys} day streak</span></div>
   </div>
   <div class="grid2 halves"><div class="card tap half" data-a="go" data-v="recover"><div class="row" style="gap:10px">${ring(44,5,rd?rd.score/100:0,rd?rd.adv.c:"var(--line)",`<span class="num" style="font-weight:700;font-size:14px">${rd?rd.score:"?"}</span>`)}<div style="flex:1;min-width:0"><div class="tiny muted">Readiness</div><div class="ell" style="font-weight:700;${rd?`color:${rd.adv.c}`:""}">${rd?({"Ready to push":"Push hard","Train as planned":"As planned"}[rd.adv.t]||rd.adv.t):"Check in"}</div><div class="small muted ell rsub">${rd?`Sleep ${(()=>{const d=recDay(todayKey())||{};return d.score?d.score:d.sleep?d.sleep+"h":"—";})()}`:"20 seconds"}</div></div></div></div>${brainCard()}</div>
-  <div class="card tap" data-a="go" data-v="progress">
-    <div class="row between wkh"><span class="tiny muted">This week</span><span class="small muted">${st?`${st}-day active streak`:"Get moving today"}</span></div>
-    <div class="row between wkr" style="margin-top:8px">${wk.map(d=>{const k=todayKey(d);const fut=k>tk;return `<div style="text-align:center;font-size:11px;font-weight:700;color:${k===tk?"var(--accent-text)":"var(--muted)"};opacity:${fut?.45:1}">${ring(30,4,Math.min(1,act[k]||0),"var(--accent)")}<div style="margin-top:2px">${d.toLocaleDateString("en-GB",{weekday:"narrow"})}</div></div>`;}).join("")}</div>
-  </div>
   <div class="card">
     <div class="row between"><span class="tiny muted ell">${esc(p.name)}</span><span class="pill acc">${weekLabel(p,w)}</span></div>
     <div class="row" style="margin-top:10px;gap:6px">${core.map(d=>{const dn=isSessionDone(p.id,w,d.id);return `<div style="flex:1;text-align:center;min-width:0"><div style="height:6px;border-radius:9px;background:${dn?"var(--sage)":next&&d.id===next.id?"var(--accent)":"var(--line)"}"></div><div class="small muted ell" style="margin-top:5px;font-weight:600">${esc(d.name)}</div></div>`;}).join("")}</div>
     ${next?`<button class="btn block" style="margin-top:10px" data-a="openDay" data-d="${next.id}"><span class="ell">Start ${esc(next.name)} <span style="opacity:.75;font-weight:500">· ${esc(next.sub||"")}</span></span></button>`
        :`<div class="note" style="margin-top:10px">All sessions done this week. Advance the week from Train when ready.</div>`}
-    <div class="small muted sdone" style="margin-top:6px;text-align:center">${doneN}/${core.length} sessions complete</div>
+    <div class="small muted sdone" style="margin-top:6px;text-align:center">${doneN}/${core.length} sessions this week${st?` · ${st}-day active streak`:""}</div>
   </div>
   <div class="grid3">
     <div class="card tap tile" data-a="go" data-v="body"><div class="tiny muted">Weight</div><div class="v num">${lb?kgU(lb.kg).toFixed(1):"—"}<span class="small muted"> ${S.unit}</span></div><div class="tsp">${spark(b.slice(-12).map(x=>kgU(x.kg)),84,18)}</div><div class="small muted ell">${wc!=null?`${fmtSigned(wc)} in 30d`:"Tap to log"}</div></div>
@@ -1144,7 +1158,7 @@ const todaysFlow=()=>FLOWS[dayIndex()%7];
 /* ---------- TRAIN ---------- */
 function vTrain(){
   const p=P(),w=W(p),b=blockIdx(p,w);
-  return `${topbar("Train",weekLabel(p,w))}
+  return `${topbar("Train",esc(p.name)+" · "+weekLabel(p,w))}
   <div class="stack">
    <div class="card">
      <div class="tiny muted">Programme</div><h2 class="ell" style="margin-top:4px">${esc(p.name)}</h2><div class="small muted ell">${esc(p.sub||p.days.map(d=>d.name).join(" · "))}</div>
@@ -1153,7 +1167,7 @@ function vTrain(){
    <div class="card">
     <div class="row between">
      <div><div class="tiny muted">Week</div><div class="row" style="gap:12px;margin-top:4px"><span class="wk num">${w}</span><span class="muted small">of ${p.weeks}${b?`<br>${p.blocks[b-1].name} · ${p.blocks[b-1].short}`:""}</span></div></div>
-     <div class="row" style="gap:6px"><button class="btn sm ghost" data-a="wk" data-d="-1" ${w<=1?"disabled":""} aria-label="Previous week">−</button><button class="btn sm" data-a="advance" ${w>=p.weeks?"disabled":""}>Next week</button></div>
+     <div class="row" style="gap:6px"><button class="btn sm ghost" data-a="wk" data-d="-1" ${w<=1?"disabled":""} aria-label="Previous week">−</button>${w>=p.weeks?`<button class="btn sm" data-a="cycleNew">Start again</button>`:`<button class="btn sm" data-a="advance">Next week</button>`}</div>
     </div>
     ${isDeload(p,w)?`<div class="note" style="margin-top:12px">Deload week — one set fewer, ~65% loads (already suggested). Move well, leave fresh.</div>`:""}
     ${p.blocks?`<div class="row" style="gap:6px;margin-top:14px">${p.blocks.map(bl=>`<div style="flex:1"><div style="display:flex;gap:3px">${Array.from({length:bl.to-bl.from+1},(_,i)=>bl.from+i).map(x=>`<i style="flex:1;height:5px;border-radius:9px;display:block;background:${x<w?"var(--sage)":x===w?"var(--accent)":"var(--line)"}"></i>`).join("")}</div><div class="tiny muted" style="margin-top:6px;font-size:10.5px">${bl.name}</div></div>`).join("")}</div>`
@@ -1500,7 +1514,7 @@ function edInput(k,el){
 function baseHas(p,n){const base=baseProg(p.id);return base.days.some(d=>{try{const all=d.build?[1,2,3,4,5,6,7,8,9,10,11,12].flatMap(x=>d.build(p.blocks?Math.min(x,p.blocks.length):x)):(d.groups||[]);return all.some(g=>g.ex.some(e=>e.n===n));}catch(e){return false;}});}
 
 /* ================= FOOD ================= */
-const MEALS=[{id:"lunch",name:"Lunch",sub:"Break fast · 12:00",pct:.30},{id:"pre",name:"Pre-workout",sub:"Fuel up",pct:.20},{id:"post",name:"Post-workout",sub:"Recover",pct:.25},{id:"dinner",name:"Dinner",sub:"Before 20:00",pct:.25}];
+const MEALS=[{id:"lunch",name:"First meal",sub:"Break the fast",pct:.30},{id:"pre",name:"Pre-workout",sub:"Fuel up",pct:.20},{id:"post",name:"Post-workout",sub:"Recover",pct:.25},{id:"dinner",name:"Dinner",sub:"Before 20:00",pct:.25}];
 const MEAL_IDEAS={lunch:["Eggs on sourdough + Greek yoghurt & berries","Chicken wrap + piece of fruit","Overnight oats with whey & banana"],pre:["Rice cakes, jam & a whey shake","Banana + high-protein yoghurt","Bagel with peanut butter"],post:["Chicken, rice & mixed veg","Whey, oats & banana shake","Salmon, potatoes & greens"],dinner:["Steak, sweet potato & salad","Turkey chilli with rice","Cod, new potatoes & broccoli"]};
 const GOALS=[{id:"cut",name:"Cut",f:.85,p:2.2,why:"~15% under maintenance · lose fat, keep muscle"},{id:"recomp",name:"Recomp",f:.95,p:2.0,why:"Just under maintenance · lean out while building"},{id:"bulk",name:"Lean bulk",f:1.08,p:1.8,why:"~8% over maintenance · slow, lean muscle gain"}];
 const ACTS=[{v:1.375,l:"Light (1–3 days)"},{v:1.55,l:"Moderate (4–5 days)"},{v:1.725,l:"Hard (6+ days)"}];
@@ -1634,7 +1648,7 @@ function addSheet(meal,tab="mine",q=""){
   const mealSel=`<div class="seg" style="margin-top:10px">${MEALS.map(m=>`<button class="${U.addMeal===m.id?"on":""}" data-a="addMeal" data-m="${m.id}" data-t="${tab}">${m.name.replace("-workout","")}</button>`).join("")}</div>`;
   let body="";
   if(tab==="mine")body=`<input class="f" style="margin-top:12px" placeholder="Filter your foods" value="${esc(q)}" data-in="mineQ">
-     <div class="list" id="mineList" style="margin-top:6px">${mine.length?mine.slice(0,60).map(x=>`<div class="li"><button style="text-align:left;flex:1;min-width:0" data-a="pickFood" data-id="${x.id}"><div class="ell" style="font-weight:600">${esc(x.name)}</div><div class="small muted ell">${x.brand?esc(x.brand)+" · ":""}${Math.round(x.per100.kcal)} kcal /100g${x.serving?` · serving ${x.serving.g}g`:""}</div></button><button class="del" data-a="delFood" data-id="${x.id}" aria-label="Forget">×</button></div>`).join(""):`<div class="empty">Foods you scan or add are saved here</div>`}</div>
+     <div class="list" id="mineList" style="margin-top:6px">${mine.length?mine.slice(0,60).map(x=>`<div class="li"><button style="text-align:left;flex:1;min-width:0" data-a="pickFood" data-id="${x.id}"><div class="ell" style="font-weight:600">${esc(x.name)}</div><div class="small muted ell">${x.brand?esc(x.brand)+" · ":""}${Math.round((x.per100||{}).kcal||0)} kcal /100g${x.serving?` · serving ${x.serving.g}g`:""}</div></button><button class="del" data-a="delFood" data-id="${x.id}" aria-label="Forget">×</button></div>`).join(""):`<div class="empty">Foods you scan or add are saved here</div>`}</div>
      <button class="btn sm ghost" style="margin-top:10px" data-a="newFood">+ Create a food</button>`;
   else if(tab==="search")body=`<form data-form="foodSearch" class="row" style="gap:8px;margin-top:12px"><input class="f" name="q" placeholder="e.g. Fage 0% yoghurt" value="${esc(q)}"><button class="btn sm" style="height:44px">Search</button></form><div id="searchRes" class="list" style="margin-top:6px"><div class="empty small">Searches the Open Food Facts database</div></div>`;
   else body=`<form data-form="quick" class="stack" style="margin-top:12px"><input class="f" name="name" placeholder="Name (optional)"><div class="edrow" style="grid-template-columns:repeat(4,minmax(0,1fr))"><div><label class="l">kcal</label><input class="f" name="kcal" inputmode="numeric" required></div><div><label class="l">Protein</label><input class="f" name="p" inputmode="decimal"></div><div><label class="l">Carbs</label><input class="f" name="c" inputmode="decimal"></div><div><label class="l">Fat</label><input class="f" name="f" inputmode="decimal"></div></div><button class="btn block">Add</button></form>`;
@@ -1691,7 +1705,7 @@ async function lookupCode(code){
 async function offSearch(q){const box=$("#searchRes");if(!box)return;box.innerHTML=`<div class="empty small">Searching…</div>`;
   try{const r=await offFetch(`${OFF}/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=25&fields=${OFF_FIELDS}`,12000);const d=await r.json();
     const res=(d.products||[]).map(offMap).filter(Boolean);U.searchRes=res;
-    if(!$("#searchRes"))return;$("#searchRes").innerHTML=res.length?res.map((x,i)=>`<div class="li"><button style="text-align:left;flex:1;min-width:0" data-a="pickSearch" data-i="${i}"><div class="ell" style="font-weight:600">${esc(x.name)}</div><div class="small muted ell">${x.brand?esc(x.brand)+" · ":""}${Math.round(x.per100.kcal)} kcal /100g · P ${n1(x.per100.p)}</div></button></div>`).join(""):`<div class="empty small">Nothing found. Try fewer words, or create the food.</div>`;}
+    if(!$("#searchRes"))return;$("#searchRes").innerHTML=res.length?res.map((x,i)=>`<div class="li"><button style="text-align:left;flex:1;min-width:0" data-a="pickSearch" data-i="${i}"><div class="ell" style="font-weight:600">${esc(x.name)}</div><div class="small muted ell">${x.brand?esc(x.brand)+" · ":""}${Math.round((x.per100||{}).kcal||0)} kcal /100g · P ${n1(x.per100.p)}</div></button></div>`).join(""):`<div class="empty small">Nothing found. Try fewer words, or create the food.</div>`;}
   catch(e){const b=$("#searchRes");if(b)b.innerHTML=`<div class="empty small">Couldn't reach the food database. Check your connection.</div>`;}
 }
 
@@ -2315,7 +2329,7 @@ const DAILY=[
  ["f","Standing up from the floor without using your hands is a simple test linked with long-term survival."],
  ["q","Do not pray for an easy life, pray for the strength to endure a difficult one.","Bruce Lee"],
 ];
-function dailyItem(){const d=new Date();const doy=Math.floor((d-new Date(d.getFullYear(),0,0))/864e5);const i=((doy*37+d.getFullYear())%DAILY.length+(U.dailyOff||0))%DAILY.length;return DAILY[(i+DAILY.length)%DAILY.length];}
+function dailyItem(){const d=new Date();const doy=Math.round((Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())-Date.UTC(d.getFullYear(),0,0))/864e5);const i=((doy*37+d.getFullYear())%DAILY.length+(U.dailyOff||0))%DAILY.length;return DAILY[(i+DAILY.length)%DAILY.length];}
 function dailyCard(){const [t,x,who]=dailyItem();
   return `<button class="daily" data-a="dailyNext"><div class="tiny muted">${t==="q"?"Quote of the day":"Fact of the day"}</div><div class="dtxt">${t==="q"?`“${esc(x)}”`:esc(x)}${who?`<span class="dwho"> — ${esc(who)}</span>`:""}</div></button>`;}
 function fitDaily(){let c=document.querySelector(".today .daily");if(!c)return;
@@ -2803,7 +2817,7 @@ setInterval(()=>{const M=U.mx;if(!M||M.over)return;const left=Math.ceil((M.end-D
 
 /* ---- views ---- */
 function brainCard(){const n=bCount();const st=bStreak();
-  return `<div class="card tap half" data-a="go" data-v="brain"><div class="row" style="gap:10px">${ring(44,5,n/GAMES.length,"var(--accent)",`<span class="num" style="font-weight:700;font-size:13px">${n}/${GAMES.length}</span>`)}<div style="min-width:0;flex:1"><div class="tiny muted">DBS Brain</div><div class="ell" style="font-weight:700">${n===GAMES.length?"All done":n?"Keep going":"Daily puzzles"}</div><div class="small muted ell rsub">${st?`${st}-day streak`:`${GAMES.length} puzzles`}</div></div></div></div>`;}
+  return `<div class="card tap half" data-a="go" data-v="brain"><div class="row" style="gap:10px">${ring(44,5,n/GAMES.length,"var(--accent)",`<span class="num" style="font-weight:700;font-size:13px">${n}/${GAMES.length}</span>`)}<div style="min-width:0;flex:1"><div class="tiny muted">DBS Brain</div><div class="ell" style="font-weight:700">${n===GAMES.length?"All done":n?"Keep going":"Puzzles"}</div><div class="small muted ell rsub">${st?`${st}-day streak`:`${GAMES.length} puzzles`}</div></div></div></div>`;}
 function vBrain(){const g=U.bg;const day=bDay();
   if(g){const G=GAMES.find(x=>x.id===g)||JOKE_G;return `${topbar(G.n,day[g]!=null?"Done today ✓":G.sub,"brainBack","")}<div class="stack">${g==="ws"?vWS():g==="su"?vSU():g==="cw"?vCW():g==="rd"?vRD():g==="jk"?vJK():vMX()}</div>`;}
   const st=bStreak();
@@ -3029,7 +3043,7 @@ function finishSession(dayId){
   const p=P(),w=W(p);const d=p.days.find(x=>x.id===dayId);const st=sessionStats(p.id,dayId,w);
   const key=`${p.id}|${w}|${dayId}`;let dur=S.active&&S.active.key===key?Math.round((Date.now()-S.active.start)/1000):null;if(dur&&dur>4*3600)dur=null;
   const prevSame=[...S.completions].reverse().find(c=>c.prog===p.id&&c.day===dayId&&c.volume>0);
-  const comp={id:uid(),date:new Date().toISOString(),prog:p.id,week:w,day:dayId,volume:st.vol,dur,sets:st.done,total:st.total,prs:U.sessPRs.slice()};
+  const comp={id:uid(),date:new Date().toISOString(),prog:p.id,cyc:cycOf(p.id),week:w,day:dayId,volume:st.vol,dur,sets:st.done,total:st.total,prs:U.sessPRs.slice()};
   S.completions.push(comp);S.active=null;save();
   U.rest=null;U.view="train";render();openSummary(summaryFor(comp));
   beep();
@@ -3086,9 +3100,11 @@ document.addEventListener("click",ev=>{
    case "openPast":{const c=S.completions.find(x=>x.id===d.id);if(c)openSummary(summaryFor(c));break;}
    case "wk":S.progWeek[p.id]=Math.max(1,Math.min(p.weeks,W(p)+ +d.d));save();render();break;
    case "advance":confirmBox(`Move to week ${W(p)+1}?`,"Advance","advanceYes");break;
+   case "cycleNew":confirmBox(`Finish ${esc(p.name)} and start again?`,"Start cycle "+(cycOf(p.id)+1),"cycleYes",`<div class="small muted" style="margin-top:8px">Back to week 1 with fresh session ticks. Your logs, PBs and weight suggestions all carry over, so you'll start stronger.</div>`);break;
+   case "cycleYes":{S.cycle=S.cycle||{};const n=cycOf(p.id);if(S.logs[p.id]){S.logs[p.id+"#"+n]=S.logs[p.id];delete S.logs[p.id];}S.cycle[p.id]=n+1;S.progWeek[p.id]=1;save();closeModal();window.scrollTo(0,0);render();toast(`Cycle ${n+1} · week 1`);break;}
    case "advanceYes":S.progWeek[p.id]=Math.min(p.weeks,W(p)+1);save();closeModal();render();break;
    case "pickProg":{const np=progById(d.p);confirmBox(`Switch to ${esc(np.name)}?`,"Switch","pickProgYes",`<div class="small muted" style="margin-top:8px">${S.progWeek[np.id]?`You'll pick up at week ${S.progWeek[np.id]}.`:"Starts at week 1."} Your other programmes keep their progress.</div>`);U.pendingProg=d.p;break;}
-   case "pickProgYes":S.prog=U.pendingProg;S.progWeek[S.prog]=S.progWeek[S.prog]||1;save();closeModal();U.view="train";render();toast(`${P().name} active`);break;
+   case "pickProgYes":S.prog=U.pendingProg;S.progWeek[S.prog]=S.progWeek[S.prog]||1;save();closeModal();U.view="train";window.scrollTo(0,0);render();toast(`${P().name} active`);break;
    case "delProg":U.pendingProg=d.p;confirmBox("Delete this programme?","Delete","delProgYes",`<div class="small muted" style="margin-top:8px">Its logs stay in your backup data.</div>`);break;
    case "delProgYes":S.customProgs=S.customProgs.filter(x=>x.id!==U.pendingProg);if(S.prog===U.pendingProg)S.prog="pplx2";save();closeModal();render();break;
    case "progImport":openModal(`<h2>Paste programme</h2><form data-form="prog" class="stack" style="margin-top:14px"><textarea class="f" name="json" style="min-height:200px" placeholder='{"name":"My plan","weeks":8,"days":[{"name":"Upper","groups":[{"rest":90,"ex":[{"n":"Bench Press","s":4,"r":"6"}]}]}]}'></textarea><div class="row" style="gap:10px"><button type="button" class="btn ghost" style="flex:1" data-a="modalClose">Cancel</button><button class="btn" style="flex:2">Add programme</button></div></form>`);break;
@@ -3207,6 +3223,10 @@ document.addEventListener("touchend",e=>{if(!sw0)return;const t=e.changedTouches
 /* PWA (GitHub Pages) */
 try{if("serviceWorker" in navigator&&location.protocol==="https:"&&!/claude|anthropic/.test(location.hostname))navigator.serviceWorker.register("./sw.js").catch(()=>{});}catch(e){}
 
+/* new day while the app stays open: refresh dated screens (not mid-session or mid-puzzle) */
+let lastDayKey=todayKey();
+const dayCheck=()=>{const k=todayKey();if(k!==lastDayKey){lastDayKey=k;U.dailyOff=0;U.jkOff=0;U.jkShow=0;if(!document.querySelector(".modal")&&U.view!=="session"&&!U.bg&&!U.yoga)render();}};
+setInterval(dayCheck,30000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)dayCheck();});
 render();
 setTimeout(()=>{const p=PROF();if(!p.name&&!p.asked&&!document.querySelector(".modal"))openModal(`<h2>Welcome to DBS HEALTH &amp; FITNESS</h2><div class="small muted" style="margin:6px 0 14px">A few details so targets and your greeting fit you. You can change these any time in Settings.</div>
  <form data-form="welcome" class="stack"><div><label class="l">First name</label><input class="f" name="name" autocomplete="given-name" placeholder="Your first name"></div>
