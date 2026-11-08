@@ -1520,8 +1520,9 @@ function edInput(k,el){
 function baseHas(p,n){const base=baseProg(p.id);return base.days.some(d=>{try{const all=d.build?[1,2,3,4,5,6,7,8,9,10,11,12].flatMap(x=>d.build(p.blocks?Math.min(x,p.blocks.length):x)):(d.groups||[]);return all.some(g=>g.ex.some(e=>e.n===n));}catch(e){return false;}});}
 
 /* ================= FOOD ================= */
-const mShort=m=>({lunch:"First",pre:"Pre",post:"Post",dinner:"Dinner",drinks:"Drinks"}[m.id]||m.name);
-const MEALS=[{id:"lunch",name:"First meal",sub:"Break the fast",pct:.30},{id:"pre",name:"Pre-workout",sub:"Fuel up",pct:.20},{id:"post",name:"Post-workout",sub:"Recover",pct:.25},{id:"dinner",name:"Dinner",sub:"Before 20:00",pct:.25},{id:"drinks",name:"Drinks",short:"Drinks",sub:"Coffee, tea, soft drinks & alcohol",pct:0}];
+const isSnack=f=>/\b(snack|crisps|chocolate|sweets|biscuit|cookie|protein bar|cereal bar|popcorn|nuts|jerky|biltong|rice cake|flapjack|tunnocks|doughnut|donut)\b/i.test((f.tags||"")+" "+(f.name||""))&&!/\b(meal|dinner|lunch|breakfast|supper)\b/i.test(f.tags||"");
+const mShort=m=>({lunch:"First",pre:"Pre",post:"Post",dinner:"Dinner",snacks:"Snacks",drinks:"Drinks"}[m.id]||m.name);
+const MEALS=[{id:"lunch",name:"First meal",sub:"Break the fast",pct:.30},{id:"pre",name:"Pre-workout",sub:"Fuel up",pct:.20},{id:"post",name:"Post-workout",sub:"Recover",pct:.25},{id:"dinner",name:"Dinner",sub:"Before 20:00",pct:.25},{id:"snacks",name:"Snacks",short:"Snacks",sub:"Bites between meals",pct:0},{id:"drinks",name:"Drinks",short:"Drinks",sub:"Coffee, tea, soft drinks & alcohol",pct:0}];
 const MEAL_IDEAS={lunch:["Eggs on sourdough + Greek yoghurt & berries","Chicken wrap + piece of fruit","Overnight oats with whey & banana"],pre:["Rice cakes, jam & a whey shake","Banana + high-protein yoghurt","Bagel with peanut butter"],post:["Chicken, rice & mixed veg","Whey, oats & banana shake","Salmon, potatoes & greens"],dinner:["Steak, sweet potato & salad","Turkey chilli with rice","Cod, new potatoes & broccoli"]};
 const GOALS=[{id:"cut",name:"Cut",f:.85,p:2.2,why:"~15% under maintenance · lose fat, keep muscle"},{id:"recomp",name:"Recomp",f:.95,p:2.0,why:"Just under maintenance · lean out while building"},{id:"bulk",name:"Lean bulk",f:1.08,p:1.8,why:"~8% over maintenance · slow, lean muscle gain"}];
 const ACTS=[{v:1.375,l:"Light (1–3 days)"},{v:1.55,l:"Moderate (4–5 days)"},{v:1.725,l:"Hard (6+ days)"}];
@@ -2741,7 +2742,7 @@ function addSheet(meal,tab="mine",q=""){
 function portionSheet(food,entry){
   const per=food.per100;const hasSv=food.serving&&food.serving.g>0;
   const unit=entry?entry.unit:(hasSv?"sv":"g");const qty=entry?entry.qty:(hasSv?1:100);
-  U.portion={food,entryId:entry?entry.id:null,unit,qty,meal:entry?entry.meal:(food.ml&&!U.mealPicked?"drinks":(U.addMeal||defaultMeal()))};
+  U.portion={food,entryId:entry?entry.id:null,unit,qty,meal:entry?entry.meal:(!U.mealPicked&&food.ml?"drinks":!U.mealPicked&&isSnack(food)?"snacks":(U.addMeal||defaultMeal()))};
   openModal(portionHTML());
 }
 function portionCalc(){const P2=U.portion;const g=P2.unit==="sv"?P2.qty*P2.food.serving.g:P2.qty;const m=g/100;const o={};for(const k of ["kcal","p","c","f","fib","sug","salt"])o[k]=(+P2.food.per100[k]||0)*m;o.g=g;return o;}
